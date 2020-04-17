@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_drawer_scence"
+        android:padding="10dp"
+        android:text="影协画远"
+        android:textColor="#666666"
+        android:textSize="14sp" />
+
+</LinearLayout>

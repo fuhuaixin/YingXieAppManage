@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="line">#E3E3E3</color>
+    <color name="content_tv_title">#9AABD1</color>
+    <color name="tv8C">#8C8C8C</color>
+    <color name="black">#000000</color>
+    <color name="tv21">#212121</color>
+    <color name="tvB8">#B8B8B8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="bgF8">#F8F8F8</color>
+    <color name="tv33">#333333</color>
+    <color name="light_blue">#367FF4</color>
+    <color name="war">#32D0FE</color>
+    <color name="ele">#FE7735</color>
+    <color name="tvCC">#CCCCCC</color>
+    <color name="tv66">#666666</color>
+
+    <!--饼状图颜色-->
+    <color name="colorOne">#32D0FE</color>
+    <color name="colorTwo">#48E529</color>
+    <color name="colorThr">#FE7735</color>
+    <color name="colorFour">#FFA41D</color>
+    <color name="colorFive">#9D50FD</color>
+</resources>

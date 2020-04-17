@@ -6,99 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/draw_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!--侧滑外部内容-->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvVisiable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ii积极" />
-
-                <Button
-                    android:id="@+id/btn_open"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="侧滑外面的按钮" />
-
-            </LinearLayout>
-
-            <SlidingDrawer
-                android:id="@+id/slidingdrawer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:content="@+id/content"
-                android:handle="@+id/handle"
-                android:orientation="vertical">
-                <!--底部画出头部-->
-                <LinearLayout
-                    android:background="#ffffff"
-                    android:id="@id/handle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="英协路title" />
-                    <ImageView
-                        android:id="@+id/image_top"
-                        android:src="@mipmap/ic_launcher"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-                <!--底部划出内容-->
-                <ScrollView
-                    android:id="@id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#ffffff">
-
-                    <LinearLayout
-                        android:gravity="center"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:visibility="gone"
-                            android:id="@+id/image_bottom"
-                            android:src="@mipmap/ic_launcher"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:id="@+id/tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="2000dp"
-                            android:text="这是一个滑动式抽屉的示例"
-                            android:textColor="#000000"
-                            android:textSize="18px"
-                            android:textStyle="bold" />
-
-                        <ImageButton
-                            android:layout_width="50dip"
-                            android:layout_height="44dip"
-                            android:src="@mipmap/ic_launcher" />
-
-                    </LinearLayout>
-                </ScrollView>
-
-
-            </SlidingDrawer>
-        </RelativeLayout>
+        <include layout="@layout/layout_main_drawer_out" />
         <!--侧滑内部布局-->
         <LinearLayout
             android:id="@+id/ll_into"
@@ -108,17 +22,9 @@
             android:background="#ffffff"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="侧滑界面" />
-
-            <Button
-                android:id="@+id/btn_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="侧滑里面的按钮" />
+            <include layout="@layout/layout_main_drawer_in" />
         </LinearLayout>
+
     </androidx.drawerlayout.widget.DrawerLayout>
 
 
