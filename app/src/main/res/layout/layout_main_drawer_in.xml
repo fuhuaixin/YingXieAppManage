@@ -26,6 +26,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_scene"
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
@@ -38,6 +39,7 @@
         android:textSize="14sp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_equ"
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

@@ -39,7 +39,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/icon_tem" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/icon_wind_dir" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/icon_hum" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/icon_pm25" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/icon_rainfall" />
 
             <TextView
                 android:layout_width="wrap_content"
