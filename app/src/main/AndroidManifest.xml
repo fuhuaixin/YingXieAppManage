@@ -38,6 +38,13 @@
         <activity
             android:name=".activity.BigScreenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--灯光交互-->
+        <activity
+            android:name=".activity.LightingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--森雾设置-->
+        <activity android:name=".activity.SenFogActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

@@ -129,17 +129,19 @@
             android:visibility="gone" />
 
         <LinearLayout
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical">
 
             <CheckBox
-                style="@style/LoginCheckBoxTheme"
                 android:id="@+id/checkbox"
+                style="@style/LoginCheckBoxTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:scaleX="2"
+                android:scaleY="1.5" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -23,9 +23,11 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.manage.activity.BigScreenActivity;
+import com.example.manage.activity.LightingActivity;
 import com.example.manage.activity.LoginActivity;
 import com.example.manage.activity.MonitorListActivity;
 import com.example.manage.activity.NetActivity;
+import com.example.manage.activity.SenFogActivity;
 import com.example.manage.adapter.MainEquAdapter;
 import com.example.manage.adapter.MainSecneAdapter;
 import com.example.manage.bean.MainEquBean;
@@ -192,7 +194,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btn_login:
-                startActivity(new Intent(MainActivity.this, BigScreenActivity.class));
+//                startActivity(new Intent(MainActivity.this, BigScreenActivity.class)); //大屏控制
+//                startActivity(new Intent(MainActivity.this, LightingActivity.class));//灯光控制
+                startActivity(new Intent(MainActivity.this, SenFogActivity.class));//森雾控制
 //                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
             case R.id.rl_monitor:
