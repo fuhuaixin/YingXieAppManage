@@ -86,190 +86,223 @@
         android:layout_height="1dp"
         android:background="@color/line" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <RelativeLayout
         android:background="@color/white"
-        android:padding="15dp">
-
-        <CheckBox
-            style="@style/FogCheckBoxTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="启用第一时段"
-            android:textColor="@color/tvB2"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bgF8"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp">
-
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/ll_one"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:padding="15dp">
 
-            <TextView
+            <CheckBox
+                android:id="@+id/check_one"
+                style="@style/FogCheckBoxTheme"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="启动时间"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="00:00"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text=">"
-                android:textColor="@color/tvB2"
+                android:text="启用第一时段"
+                android:textColor="@color/tv21"
                 android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_below="@+id/ll_one"
+            android:id="@+id/ll_one_mess"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:background="@color/bgF8"
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:id="@+id/ll_one_start"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="停止时间"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
+                android:layout_weight="1"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="启动时间"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_one_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="00:00"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=">"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:id="@+id/ll_one_end"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="00:00"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
+                android:layout_weight="1"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text=">"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="停止时间"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_one_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="00:00"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=">"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-        <CheckBox
-            style="@style/FogCheckBoxTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="启用第二时段"
-            android:textColor="@color/tvB2"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bgF8"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="启动时间"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="00:00"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text=">"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/ll_two"
+            android:layout_below="@+id/ll_one_mess"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:padding="15dp">
 
-            <TextView
+            <CheckBox
+                android:id="@+id/checkbox_two"
+                style="@style/FogCheckBoxTheme"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="停止时间"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="00:00"
-                android:textColor="@color/tvB2"
-                android:textSize="14sp" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text=">"
-                android:textColor="@color/tvB2"
+                android:text="启用第二时段"
+                android:textColor="@color/tv21"
                 android:textSize="14sp" />
         </LinearLayout>
 
-    </LinearLayout>
-    <View
-        android:background="@color/white"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        <LinearLayout
+            android:id="@+id/ll_two_mess"
+            android:layout_below="@+id/ll_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bgF8">
+
+            <LinearLayout
+android:id="@+id/ll_two_start"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="启动时间"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_two_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="00:00"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=">"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_two_end"
+
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="停止时间"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_two_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="00:00"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=">"
+                    android:textColor="@color/tv21"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/view_shadow"
+            android:alpha="0.5"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
 
     <Button
+        android:visibility="gone"
         android:id="@+id/btn_commit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

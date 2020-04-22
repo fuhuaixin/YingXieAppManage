@@ -1,6 +1,9 @@
 package com.example.manage.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +16,15 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.manage.MainActivity;
 import com.example.manage.R;
 import com.example.manage.utils.SPUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *登录页
@@ -34,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         initViews();
         init();
+        GetPermission();
     }
 
     private void initViews() {
@@ -104,4 +113,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             
         }
     }
+
+
+    private void GetPermission() {
+        if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+            //开启定位权限,200是标识码
+            ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        } else {
+//            mLocationClient.start();// 定位SDK
+//            Toast.makeText(LoginActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

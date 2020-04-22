@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,25 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.manage.activity.BigScreenActivity;
+import com.example.manage.activity.EquipmentListActivity;
 import com.example.manage.activity.LightingActivity;
 import com.example.manage.activity.LoginActivity;
 import com.example.manage.activity.MonitorListActivity;
@@ -52,7 +70,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout draw_layout;
-    private LinearLayout ll_visible,ll_cut,ll_setting;//隐藏，切换，设置
+    private LinearLayout ll_visible, ll_cut, ll_setting;//隐藏，切换，设置
     private SlidingDrawer slidingdrawer;
     private LinearLayout ll_into;
     private LinearLayout headerMesBottom, headerMesTop;
@@ -68,15 +86,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FlexboxLayoutManager flexboxLayoutManagerEqu;
     private Button btn_login;
     private RelativeLayout rl_monitor;
+    private MapView mapView = null;
+    private BaiduMap mBaiduMap;
+    private LocationClient mLocationClient;
 
-    private int IsVisible =1; //1为显示 2 为隐藏
+    private boolean isFirstLoc = true; //第一次定位
+    private int IsVisible = 1; //1为显示 2 为隐藏
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
         initListen();
-
+        initMap();
     }
 
     private void initView() {
@@ -101,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_net = findViewById(R.id.ll_net);
         btn_login = findViewById(R.id.btn_login);
         rl_monitor = findViewById(R.id.rl_monitor);
-
+        mapView = findViewById(R.id.mapView);
 
 
         ll_visible.setOnClickListener(this);
@@ -155,6 +178,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sceneRecycle();
     }
 
+
+    private void initMap() {
+        //设置定位图标
+//        MyLocationConfiguration myLocationConfiguration = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL, true, null, 00000000, 00000000);
+        // 不显示百度地图Logo
+        mapView.removeViewAt(1);
+        mBaiduMap = mapView.getMap();
+
+        mBaiduMap.setMyLocationEnabled(true);
+//        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
+        //定位初始化
+        mLocationClient = new LocationClient(this);
+
+
+        //通过LocationClientOption设置LocationClient相关参数
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setScanSpan(1000);
+
+
+        //设置locationClientOption
+        mLocationClient.setLocOption(option);
+
+        //注册LocationListener监听器
+        mLocationClient.registerLocationListener(mListener);
+        //开启地图定位图层
+        mLocationClient.start();
+
+        setMaker();
+    }
+
+
+    private List<LatLng> latLngList =new ArrayList<>();
+    private List<OverlayOptions> optionsList =new ArrayList<>();
+    private void setMaker() {
+        mBaiduMap.clear();
+        //定义Maker坐标点
+        LatLng point = new LatLng(34.8972, 113.9117);
+        latLngList.add(new LatLng(34,113));
+        latLngList.add(new LatLng(35,113));
+        latLngList.add(new LatLng(36,113));
+        latLngList.add(new LatLng(37,113));
+        latLngList.add(new LatLng(38,113));
+//构建Marker图标
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.mipmap.icon_safe_type_one);
+//构建MarkerOption，用于在地图上添加Marker
+        for (int i = 0; i < 5; i++) {
+            Bundle mBundle = new Bundle();
+            mBundle.putString("title","第"+i+"个marker");
+            mBundle.putDouble("lat",latLngList.get(i).latitude);
+            mBundle.putDouble("lng",latLngList.get(i).longitude);
+
+            OverlayOptions option = new MarkerOptions()
+                    .extraInfo(mBundle)
+//                    .title("lat="+latLngList.get(i).latitude+"---lng="+latLngList.get(i).longitude)
+                    .position(latLngList.get(i))
+                    .icon(bitmap);
+            optionsList.add(option);
+        }
+
+//在地图上添加Marker，并显示
+//        mBaiduMap.addOverlay(option);
+        mBaiduMap.addOverlays(optionsList);
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Bundle extraInfo = marker.getExtraInfo();
+                String title = extraInfo.getString("title");
+                double lat = extraInfo.getDouble("lat");
+                double lng = extraInfo.getDouble("lng");
+                Toast.makeText(MainActivity.this, title+" ---- "+lat+"----"+lng, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -176,17 +277,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 initBarChartData(2);
                 break;
             case R.id.ll_visible: //隐藏
-                if (IsVisible==1){
+                if (IsVisible == 1) {
                     slidingdrawer.setVisibility(View.GONE);
                     ll_cut.setVisibility(View.GONE);
                     ll_setting.setVisibility(View.GONE);
-                    IsVisible=2;
-                }else if (IsVisible==2){
+                    IsVisible = 2;
+                } else if (IsVisible == 2) {
                     slidingdrawer.setVisibility(View.VISIBLE);
                     ll_cut.setVisibility(View.VISIBLE);
                     ll_setting.setVisibility(View.VISIBLE);
 
-                    IsVisible =1;
+                    IsVisible = 1;
                 }
                 break;
             case R.id.ll_net: //进入网络界面
@@ -196,7 +297,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_login:
 //                startActivity(new Intent(MainActivity.this, BigScreenActivity.class)); //大屏控制
 //                startActivity(new Intent(MainActivity.this, LightingActivity.class));//灯光控制
-                startActivity(new Intent(MainActivity.this, SenFogActivity.class));//森雾控制
+//                startActivity(new Intent(MainActivity.this, SenFogActivity.class));//森雾控制
+                startActivity(new Intent(MainActivity.this, EquipmentListActivity.class));//设备列表
 //                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
             case R.id.rl_monitor:
@@ -258,25 +360,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<MainEquBean> equBeansList = new ArrayList<>();
 
     private void sceneRecycle() {
-        mainSceneBeanList.add(new MainSceneBean("两个",2));
+        mainSceneBeanList.add(new MainSceneBean("两个", 2));
 //        for (int i = 0; i < 8; i++) {
 //            mainSceneBeanList.add(new MainSceneBean("英协花" + i, 2));
 //        }
-        mainSceneBeanList.add(new MainSceneBean("三个字",2));
-        mainSceneBeanList.add(new MainSceneBean("我猜就是看了觉得",2));
-        mainSceneBeanList.add(new MainSceneBean("你得四字",2));
-        mainSceneBeanList.add(new MainSceneBean("两个2",2));
-        mainSceneBeanList.add(new MainSceneBean("你得五个字",2));
+        mainSceneBeanList.add(new MainSceneBean("三个字", 2));
+        mainSceneBeanList.add(new MainSceneBean("我猜就是看了觉得", 2));
+        mainSceneBeanList.add(new MainSceneBean("你得四字", 2));
+        mainSceneBeanList.add(new MainSceneBean("两个2", 2));
+        mainSceneBeanList.add(new MainSceneBean("你得五个字", 2));
 
 
-        equBeansList.add(new MainEquBean("设备" , 2));
-        equBeansList.add(new MainEquBean("设备四字" , 2));
+        equBeansList.add(new MainEquBean("设备", 2));
+        equBeansList.add(new MainEquBean("设备四字", 2));
         for (int i = 0; i < 8; i++) {
             equBeansList.add(new MainEquBean("设备" + i, 2));
         }
-        equBeansList.add(new MainEquBean("设备五个字" , 2));
-        equBeansList.add(new MainEquBean("设备五个字" , 2));
-        equBeansList.add(new MainEquBean("设备六六个字" , 2));
+        equBeansList.add(new MainEquBean("设备五个字", 2));
+        equBeansList.add(new MainEquBean("设备五个字", 2));
+        equBeansList.add(new MainEquBean("设备六六个字", 2));
 
         mainSceneBeanList.get(0).setIsTrue(1);
         equBeansList.get(0).setIsChoose(1);
@@ -297,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tvMessage:
-                        Toast.makeText(MainActivity.this, "点击了"+position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "点击了" + position, Toast.LENGTH_SHORT).show();
 
                         for (int i = 0; i < mainSceneBeanList.size(); i++) {
                             mainSceneBeanList.get(i).setIsTrue(2);
@@ -324,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tvMessage:
-                        Toast.makeText(MainActivity.this, "点击了"+position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "点击了" + position, Toast.LENGTH_SHORT).show();
                         for (int i = 0; i < equBeansList.size(); i++) {
                             equBeansList.get(i).setIsChoose(2);
                         }
@@ -357,5 +459,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+
+    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            //mapView 销毁后不在处理新接收的位置
+            if (location == null || mapView == null) {
+                return;
+            }
+            Log.e("fhxx", location.getLatitude() + " ------------" + location.getLongitude());
+
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(location.getDirection()).latitude(location.getLatitude())
+                    .longitude(location.getLongitude()).build();
+            mBaiduMap.setMyLocationData(locData);
+
+            if (isFirstLoc) {
+                isFirstLoc = false;
+                LatLng ll = new LatLng(location.getLatitude(),
+                        location.getLongitude());
+                MapStatus.Builder builder = new MapStatus.Builder();
+                builder.target(ll).zoom(19.0f);
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+        mapView = null;
     }
 }
