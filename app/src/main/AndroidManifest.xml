@@ -28,9 +28,10 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="ZeN6of2bnLWnXOr9LZB9Y63PE4OWov5M" />
 
-        <service android:name="com.baidu.location.f"
+        <service
+            android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
 
         <activity
             android:name=".MainActivity"
@@ -65,11 +66,25 @@
             android:name=".activity.LightingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--森雾设置-->
-        <activity android:name=".activity.SenFogActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.SenFogActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--设备列表 -->
-        <activity android:name=".activity.EquipmentListActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.EquipmentListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--设置-->
+        <activity
+            android:name=".activity.SettingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--搜索-->
+        <activity
+            android:name=".activity.SearchActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--监控播放-->
+        <activity
+            android:name=".activity.MonitorActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

@@ -45,7 +45,9 @@ import com.example.manage.activity.LightingActivity;
 import com.example.manage.activity.LoginActivity;
 import com.example.manage.activity.MonitorListActivity;
 import com.example.manage.activity.NetActivity;
+import com.example.manage.activity.SearchActivity;
 import com.example.manage.activity.SenFogActivity;
+import com.example.manage.activity.SettingActivity;
 import com.example.manage.adapter.MainEquAdapter;
 import com.example.manage.adapter.MainSecneAdapter;
 import com.example.manage.bean.MainEquBean;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout draw_layout;
     private LinearLayout ll_visible, ll_cut, ll_setting;//隐藏，切换，设置
     private SlidingDrawer slidingdrawer;
-    private LinearLayout ll_into;
+    private LinearLayout ll_into,ll_title,ll_search;
     private LinearLayout headerMesBottom, headerMesTop;
     private CircularProgressView progress_rub_one, progress_rub_two; //第一个垃圾桶， 第二个
     private TextView tv_progress_two, tv_progress_one; //第一个垃圾桶数值， 第二个
@@ -125,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_login = findViewById(R.id.btn_login);
         rl_monitor = findViewById(R.id.rl_monitor);
         mapView = findViewById(R.id.mapView);
+        ll_title = findViewById(R.id.ll_title);
+        ll_search = findViewById(R.id.ll_search);
 
 
         ll_visible.setOnClickListener(this);
@@ -135,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_net.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         rl_monitor.setOnClickListener(this);
+        ll_search.setOnClickListener(this);
     }
 
 
@@ -211,37 +216,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private List<LatLng> latLngList =new ArrayList<>();
-    private List<OverlayOptions> optionsList =new ArrayList<>();
+    private List<LatLng> latLngList = new ArrayList<>();
+    private List<OverlayOptions> optionsList = new ArrayList<>();
+
     private void setMaker() {
         mBaiduMap.clear();
         //定义Maker坐标点
         LatLng point = new LatLng(34.8972, 113.9117);
-        latLngList.add(new LatLng(34,113));
-        latLngList.add(new LatLng(35,113));
-        latLngList.add(new LatLng(36,113));
-        latLngList.add(new LatLng(37,113));
-        latLngList.add(new LatLng(38,113));
-//构建Marker图标
+        latLngList.add(new LatLng(34, 113));
+        latLngList.add(new LatLng(35, 113));
+        latLngList.add(new LatLng(36, 113));
+        latLngList.add(new LatLng(37, 113));
+        latLngList.add(new LatLng(38, 113));
+        //构建Marker图标
         BitmapDescriptor bitmap = BitmapDescriptorFactory
                 .fromResource(R.mipmap.icon_safe_type_one);
-//构建MarkerOption，用于在地图上添加Marker
+        //构建MarkerOption，用于在地图上添加Marker
         for (int i = 0; i < 5; i++) {
             Bundle mBundle = new Bundle();
-            mBundle.putString("title","第"+i+"个marker");
-            mBundle.putDouble("lat",latLngList.get(i).latitude);
-            mBundle.putDouble("lng",latLngList.get(i).longitude);
+            mBundle.putString("title", "第" + i + "个marker");
+            mBundle.putDouble("lat", latLngList.get(i).latitude);
+            mBundle.putDouble("lng", latLngList.get(i).longitude);
 
             OverlayOptions option = new MarkerOptions()
                     .extraInfo(mBundle)
-//                    .title("lat="+latLngList.get(i).latitude+"---lng="+latLngList.get(i).longitude)
+        //                    .title("lat="+latLngList.get(i).latitude+"---lng="+latLngList.get(i).longitude)
                     .position(latLngList.get(i))
                     .icon(bitmap);
             optionsList.add(option);
         }
 
-//在地图上添加Marker，并显示
-//        mBaiduMap.addOverlay(option);
+        //在地图上添加Marker，并显示
+        //        mBaiduMap.addOverlay(option);
         mBaiduMap.addOverlays(optionsList);
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
@@ -250,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String title = extraInfo.getString("title");
                 double lat = extraInfo.getDouble("lat");
                 double lng = extraInfo.getDouble("lng");
-                Toast.makeText(MainActivity.this, title+" ---- "+lat+"----"+lng, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, title + " ---- " + lat + "----" + lng, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -281,11 +287,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     slidingdrawer.setVisibility(View.GONE);
                     ll_cut.setVisibility(View.GONE);
                     ll_setting.setVisibility(View.GONE);
+                    ll_title.setVisibility(View.GONE);
+                    ll_search.setVisibility(View.GONE);
                     IsVisible = 2;
                 } else if (IsVisible == 2) {
                     slidingdrawer.setVisibility(View.VISIBLE);
                     ll_cut.setVisibility(View.VISIBLE);
                     ll_setting.setVisibility(View.VISIBLE);
+                    ll_title.setVisibility(View.VISIBLE);
+                    ll_search.setVisibility(View.VISIBLE);
 
                     IsVisible = 1;
                 }
@@ -303,6 +313,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.rl_monitor:
                 startActivity(new Intent(MainActivity.this, MonitorListActivity.class));
+                break;
+            case R.id.ll_setting:
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                break;
+            case R.id.ll_search:
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+//                Toast.makeText(this, "搜素", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

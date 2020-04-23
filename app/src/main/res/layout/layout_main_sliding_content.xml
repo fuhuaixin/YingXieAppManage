@@ -537,7 +537,7 @@
                             android:layout_marginLeft="18dp"
                             android:layout_marginTop="5dp"
                             android:layout_toRightOf="@+id/tv_flow_total"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@mipmap/icon_flow_up" />
                     </RelativeLayout>
 
 
@@ -593,7 +593,7 @@
                             android:layout_marginLeft="18dp"
                             android:layout_marginTop="5dp"
                             android:layout_toRightOf="@+id/tv_flow_total_bot"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@mipmap/icon_flow_down" />
                     </RelativeLayout>
                 </LinearLayout>
 

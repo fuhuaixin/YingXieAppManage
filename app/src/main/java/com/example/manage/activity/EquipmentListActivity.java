@@ -19,6 +19,9 @@ import com.example.manage.bean.EquListBean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 设备列表
+ */
 public class EquipmentListActivity extends AppCompatActivity {
 
     private ImageView imageBack;

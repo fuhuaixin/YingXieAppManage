@@ -17,6 +17,8 @@
     <color name="tvE6">#E6E6E6</color>
     <color name="tv9B">#9B9B9B</color>
     <color name="tvB2">#B2B2B2</color>
+    <color name="tv99">#999999</color>
+    <color name="tv28">#282828</color>
 
     <!--饼状图颜色-->
     <color name="colorOne">#32D0FE</color>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_general_relayout"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:background="@drawable/shape_popup_general_bg"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:id="@+id/r1"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/dialog_general_style2_bt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="#282828"
+                android:textSize="14dp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/dialog_general_style1_bt_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/dialog_general_style1_bt1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="取消"
+                    android:textColor="@color/tv28"
+                    android:textSize="14dp" />
+
+                <View
+                    android:id="@+id/dialog_general_line"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#dfdfdf" />
+
+                <TextView
+                    android:id="@+id/dialog_general_style1_bt2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:paddingRight="10dp"
+                    android:text="确定"
+                    android:textColor="@color/tv28"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#dfdfdf" />
+        </RelativeLayout>
+
+        <!--<include-->
+        <!--layout="@layout/layout_line"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:layout_above="@id/r1"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/r1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:text="确认删除？"
+                android:id="@+id/dialog_general_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/tv28"
+                android:textSize="16sp" />
+
+            <TextView
+                android:text="222"
+                android:id="@+id/dialog_general_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="2"
+                android:maxLines="2"
+                android:textColor="#999999"
+                android:textSize="13sp"
+                android:visibility="gone"/>
+
+            <!--<EditText-->
+            <!--android:id="@+id/dialog_general_et"-->
+            <!--android:layout_width="150dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:background="@drawable/shape_bg_input"-->
+            <!--android:gravity="center"-->
+            <!--android:inputType="number"-->
+            <!--android:textColor="@color/text_gray_dark"-->
+            <!--android:textCursorDrawable="@drawable/cursor_text"-->
+            <!--android:textSize="16sp"-->
+            <!--android:visibility="gone" />-->
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
