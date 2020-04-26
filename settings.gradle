@@ -1,2 +1,2 @@
 rootProject.name='Manage'
-include ':app'
+include ':app', ':vitamio'
