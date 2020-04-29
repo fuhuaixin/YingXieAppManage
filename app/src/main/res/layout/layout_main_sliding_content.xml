@@ -13,13 +13,13 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/headerMesBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
-            android:visibility="gone">
+            android:layout_marginBottom="15dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -34,6 +34,7 @@
                     android:src="@mipmap/icon_tem" />
 
                 <TextView
+                    android:id="@+id/tv_tem_bot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -61,6 +62,7 @@
                     android:src="@mipmap/icon_wind_dir" />
 
                 <TextView
+                    android:id="@+id/tv_windirection_bot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -88,6 +90,7 @@
                     android:src="@mipmap/icon_hum" />
 
                 <TextView
+                    android:id="@+id/tv_humidity_bot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -115,6 +118,7 @@
                     android:src="@mipmap/icon_pm25" />
 
                 <TextView
+                    android:id="@+id/tv_pm_bot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -142,6 +146,7 @@
                     android:src="@mipmap/icon_rainfall" />
 
                 <TextView
+                    android:id="@+id/tv_rainvalue_bot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -593,7 +598,7 @@
                             android:layout_marginLeft="18dp"
                             android:layout_marginTop="5dp"
                             android:layout_toRightOf="@+id/tv_flow_total_bot"
-                            android:src="@mipmap/icon_flow_down" />
+                            android:src="@mipmap/icon_flow_up" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -644,6 +649,7 @@
                         android:src="@mipmap/icon_line_peo" />
 
                     <TextView
+                        android:id="@+id/tv_online"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="7dp"
@@ -663,6 +669,7 @@
                         android:src="@mipmap/icon_total_peo" />
 
                     <TextView
+                        android:id="@+id/tv_stack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="7dp"
@@ -690,6 +697,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_wifi_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="26"
@@ -718,6 +726,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_wifi_online"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="26"
@@ -746,6 +755,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_wifi_unline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="26"
@@ -884,7 +894,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="个体住户"
+                    android:text="购物"
                     android:textSize="12sp" />
 
                 <TextView
@@ -892,7 +902,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="1962"
+                    android:text=""
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -911,7 +921,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="娱乐"
+                    android:text="生活服务"
                     android:textSize="12sp" />
 
                 <TextView
@@ -919,7 +929,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="1002"
+                    android:text=""
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -946,7 +956,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="1962"
+                    android:text=""
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -974,7 +984,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="住宿"
+                    android:text="地产小区"
                     android:textSize="12sp" />
 
                 <TextView
@@ -982,7 +992,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="1962"
+                    android:text=""
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -1001,7 +1011,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="企业"
+                    android:text="休闲娱乐"
                     android:textSize="12sp" />
 
                 <TextView
@@ -1009,35 +1019,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="1962"
+                    android:text=""
                     android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:visibility="invisible">
+                android:gravity="right">
 
                 <View
                     android:layout_width="10dp"
                     android:layout_height="10dp"
-                    android:background="@drawable/shape_pie_one" />
+                    android:background="@drawable/shape_pie_seven" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="个体住户"
+                    android:text="金融"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tvTotalSix"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="1962"
+                    android:text=""
                     android:textSize="12sp" />
             </LinearLayout>
 

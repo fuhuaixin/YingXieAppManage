@@ -42,6 +42,7 @@
                 android:src="@mipmap/icon_tem" />
 
             <TextView
+                android:id="@+id/tv_tem_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -69,6 +70,7 @@
                 android:src="@mipmap/icon_wind_dir" />
 
             <TextView
+                android:id="@+id/tv_windirection_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -96,6 +98,7 @@
                 android:src="@mipmap/icon_hum" />
 
             <TextView
+                android:id="@+id/tv_humidity_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -123,6 +126,7 @@
                 android:src="@mipmap/icon_pm25" />
 
             <TextView
+                android:id="@+id/tv_pm_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -150,6 +154,7 @@
                 android:src="@mipmap/icon_rainfall" />
 
             <TextView
+                android:id="@+id/tv_rainvalue_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"

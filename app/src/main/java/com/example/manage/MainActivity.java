@@ -1,5 +1,6 @@
 package com.example.manage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,6 +25,7 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -50,10 +54,17 @@ import com.example.manage.activity.SenFogActivity;
 import com.example.manage.activity.SettingActivity;
 import com.example.manage.adapter.MainEquAdapter;
 import com.example.manage.adapter.MainSecneAdapter;
+import com.example.manage.app.AppUrl;
+import com.example.manage.bean.ApStatusBean;
+import com.example.manage.bean.ClientNumsBean;
+import com.example.manage.bean.EnvironmentBean;
 import com.example.manage.bean.MainEquBean;
 import com.example.manage.bean.MainSceneBean;
+import com.example.manage.bean.StatisticBean;
+import com.example.manage.bean.TrushLastestBean;
 import com.example.manage.utils.BarChartUtils;
 import com.example.manage.utils.PieChartUtil;
+import com.example.manage.utils.ToastUtils;
 import com.example.manage.view.CircularProgressView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -62,7 +73,11 @@ import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +106,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MapView mapView = null;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
+    private TextView tvTotalOne,tvTotalTwo,tvTotalThr,tvTotalFour,tvTotalFive,tvTotalSix;
+    private TextView tv_rainvalue_bot,tv_pm_bot,tv_humidity_bot,tv_windirection_bot,tv_tem_bot,tv_tem_title_bot;
+    private TextView tv_rainvalue_top,tv_pm_top,tv_humidity_top,tv_windirection_top,tv_tem_top,tv_tem_title_top;
+    private TextView tv_flow_total,tv_flow_total_bot,tv_online,tv_stack,tv_wifi_total,tv_wifi_online,tv_wifi_unline;
 
     private boolean isFirstLoc = true; //第一次定位
     private int IsVisible = 1; //1为显示 2 为隐藏
@@ -103,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initListen();
         initMap();
     }
+
 
     private void initView() {
         draw_layout = findViewById(R.id.draw_layout);
@@ -130,6 +150,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_title = findViewById(R.id.ll_title);
         ll_search = findViewById(R.id.ll_search);
 
+        tvTotalOne = findViewById(R.id.tvTotalOne);
+        tvTotalTwo = findViewById(R.id.tvTotalTwo);
+        tvTotalThr = findViewById(R.id.tvTotalThr);
+        tvTotalFour = findViewById(R.id.tvTotalFour);
+        tvTotalFive = findViewById(R.id.tvTotalFive);
+        tvTotalSix = findViewById(R.id.tvTotalSix);
+
+        tv_rainvalue_bot = findViewById(R.id.tv_rainvalue_bot);
+        tv_pm_bot = findViewById(R.id.tv_pm_bot);
+        tv_humidity_bot = findViewById(R.id.tv_humidity_bot);
+        tv_windirection_bot = findViewById(R.id.tv_windirection_bot);
+        tv_tem_bot = findViewById(R.id.tv_tem_bot);
+        tv_rainvalue_top = findViewById(R.id.tv_rainvalue_top);
+        tv_pm_top = findViewById(R.id.tv_pm_top);
+        tv_humidity_top = findViewById(R.id.tv_humidity_top);
+        tv_windirection_top = findViewById(R.id.tv_windirection_top);
+        tv_tem_top = findViewById(R.id.tv_tem_top);
+        tv_tem_title_top = findViewById(R.id.tv_tem_title_top);
+        tv_tem_title_bot = findViewById(R.id.tv_tem_title_bot);
+
+        tv_flow_total = findViewById(R.id.tv_flow_total);
+        tv_flow_total_bot = findViewById(R.id.tv_flow_total_bot);
+        tv_stack = findViewById(R.id.tv_stack);
+        tv_online = findViewById(R.id.tv_online);
+
+        tv_wifi_total = findViewById(R.id.tv_wifi_total);
+        tv_wifi_online = findViewById(R.id.tv_wifi_online);
+        tv_wifi_unline = findViewById(R.id.tv_wifi_unline);
 
         ll_visible.setOnClickListener(this);
         btn_ele.setOnClickListener(this);
@@ -171,17 +219,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        progress_rub_one.setProgress(26);
-        tv_progress_one.setText(26 + "%");
 
-        progress_rub_two.setProgress(66);
-        tv_progress_two.setText(66 + "%");
 
         initBarChartData(2);
-        initPieChartData();
-
+        initPieChartData(); //饼状图数据获取
+        getRubash();//获取垃圾桶信息
+        Environment();//获取环境信息
+        ClientNums();//获取wifi累计人数
+        ApStatus();//获取wifi设备
         sceneRecycle();
     }
+
+
 
 
     private void initMap() {
@@ -302,13 +351,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ll_net: //进入网络界面
                 Intent intent = new Intent(MainActivity.this, NetActivity.class);
+                Log.e("fhxx","发送前--->"+data1.toString());
+                intent.putExtra("apStatusBean", apStatusBean);
                 startActivity(intent);
                 break;
             case R.id.btn_login:
-//                startActivity(new Intent(MainActivity.this, BigScreenActivity.class)); //大屏控制
+                startActivity(new Intent(MainActivity.this, BigScreenActivity.class)); //大屏控制
 //                startActivity(new Intent(MainActivity.this, LightingActivity.class));//灯光控制
 //                startActivity(new Intent(MainActivity.this, SenFogActivity.class));//森雾控制
-                startActivity(new Intent(MainActivity.this, EquipmentListActivity.class));//设备列表
+//                startActivity(new Intent(MainActivity.this, EquipmentListActivity.class));//设备列表
 //                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
             case R.id.rl_monitor:
@@ -323,6 +374,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 
     /**
      * 柱状图数据添加
@@ -351,25 +403,153 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 饼状图数据添加
      */
-    int value1, value2, value3, value4, value5;
     int total;
-
+    StatisticBean.DataBean data;
     private void initPieChartData() {
-        value1 = 15;
-        value2 = 25;
-        value3 = 35;
-        value4 = 30;
-        value5 = 20;
-        count.add(value1);
-        count.add(value2);
-        count.add(value3);
-        count.add(value4);
-        count.add(value5);
+        EasyHttp.get(AppUrl.PoiStatistic)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+                    @Override
+                    public void onSuccess(String s) {
+                        StatisticBean statisticBean = JSON.parseObject(s, StatisticBean.class);
 
-        total = value1 + value2 + value3 + value4 + value5;
+                        if (statisticBean.isStatus()){ //判断是否成功
+                            data = statisticBean.getData();
+                            count.clear();
+                            total=0;
+                            for (int i = 0; i < data.getStatis().size(); i++) {
+                                count.add(data.getStatis().get(i).getNum());
+                                total +=data.getStatis().get(i).getNum();
+                            }
+                            tvTotalOne.setText(data.getStatis().get(0).getNum()+"");
+                            tvTotalTwo.setText(data.getStatis().get(1).getNum()+"");
+                            tvTotalThr.setText(data.getStatis().get(2).getNum()+"");
+                            tvTotalFour.setText(data.getStatis().get(3).getNum()+"");
+                            tvTotalFive.setText(data.getStatis().get(4).getNum()+"");
+                            tvTotalSix.setText(data.getStatis().get(5).getNum()+"");
+                            PieChartUtil.getPitChart().setPieChart(pieChart, (ArrayList) count, "周边概况", false, MainActivity.this, total);
+                        }
 
-        PieChartUtil.getPitChart().setPieChart(pieChart, (ArrayList) count, "周边概况", false, this, total);
+                    }
+                });
+
     }
+
+    /**
+     * 垃圾桶信息获取
+     */
+    private void getRubash(){
+        EasyHttp.get(AppUrl.TrushLatestData)
+                .syncRequest(false)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+                    @Override
+                    public void onSuccess(String s) {
+                        TrushLastestBean trushLastestBean = JSON.parseObject(s, TrushLastestBean.class);
+                        if (trushLastestBean.isStatus()){
+                            List<TrushLastestBean.DataBean.ListBean> list = trushLastestBean.getData().getList();
+                            progress_rub_one.setProgress(list.get(0).getNowrecovery()*100);
+                            tv_progress_one.setText(list.get(0).getNowrecovery()*100 + "%");
+                            progress_rub_two.setProgress(list.get(1).getNowrecovery()*100);
+                            tv_progress_two.setText(list.get(1).getNowrecovery()*100 + "%");
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取实时环境信息
+     */
+    private void Environment(){
+        EasyHttp.get(AppUrl.RealEnvironment)
+                .syncRequest(false)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<String >() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+                    @Override
+                    public void onSuccess(String s) {
+                        EnvironmentBean environmentBean = JSON.parseObject(s, EnvironmentBean.class);
+
+                        if (environmentBean.isStatus()){
+                            EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
+                            EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
+                            tv_tem_top.setText(weather.getTem());
+                            tv_tem_bot.setText(weather.getTem());
+                            tv_windirection_bot.setText(weather.getWin());
+                            tv_windirection_top.setText(weather.getWin());
+                            tv_humidity_top.setText(weather.getHumidity());
+                            tv_humidity_bot.setText(weather.getHumidity());
+                            tv_pm_top.setText(weather.getAir_pm25());
+                            tv_pm_bot.setText(weather.getAir_pm25());
+                            tv_rainvalue_top.setText(monitor.getRainvalue());
+                            tv_rainvalue_bot.setText(monitor.getRainvalue());
+
+                            tv_tem_title_top.setText(weather.getWea());
+                            tv_tem_title_bot.setText(weather.getTem()+"℃");
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取wifi在线人数和累计人数
+     */
+    private void ClientNums(){
+        EasyHttp.get(AppUrl.Clientnums)
+                .timeStamp(true)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+                    @Override
+                    public void onSuccess(String s) {
+                        ClientNumsBean clientNumsBean = JSON.parseObject(s, ClientNumsBean.class);
+                        if (clientNumsBean.isStatus()){
+                            tv_online.setText(clientNumsBean.getData().getOnlineusernum()+"");
+                            tv_stack.setText(clientNumsBean.getData().getStackusernum()+"");
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取无线网ap列表和状态
+     */
+    ApStatusBean apStatusBean;
+    List<ApStatusBean.DataBeanX.DataBean> data1=new ArrayList<>();
+    private void ApStatus(){
+        EasyHttp.get(AppUrl.ApStatus)
+                .timeStamp(true)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        apStatusBean= JSON.parseObject(s, ApStatusBean.class);
+
+                        if (apStatusBean.isStatus()){
+                            data1= apStatusBean.getData().getData();
+                            ApStatusBean.DataBeanX data = apStatusBean.getData();
+                            tv_wifi_total.setText(data.getTotal()+"");
+                            tv_wifi_online.setText(data.getOnlineCount()+"");
+                            tv_wifi_unline.setText(data.getOfflineCount()+"");
+                        }
+                    }
+                });
+    }
+
 
     private MainSecneAdapter secneAdapter;
     private List<MainSceneBean> mainSceneBeanList = new ArrayList<>();

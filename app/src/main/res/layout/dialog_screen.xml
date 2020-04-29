@@ -44,43 +44,47 @@
             android:textSize="14sp" />
 
         <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/ll_wheel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical">
 
+            <com.aigestudio.wheelpicker.widgets.WheelDatePicker
+                android:id="@+id/wheel_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4" />
+
+
             <com.aigestudio.wheelpicker.WheelPicker
-                android:visibility="gone"
                 android:id="@+id/wheel_hour"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                app:wheel_item_align="right"
                 app:wheel_item_text_color="@color/tv9B"
-                app:wheel_item_text_size="16sp"
                 app:wheel_selected_item_text_color="@color/tv21"
                 app:wheel_visible_item_count="3" />
 
             <TextView
                 android:id="@+id/tvCenterTime"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=":"
+                android:textColor="@color/tv21"
                 android:textSize="16sp"
-                android:textColor="@color/tv21"/>
+                android:visibility="gone" />
 
             <com.aigestudio.wheelpicker.WheelPicker
-                android:visibility="gone"
                 android:id="@+id/wheel_min"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                app:wheel_item_align="left"
                 app:wheel_item_text_color="@color/tv9B"
-                app:wheel_item_text_size="16sp"
                 app:wheel_selected_item_text_color="@color/tv21"
                 app:wheel_visible_item_count="3" />
         </LinearLayout>

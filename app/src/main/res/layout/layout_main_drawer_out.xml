@@ -61,14 +61,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_tem_top"
+                        android:id="@+id/tv_tem_title_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="晴"
                         android:textSize="10sp" />
 
                     <TextView
-                        android:id="@+id/tv_tem_bot"
+                        android:id="@+id/tv_tem_title_bot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="15℃"
@@ -101,8 +101,7 @@
             android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="登录"
-            android:visibility="gone" />
+            android:text="登录" />
 
         <LinearLayout
             android:id="@+id/ll_visible"

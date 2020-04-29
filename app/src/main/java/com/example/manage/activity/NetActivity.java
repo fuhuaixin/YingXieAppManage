@@ -13,10 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.manage.R;
 import com.example.manage.adapter.NetAdapter;
+import com.example.manage.bean.ApStatusBean;
 import com.example.manage.bean.NetBean;
+import com.example.manage.utils.ToastUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.vov.vitamio.utils.Log;
 
 /**
  * 网络activity
@@ -28,12 +33,15 @@ public class NetActivity extends AppCompatActivity {
     private NetAdapter netAdapter;
     private RecyclerView recycle_net;
 
-    private List<NetBean> netBeanList =new ArrayList<>();
-
+    private ApStatusBean apStatusBean;
+    private List<ApStatusBean.DataBeanX.DataBean> mList =new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_net);
+        apStatusBean = (ApStatusBean) getIntent().getSerializableExtra("apStatusBean");
+        mList =apStatusBean.getData().getData();
+        ToastUtils.show(mList.get(0).getIp());
         initViews();
         init();
     }
@@ -55,21 +63,10 @@ public class NetActivity extends AppCompatActivity {
             }
         });
 
-        for (int i = 0; i <10; i++) {
-            netBeanList.add(new NetBean("状态"+i,
-                    "名称"+i,
-                    "SN码"+i,
-                    "Ip地址"+i,
-                    "接收"+i,
-                    "最近加入时间"+i,
-                    "发送"+i,
-                    "连接人数"+i
-            ));
-        }
 
         recycle_net.setLayoutManager(new LinearLayoutManager(this));
 
-        netAdapter = new NetAdapter(R.layout.item_net,netBeanList);
+        netAdapter = new NetAdapter(R.layout.item_net,mList);
         netAdapter.isFirstOnly(false);
         netAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         recycle_net.setAdapter(netAdapter);

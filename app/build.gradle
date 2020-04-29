@@ -58,4 +58,10 @@ dependencies {
     implementation project(':vitamio')
     //加载中。。。
     implementation 'com.zyao89:zloading:1.2.0'
+    //网络请求
+    implementation 'com.zhouyou:rxeasyhttp:2.1.5'
+    implementation 'com.alibaba:fastjson:1.1.70.android'
+    implementation 'com.alibaba:fastjson:1.2.55'
+    //eventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
