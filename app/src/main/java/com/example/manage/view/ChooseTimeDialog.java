@@ -17,19 +17,21 @@ import java.util.List;
 
 public class ChooseTimeDialog extends Dialog {
     private Context context;
-    private WheelPicker wheel_hour,wheel_min;
+    private WheelPicker wheel_hour, wheel_min;
     private Button btnChoose;
     private ImageView image_back;
 
-    private List<String> hourList =new ArrayList<>();
-    private List<String> minList =new ArrayList<>();
+    private List<String> hourList = new ArrayList<>();
+    private List<String> minList = new ArrayList<>();
 
-    private String hourStr ="00";
-    private String minStr ="00";
+    private String hourStr = "00";
+    private String minStr = "00";
+
     public ChooseTimeDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
-        this.context =context;
+        this.context = context;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,26 +42,28 @@ public class ChooseTimeDialog extends Dialog {
     }
 
     private void initViews() {
-        wheel_hour =findViewById(R.id.wheel_hour);
-        wheel_min =findViewById(R.id.wheel_min);
-        btnChoose =findViewById(R.id.btn_choose);
-        image_back =findViewById(R.id.image_back);
+        wheel_hour = findViewById(R.id.wheel_hour);
+        wheel_min = findViewById(R.id.wheel_min);
+        btnChoose = findViewById(R.id.btn_choose);
+        image_back = findViewById(R.id.image_back);
     }
 
-    private void inits(){
-        for (int i = 0; i <24; i++) {
-            if (i<10){
-                hourList.add("0"+i);
-            }else {
-                hourList.add(i+"");
+    private void inits() {
+
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                hourList.add("0" + i);
+            } else {
+                hourList.add(i + "");
             }
         }
 
+
         for (int i = 0; i < 60; i++) {
-            if (i<10){
-                minList.add("0"+i);
-            }else {
-                minList.add(""+i);
+            if (i < 10) {
+                minList.add("0" + i);
+            } else {
+                minList.add("" + i);
             }
         }
 
@@ -69,13 +73,13 @@ public class ChooseTimeDialog extends Dialog {
         wheel_hour.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
             @Override
             public void onItemSelected(WheelPicker picker, Object data, int position) {
-                hourStr=data.toString();
+                hourStr = data.toString();
             }
         });
         wheel_min.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
             @Override
             public void onItemSelected(WheelPicker picker, Object data, int position) {
-                minStr=data.toString();
+                minStr = data.toString();
             }
         });
 
@@ -93,11 +97,5 @@ public class ChooseTimeDialog extends Dialog {
         });
     }
 
-    public String getHour(){
-        return hourStr;
-    }
-    public String getMin(){
-        return minStr;
-    }
 
 }

@@ -38,7 +38,8 @@
             app:wheel_item_text_color="@color/tv9B"
             app:wheel_item_text_size="16sp"
             app:wheel_selected_item_text_color="@color/tv21"
-            app:wheel_visible_item_count="5" />
+            app:wheel_visible_item_count="5"
+            app:wheel_cyclic="true"/>
         <TextView
 
             android:layout_width="wrap_content"
@@ -54,7 +55,8 @@
             app:wheel_item_text_color="@color/tv9B"
             app:wheel_item_text_size="16sp"
             app:wheel_selected_item_text_color="@color/tv21"
-            app:wheel_visible_item_count="5"/>
+            app:wheel_visible_item_count="5"
+            app:wheel_cyclic="true"/>
 
     </LinearLayout>
 

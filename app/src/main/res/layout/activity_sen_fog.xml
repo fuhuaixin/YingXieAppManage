@@ -87,10 +87,11 @@
         android:background="@color/line" />
 
     <RelativeLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/white">
+
         <LinearLayout
             android:id="@+id/ll_one"
             android:layout_width="match_parent"
@@ -113,21 +114,20 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@+id/ll_one"
             android:id="@+id/ll_one_mess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bgF8"
-            >
+            android:layout_below="@+id/ll_one"
+            android:background="@color/bgF8">
 
             <LinearLayout
-                android:paddingTop="13dp"
-                android:paddingBottom="13dp"
                 android:id="@+id/ll_one_start"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -155,13 +155,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:paddingTop="13dp"
-                android:paddingBottom="13dp"
                 android:id="@+id/ll_one_end"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -192,9 +192,9 @@
 
         <LinearLayout
             android:id="@+id/ll_two"
-            android:layout_below="@+id/ll_one_mess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_one_mess"
             android:padding="15dp">
 
             <CheckBox
@@ -214,19 +214,19 @@
 
         <LinearLayout
             android:id="@+id/ll_two_mess"
-            android:layout_below="@+id/ll_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_two"
             android:background="@color/bgF8">
 
             <LinearLayout
-android:id="@+id/ll_two_start"
-                android:paddingTop="13dp"
-                android:paddingBottom="13dp"
+                android:id="@+id/ll_two_start"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -256,12 +256,12 @@ android:id="@+id/ll_two_start"
             <LinearLayout
                 android:id="@+id/ll_two_end"
 
-                android:paddingTop="13dp"
-                android:paddingBottom="13dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -289,20 +289,19 @@ android:id="@+id/ll_two_start"
             </LinearLayout>
 
         </LinearLayout>
+
         <View
-            android:clickable="true"
-            android:focusable="true"
             android:id="@+id/view_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:alpha="0.5"
             android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:clickable="true"
+            android:focusable="true" />
     </RelativeLayout>
 
 
-
     <Button
-        android:visibility="gone"
         android:id="@+id/btn_commit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

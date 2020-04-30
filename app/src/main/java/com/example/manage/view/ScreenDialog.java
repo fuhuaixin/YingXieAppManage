@@ -14,7 +14,9 @@ import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelDatePicker;
 import com.example.manage.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ScreenDialog  extends Dialog {
@@ -46,19 +48,13 @@ public class ScreenDialog  extends Dialog {
 
 
     private void listener() {
-/*
-                app:wheel_item_align="center"
-                app:wheel_item_text_color="@color/tv9B"
-                app:wheel_item_text_size="16sp"
-                app:wheel_selected_item_text_color="@color/tv21"
-                app:wheel_visible_item_count="3"*/
         wheel_date.setVisibleItemCount(3);
         wheel_date.setItemTextSize(25);
         wheel_hour.setItemTextSize(25);
         wheel_min.setItemTextSize(25);
         wheel_date.setItemTextColor(getContext().getResources().getColor(R.color.tv9B));
         wheel_date.setSelectedItemTextColor(getContext().getResources().getColor(R.color.tv21));
-        wheel_date.setYearStart(2020);
+        wheel_date.setYearStart(2000);
 
         for (int i = 0; i < 24; i++) {
             if (i<10){
@@ -83,19 +79,8 @@ public class ScreenDialog  extends Dialog {
                 dismiss();
             }
         });
-        wheel_hour.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(WheelPicker picker, Object data, int position) {
-                Log.e("fhxx --->hour",data.toString()+"----"+position);
-            }
-        });
 
-        wheel_min.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(WheelPicker picker, Object data, int position) {
-                Log.e("fhxx --->min",data.toString()+"----"+position);
-            }
-        });
     }
+
 
 }

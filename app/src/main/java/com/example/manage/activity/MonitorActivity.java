@@ -16,6 +16,7 @@ import com.example.manage.R;
 import com.example.manage.adapter.MonitorAdapter;
 import com.example.manage.base.BaseActivity;
 import com.example.manage.bean.MonitorBean;
+import com.example.manage.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,8 @@ public class MonitorActivity extends BaseActivity {
     private MonitorAdapter monitorAdapter;
     private VideoView vitamio;
     private List<MonitorBean> monitorBeanList =new ArrayList<>();
-    private Uri uri;
-    private String strTitle;
+
+    private String strTitle,strUrl,strId;
     private String videoUrl ="http://111.6.98.254:8073/live/yxl_4.flv?sign=4100731932000-c671c4341e3bf539d1f462e864644262";
     private String videoUrl2 ="http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4";
 
@@ -55,7 +56,10 @@ public class MonitorActivity extends BaseActivity {
     }
 
     private void initViews() {
-        strTitle =getIntent().getStringExtra("title");
+        strTitle =getIntent().getStringExtra("videoname");
+        strUrl =getIntent().getStringExtra("videourl");
+        strId =getIntent().getStringExtra("videoid");
+
         imageBack =findViewById(R.id.image_back);
         tvTitle =findViewById(R.id.tv_title);
         tv_monitor_title =findViewById(R.id.tv_monitor_title);
@@ -100,7 +104,8 @@ public class MonitorActivity extends BaseActivity {
             }
         });
 
-        vitamio.setVideoURI(Uri.parse(videoUrl));
+        vitamio.setVideoURI(Uri.parse(strUrl));
+        vitamio.start();
 //        vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH, 0);
         vitamio.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -108,8 +113,16 @@ public class MonitorActivity extends BaseActivity {
                 //此处设置播放速度为正常速度1
 //                mediaPlayer.setPlaybackSpeed(1.0f);
                 zLoadingDialog.dismiss();
-                vitamio.start();
 
+            }
+        });
+        vitamio.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                ToastUtils.show("播放失败");
+                zLoadingDialog.dismiss();
+
+                return false;
             }
         });
 

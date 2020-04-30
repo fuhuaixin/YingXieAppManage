@@ -162,23 +162,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void post(){
-        EasyHttp.post(AppUrl.controlLight)
-                .timeStamp(true)
-                .syncRequest(false)
-                .params("opt","0")
-                .params("expireTime","1")
-                .execute(new SimpleCallBack<String>() {
-                    @Override
-                    public void onError(ApiException e) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(String s) {
-                        Log.e("fhxx",s);
-                    }
-                });
-    }
 
 }

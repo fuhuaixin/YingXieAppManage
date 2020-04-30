@@ -14,17 +14,17 @@ import com.example.manage.bean.MonitorListBean;
 
 import java.util.List;
 
-public class MonitorListAdapter extends BaseQuickAdapter<MonitorListBean, BaseViewHolder> {
+public class MonitorListAdapter extends BaseQuickAdapter<MonitorListBean.DataBean.AllVideoUrlBean, BaseViewHolder> {
 
     private Context context;
-    public MonitorListAdapter(int layoutResId, @Nullable List<MonitorListBean> data,Context context) {
+    public MonitorListAdapter(int layoutResId, @Nullable List<MonitorListBean.DataBean.AllVideoUrlBean> data,Context context) {
         super(layoutResId, data);
         this.context =context;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, MonitorListBean item) {
-        helper.setText(R.id.tv_title,item.getMsg());
+    protected void convert(BaseViewHolder helper, MonitorListBean.DataBean.AllVideoUrlBean item) {
+        helper.setText(R.id.tv_title,item.getVideoname());
         ImageView image_mes = helper.getView(R.id.image_mes);
 //        Glide.with(context).load(item.getImage()).into(image_mes);
 

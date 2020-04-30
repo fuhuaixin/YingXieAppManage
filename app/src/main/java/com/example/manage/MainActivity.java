@@ -356,8 +356,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btn_login:
-                startActivity(new Intent(MainActivity.this, BigScreenActivity.class)); //大屏控制
-//                startActivity(new Intent(MainActivity.this, LightingActivity.class));//灯光控制
+//                startActivity(new Intent(MainActivity.this, BigScreenActivity.class)); //大屏控制
+                startActivity(new Intent(MainActivity.this, LightingActivity.class));//灯光控制
 //                startActivity(new Intent(MainActivity.this, SenFogActivity.class));//森雾控制
 //                startActivity(new Intent(MainActivity.this, EquipmentListActivity.class));//设备列表
 //                startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -481,8 +481,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (environmentBean.isStatus()){
                             EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
                             EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
-                            tv_tem_top.setText(weather.getTem());
-                            tv_tem_bot.setText(weather.getTem());
+                            tv_tem_top.setText(weather.getTem()+"℃");
+                            tv_tem_bot.setText(weather.getTem()+"℃");
                             tv_windirection_bot.setText(weather.getWin());
                             tv_windirection_top.setText(weather.getWin());
                             tv_humidity_top.setText(weather.getHumidity());
@@ -514,8 +514,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(String s) {
                         ClientNumsBean clientNumsBean = JSON.parseObject(s, ClientNumsBean.class);
                         if (clientNumsBean.isStatus()){
-                            tv_online.setText(clientNumsBean.getData().getOnlineusernum()+"");
-                            tv_stack.setText(clientNumsBean.getData().getStackusernum()+"");
+                            tv_online.setText("在线人数:"+clientNumsBean.getData().getOnlineusernum()+"");
+                            tv_stack.setText("累计人数:"+clientNumsBean.getData().getStackusernum()+"");
                         }
                     }
                 });
@@ -678,7 +678,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (location == null || mapView == null) {
                 return;
             }
-            Log.e("fhxx", location.getLatitude() + " ------------" + location.getLongitude());
 
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())

@@ -12,10 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.manage.R;
 import com.example.manage.adapter.MonitorListAdapter;
+import com.example.manage.app.AppUrl;
 import com.example.manage.bean.MonitorListBean;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +30,23 @@ public class MonitorListActivity extends AppCompatActivity {
     private TextView tvTitle;
     private RecyclerView recycle_monitor;
     private MonitorListAdapter monitorListAdapter;
-    private List<MonitorListBean> monitorListBeans =new ArrayList<>();
+    private List<MonitorListBean> monitorListBeans = new ArrayList<>();
+    MonitorListBean monitorListBean;
+    private List<MonitorListBean.DataBean.AllVideoUrlBean> allVideoUrl = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_list);
         initViews();
+        getMonitorList();//获取视频列表
         init();
     }
 
     private void initViews() {
-        imageBack =findViewById(R.id.image_back);
-        tvTitle =findViewById(R.id.tv_title);
-        recycle_monitor =findViewById(R.id.recycle_monitor);
+        imageBack = findViewById(R.id.image_back);
+        tvTitle = findViewById(R.id.tv_title);
+        recycle_monitor = findViewById(R.id.recycle_monitor);
 
     }
 
@@ -49,27 +58,45 @@ public class MonitorListActivity extends AppCompatActivity {
                 finish();
             }
         });
+        recycle_monitor.setLayoutManager(new GridLayoutManager(this, 2));
 
-        for (int i = 0; i < 10; i++) {
-            monitorListBeans.add(new MonitorListBean("http://img4.cache.netease.com/photo/0087/2009-10-20/5M1JB8B20P1J0087.jpg",
-                    "黄焖鸡监控"+i));
-        }
-        recycle_monitor.setLayoutManager(new GridLayoutManager(this,2));
-        monitorListAdapter =new MonitorListAdapter(R.layout.item_monitor_list,monitorListBeans,this);
-        recycle_monitor.setAdapter(monitorListAdapter);
-        monitorListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        monitorListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.ll_item:
-                        Intent intent = new Intent(MonitorListActivity.this,MonitorActivity.class);
-                        intent.putExtra("title",monitorListBeans.get(position).getMsg());
-                        startActivity(intent);
-//                        Toast.makeText(MonitorListActivity.this, "点击"+position, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        });
+    }
+
+    private void getMonitorList() {
+        EasyHttp.get(AppUrl.VideoVideos)
+                .timeStamp(true)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        monitorListBean = JSON.parseObject(s, MonitorListBean.class);
+                        if (monitorListBean.isStatus()) {
+                            allVideoUrl = monitorListBean.getData().getAllVideoUrl();
+
+                            monitorListAdapter = new MonitorListAdapter(R.layout.item_monitor_list, allVideoUrl, MonitorListActivity.this);
+                            recycle_monitor.setAdapter(monitorListAdapter);
+                            monitorListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+                            monitorListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                                @Override
+                                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                                    switch (view.getId()) {
+                                        case R.id.ll_item:
+                                            Intent intent = new Intent(MonitorListActivity.this, MonitorActivity.class);
+                                            intent.putExtra("videoname", allVideoUrl.get(position).getVideoname());
+                                            intent.putExtra("videourl", allVideoUrl.get(position).getVideourl());
+                                            intent.putExtra("videoid", allVideoUrl.get(position).getVideoid());
+                                            startActivity(intent);
+                                            break;
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                });
     }
 }
