@@ -56,6 +56,8 @@ public class AppUrl {
 
     //获取视频列表
     public static final String VideoVideos = basePath+"video/videos";
+    //设备列表数据
+    public static final String Devices = "zhjd/config/devices.json";
 
 
 

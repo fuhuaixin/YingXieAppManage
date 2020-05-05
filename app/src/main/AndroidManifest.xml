@@ -72,14 +72,17 @@
         <!--交互大屏-->
         <activity
             android:name=".activity.BigScreenActivity"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--灯光交互-->
         <activity
             android:name=".activity.LightingActivity"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--森雾设置-->
         <activity
             android:name=".activity.SenFogActivity"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--设备列表 -->
         <activity

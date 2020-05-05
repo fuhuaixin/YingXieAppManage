@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true" />
+
         <LinearLayout
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
@@ -77,27 +78,33 @@
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_search"
-            android:gravity="center_vertical"
+            android:layout_width="250dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/ll_title"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/shape_main_search_bg"
-            android:layout_below="@+id/ll_title"
-            android:layout_width="250dp"
-            android:layout_height="35dp">
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
             <ImageView
-                android:src="@mipmap/icon_main_search"
-                android:layout_marginLeft="10dp"
                 android:layout_width="15dp"
-                android:layout_height="15dp"/>
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/icon_main_search" />
+
             <TextView
-                android:layout_marginLeft="5dp"
-                android:text="请输入搜索内容"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="请输入搜索内容" />
         </LinearLayout>
+
         <Button
+            android:visibility="gone"
             android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,7 +132,8 @@
                 android:layout_marginTop="5dp"
                 android:text="隐藏"
                 android:textColor="@color/tv21"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -135,7 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_visible"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="15dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -147,12 +155,12 @@
 
             <TextView
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="切换"
                 android:textColor="@color/tv21"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -162,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_cut"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="15dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -178,10 +186,61 @@
                 android:layout_marginTop="5dp"
                 android:text="设置"
                 android:textColor="@color/tv21"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/ll_main_location"
+            android:layout_marginLeft="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="180dp"
+            android:background="@color/white"
+            android:layout_width="40dp"
+            android:layout_height="35dp">
+            <ImageView
+                android:src="@mipmap/icon_location_main"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="180dp"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_add_zoom"
+                    android:textColor="@color/tv8C"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="＋"
+                    android:textSize="18sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"/>
+                <TextView
+                    android:id="@+id/tv_lose_zoom"
+                    android:layout_marginTop="0.5dp"
+                    android:textColor="@color/tv8C"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="18sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

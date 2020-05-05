@@ -34,6 +34,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -41,7 +42,9 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.manage.activity.BigScreenActivity;
 import com.example.manage.activity.EquipmentListActivity;
@@ -58,6 +61,7 @@ import com.example.manage.app.AppUrl;
 import com.example.manage.bean.ApStatusBean;
 import com.example.manage.bean.ClientNumsBean;
 import com.example.manage.bean.EnvironmentBean;
+import com.example.manage.bean.MainDevicesBean;
 import com.example.manage.bean.MainEquBean;
 import com.example.manage.bean.MainSceneBean;
 import com.example.manage.bean.StatisticBean;
@@ -89,11 +93,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout draw_layout;
     private LinearLayout ll_visible, ll_cut, ll_setting;//隐藏，切换，设置
     private SlidingDrawer slidingdrawer;
-    private LinearLayout ll_into,ll_title,ll_search;
-    private LinearLayout headerMesBottom, headerMesTop;
+    private LinearLayout ll_into, ll_title, ll_search;
+    private LinearLayout headerMesBottom, headerMesTop, ll_main_location;
     private CircularProgressView progress_rub_one, progress_rub_two; //第一个垃圾桶， 第二个
     private TextView tv_progress_two, tv_progress_one; //第一个垃圾桶数值， 第二个
-    private TextView btn_ele, btn_war; //电能，水能
+    private TextView btn_ele, btn_war, tv_lose_zoom, tv_add_zoom; //电能，水能
     private BarChart barChart; // 柱状图
     private PieChart pieChart;// 饼状图
     private RecyclerView recycle_scene, recycle_equ;
@@ -106,13 +110,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MapView mapView = null;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
-    private TextView tvTotalOne,tvTotalTwo,tvTotalThr,tvTotalFour,tvTotalFive,tvTotalSix;
-    private TextView tv_rainvalue_bot,tv_pm_bot,tv_humidity_bot,tv_windirection_bot,tv_tem_bot,tv_tem_title_bot;
-    private TextView tv_rainvalue_top,tv_pm_top,tv_humidity_top,tv_windirection_top,tv_tem_top,tv_tem_title_top;
-    private TextView tv_flow_total,tv_flow_total_bot,tv_online,tv_stack,tv_wifi_total,tv_wifi_online,tv_wifi_unline;
+    private TextView tvTotalOne, tvTotalTwo, tvTotalThr, tvTotalFour, tvTotalFive, tvTotalSix;
+    private TextView tv_rainvalue_bot, tv_pm_bot, tv_humidity_bot, tv_windirection_bot, tv_tem_bot, tv_tem_title_bot;
+    private TextView tv_rainvalue_top, tv_pm_top, tv_humidity_top, tv_windirection_top, tv_tem_top, tv_tem_title_top;
+    private TextView tv_flow_total, tv_flow_total_bot, tv_online, tv_stack, tv_wifi_total, tv_wifi_online, tv_wifi_unline;
 
     private boolean isFirstLoc = true; //第一次定位
     private int IsVisible = 1; //1为显示 2 为隐藏
+    private MapStatus mapStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mapView = findViewById(R.id.mapView);
         ll_title = findViewById(R.id.ll_title);
         ll_search = findViewById(R.id.ll_search);
+        ll_main_location = findViewById(R.id.ll_main_location);
 
         tvTotalOne = findViewById(R.id.tvTotalOne);
         tvTotalTwo = findViewById(R.id.tvTotalTwo);
@@ -178,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_wifi_total = findViewById(R.id.tv_wifi_total);
         tv_wifi_online = findViewById(R.id.tv_wifi_online);
         tv_wifi_unline = findViewById(R.id.tv_wifi_unline);
+        tv_add_zoom = findViewById(R.id.tv_add_zoom);
+        tv_lose_zoom = findViewById(R.id.tv_lose_zoom);
 
         ll_visible.setOnClickListener(this);
         btn_ele.setOnClickListener(this);
@@ -188,6 +196,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_login.setOnClickListener(this);
         rl_monitor.setOnClickListener(this);
         ll_search.setOnClickListener(this);
+        ll_main_location.setOnClickListener(this);
+        tv_add_zoom.setOnClickListener(this);
+        tv_lose_zoom.setOnClickListener(this);
     }
 
 
@@ -220,76 +231,130 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
         initBarChartData(2);
         initPieChartData(); //饼状图数据获取
         getRubash();//获取垃圾桶信息
         Environment();//获取环境信息
         ClientNums();//获取wifi累计人数
         ApStatus();//获取wifi设备
+        Devices(); //获取列表
         sceneRecycle();
     }
-
-
 
 
     private void initMap() {
         //设置定位图标
 //        MyLocationConfiguration myLocationConfiguration = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL, true, null, 00000000, 00000000);
+//        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
         // 不显示百度地图Logo
         mapView.removeViewAt(1);
         mBaiduMap = mapView.getMap();
+        UiSettings uiSettings = mBaiduMap.getUiSettings();
+        uiSettings.setCompassEnabled(false);
+        mapView.showZoomControls(false);
 
-        mBaiduMap.setMyLocationEnabled(true);
-//        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
-        //定位初始化
+   /*     //定位初始化
         mLocationClient = new LocationClient(this);
-
+        mBaiduMap.setMyLocationEnabled(true);
 
         //通过LocationClientOption设置LocationClient相关参数
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(1000);
-
-
+//        option.setLocationMode(new LocationClientOption.LocationMode());
         //设置locationClientOption
         mLocationClient.setLocOption(option);
 
         //注册LocationListener监听器
         mLocationClient.registerLocationListener(mListener);
         //开启地图定位图层
-        mLocationClient.start();
+        mLocationClient.start();*/
 
-        setMaker();
+        mapMoveCenter(new LatLng(34.763375, 113.724974), 17);
+//        setMaker();
     }
 
 
-    private List<LatLng> latLngList = new ArrayList<>();
+    /**
+     * 将地图移动到中心点
+     *
+     * @param arg0
+     */
+    private void mapMoveCenter(LatLng arg0, int zoom) {
+
+        mBaiduMap.clear();
+
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(arg0)
+                .zoom(zoom)
+                .build();
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        //改变地图状态
+        mBaiduMap.animateMapStatus(mMapStatusUpdate);
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        //改变地图状态
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        //	MapStatusUpdate state = MapStatusUpdateFactory.zoomBy(4);
+        //	mBaiduMap.animateMapStatus(state);
+        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_location);
+        OverlayOptions option = new MarkerOptions().position(arg0).icon(mCurrentMarker);
+        // 在地图上添加Marker，并显示
+        mBaiduMap.addOverlay(option);
+        // 获取位置名称
+    }
+
+
     private List<OverlayOptions> optionsList = new ArrayList<>();
 
-    private void setMaker() {
+    private void setMaker(List<LatLng> latLngList, final String type) {
+        ToastUtils.show(latLngList.toString());
         mBaiduMap.clear();
-        //定义Maker坐标点
-        LatLng point = new LatLng(34.8972, 113.9117);
-        latLngList.add(new LatLng(34, 113));
-        latLngList.add(new LatLng(35, 113));
-        latLngList.add(new LatLng(36, 113));
-        latLngList.add(new LatLng(37, 113));
-        latLngList.add(new LatLng(38, 113));
+        mBaiduMap.removeMarkerClickListener(onMarkerClickListener);
+        optionsList.clear();
         //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_safe_type_one);
+        BitmapDescriptor bitmap = null;
+        switch (type) {
+            case "wifi":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_wifi_type_one);
+                break;
+            case "fire":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_fire_type_one);
+                break;
+            case "garbage":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_recycl_type_one);
+                break;
+            case "env":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_envir_type_one);
+                break;
+            case "camera":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_safe_type_one);
+                break;
+            case "spray":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_park_type_one);
+                break;
+            default:
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_map_location);
+                break;
+        }
+
         //构建MarkerOption，用于在地图上添加Marker
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < latLngList.size(); i++) {
             Bundle mBundle = new Bundle();
-            mBundle.putString("title", "第" + i + "个marker");
+            mBundle.putString("title", type);
             mBundle.putDouble("lat", latLngList.get(i).latitude);
             mBundle.putDouble("lng", latLngList.get(i).longitude);
 
             OverlayOptions option = new MarkerOptions()
                     .extraInfo(mBundle)
-        //                    .title("lat="+latLngList.get(i).latitude+"---lng="+latLngList.get(i).longitude)
                     .position(latLngList.get(i))
                     .icon(bitmap);
             optionsList.add(option);
@@ -298,18 +363,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //在地图上添加Marker，并显示
         //        mBaiduMap.addOverlay(option);
         mBaiduMap.addOverlays(optionsList);
-        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Bundle extraInfo = marker.getExtraInfo();
-                String title = extraInfo.getString("title");
-                double lat = extraInfo.getDouble("lat");
-                double lng = extraInfo.getDouble("lng");
-                Toast.makeText(MainActivity.this, title + " ---- " + lat + "----" + lng, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+        mBaiduMap.setOnMarkerClickListener(onMarkerClickListener);
     }
+
+    private BaiduMap.OnMarkerClickListener onMarkerClickListener = new BaiduMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            Bundle extraInfo = marker.getExtraInfo();
+            String title = extraInfo.getString("title");
+
+            double lat = extraInfo.getDouble("lat");
+            double lng = extraInfo.getDouble("lng");
+            Toast.makeText(MainActivity.this, title + " ---- " + lat + "----" + lng, Toast.LENGTH_SHORT).show();
+
+            if (title.equals("light")) {
+                startActivity(new Intent(MainActivity.this, LightingActivity.class));
+            } else if (title.equals("spray")) {
+                startActivity(new Intent(MainActivity.this, SenFogActivity.class));
+            } else if (title.equals("screen")) {
+                startActivity(new Intent(MainActivity.this, BigScreenActivity.class));
+            }
+            return false;
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -344,20 +420,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ll_cut.setVisibility(View.VISIBLE);
                     ll_setting.setVisibility(View.VISIBLE);
                     ll_title.setVisibility(View.VISIBLE);
-                    ll_search.setVisibility(View.VISIBLE);
+                    ll_search.setVisibility(View.GONE);
 
                     IsVisible = 1;
                 }
                 break;
             case R.id.ll_net: //进入网络界面
                 Intent intent = new Intent(MainActivity.this, NetActivity.class);
-                Log.e("fhxx","发送前--->"+data1.toString());
+                Log.e("fhxx", "发送前--->" + data1.toString());
                 intent.putExtra("apStatusBean", apStatusBean);
                 startActivity(intent);
                 break;
             case R.id.btn_login:
 //                startActivity(new Intent(MainActivity.this, BigScreenActivity.class)); //大屏控制
-                startActivity(new Intent(MainActivity.this, LightingActivity.class));//灯光控制
+//                startActivity(new Intent(MainActivity.this, LightingActivity.class));//灯光控制
 //                startActivity(new Intent(MainActivity.this, SenFogActivity.class));//森雾控制
 //                startActivity(new Intent(MainActivity.this, EquipmentListActivity.class));//设备列表
 //                startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -371,6 +447,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ll_search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
 //                Toast.makeText(this, "搜素", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ll_main_location:
+                mapMoveCenter(new LatLng(34.763375, 113.724974), 17);
+                break;
+            case R.id.tv_add_zoom:
+                mapStatus = mBaiduMap.getMapStatus();
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(mapStatus.zoom + 1).build()));
+                break;
+            case R.id.tv_lose_zoom:
+                mapStatus = mBaiduMap.getMapStatus();
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(mapStatus.zoom - 1).build()));
                 break;
         }
     }
@@ -405,6 +492,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     int total;
     StatisticBean.DataBean data;
+
     private void initPieChartData() {
         EasyHttp.get(AppUrl.PoiStatistic)
                 .syncRequest(false)
@@ -412,24 +500,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onError(ApiException e) {
                     }
+
                     @Override
                     public void onSuccess(String s) {
                         StatisticBean statisticBean = JSON.parseObject(s, StatisticBean.class);
 
-                        if (statisticBean.isStatus()){ //判断是否成功
+                        if (statisticBean.isStatus()) { //判断是否成功
                             data = statisticBean.getData();
                             count.clear();
-                            total=0;
+                            total = 0;
                             for (int i = 0; i < data.getStatis().size(); i++) {
                                 count.add(data.getStatis().get(i).getNum());
-                                total +=data.getStatis().get(i).getNum();
+                                total += data.getStatis().get(i).getNum();
                             }
-                            tvTotalOne.setText(data.getStatis().get(0).getNum()+"");
-                            tvTotalTwo.setText(data.getStatis().get(1).getNum()+"");
-                            tvTotalThr.setText(data.getStatis().get(2).getNum()+"");
-                            tvTotalFour.setText(data.getStatis().get(3).getNum()+"");
-                            tvTotalFive.setText(data.getStatis().get(4).getNum()+"");
-                            tvTotalSix.setText(data.getStatis().get(5).getNum()+"");
+                            tvTotalOne.setText(data.getStatis().get(0).getNum() + "");
+                            tvTotalTwo.setText(data.getStatis().get(1).getNum() + "");
+                            tvTotalThr.setText(data.getStatis().get(2).getNum() + "");
+                            tvTotalFour.setText(data.getStatis().get(3).getNum() + "");
+                            tvTotalFive.setText(data.getStatis().get(4).getNum() + "");
+                            tvTotalSix.setText(data.getStatis().get(5).getNum() + "");
                             PieChartUtil.getPitChart().setPieChart(pieChart, (ArrayList) count, "周边概况", false, MainActivity.this, total);
                         }
 
@@ -441,7 +530,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 垃圾桶信息获取
      */
-    private void getRubash(){
+    private void getRubash() {
         EasyHttp.get(AppUrl.TrushLatestData)
                 .syncRequest(false)
                 .timeStamp(true)
@@ -449,15 +538,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onError(ApiException e) {
                     }
+
                     @Override
                     public void onSuccess(String s) {
                         TrushLastestBean trushLastestBean = JSON.parseObject(s, TrushLastestBean.class);
-                        if (trushLastestBean.isStatus()){
+                        if (trushLastestBean.isStatus()) {
                             List<TrushLastestBean.DataBean.ListBean> list = trushLastestBean.getData().getList();
-                            progress_rub_one.setProgress(list.get(0).getNowrecovery()*100);
-                            tv_progress_one.setText(list.get(0).getNowrecovery()*100 + "%");
-                            progress_rub_two.setProgress(list.get(1).getNowrecovery()*100);
-                            tv_progress_two.setText(list.get(1).getNowrecovery()*100 + "%");
+                            progress_rub_one.setProgress(list.get(0).getNowrecovery() * 100);
+                            tv_progress_one.setText(list.get(0).getNowrecovery() * 100 + "%");
+                            progress_rub_two.setProgress(list.get(1).getNowrecovery() * 100);
+                            tv_progress_two.setText(list.get(1).getNowrecovery() * 100 + "%");
                         }
                     }
                 });
@@ -466,23 +556,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 获取实时环境信息
      */
-    private void Environment(){
+    private void Environment() {
         EasyHttp.get(AppUrl.RealEnvironment)
                 .syncRequest(false)
                 .timeStamp(true)
-                .execute(new SimpleCallBack<String >() {
+                .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
                     }
+
                     @Override
                     public void onSuccess(String s) {
                         EnvironmentBean environmentBean = JSON.parseObject(s, EnvironmentBean.class);
 
-                        if (environmentBean.isStatus()){
+                        if (environmentBean.isStatus()) {
                             EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
                             EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
-                            tv_tem_top.setText(weather.getTem()+"℃");
-                            tv_tem_bot.setText(weather.getTem()+"℃");
+                            tv_tem_top.setText(weather.getTem() + "℃");
+                            tv_tem_bot.setText(weather.getTem() + "℃");
                             tv_windirection_bot.setText(weather.getWin());
                             tv_windirection_top.setText(weather.getWin());
                             tv_humidity_top.setText(weather.getHumidity());
@@ -493,7 +584,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             tv_rainvalue_bot.setText(monitor.getRainvalue());
 
                             tv_tem_title_top.setText(weather.getWea());
-                            tv_tem_title_bot.setText(weather.getTem()+"℃");
+                            tv_tem_title_bot.setText(weather.getTem() + "℃");
                         }
                     }
                 });
@@ -502,7 +593,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 获取wifi在线人数和累计人数
      */
-    private void ClientNums(){
+    private void ClientNums() {
         EasyHttp.get(AppUrl.Clientnums)
                 .timeStamp(true)
                 .syncRequest(false)
@@ -510,12 +601,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onError(ApiException e) {
                     }
+
                     @Override
                     public void onSuccess(String s) {
                         ClientNumsBean clientNumsBean = JSON.parseObject(s, ClientNumsBean.class);
-                        if (clientNumsBean.isStatus()){
-                            tv_online.setText("在线人数:"+clientNumsBean.getData().getOnlineusernum()+"");
-                            tv_stack.setText("累计人数:"+clientNumsBean.getData().getStackusernum()+"");
+                        if (clientNumsBean.isStatus()) {
+                            tv_online.setText("在线人数:" + clientNumsBean.getData().getOnlineusernum() + "");
+                            tv_stack.setText("累计人数:" + clientNumsBean.getData().getStackusernum() + "");
                         }
                     }
                 });
@@ -525,8 +617,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 获取无线网ap列表和状态
      */
     ApStatusBean apStatusBean;
-    List<ApStatusBean.DataBeanX.DataBean> data1=new ArrayList<>();
-    private void ApStatus(){
+    List<ApStatusBean.DataBeanX.DataBean> data1 = new ArrayList<>();
+
+    private void ApStatus() {
         EasyHttp.get(AppUrl.ApStatus)
                 .timeStamp(true)
                 .syncRequest(false)
@@ -537,15 +630,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onSuccess(String s) {
-                        apStatusBean= JSON.parseObject(s, ApStatusBean.class);
+                        apStatusBean = JSON.parseObject(s, ApStatusBean.class);
 
-                        if (apStatusBean.isStatus()){
-                            data1= apStatusBean.getData().getData();
+                        if (apStatusBean.isStatus()) {
+                            data1 = apStatusBean.getData().getData();
                             ApStatusBean.DataBeanX data = apStatusBean.getData();
-                            tv_wifi_total.setText(data.getTotal()+"");
-                            tv_wifi_online.setText(data.getOnlineCount()+"");
-                            tv_wifi_unline.setText(data.getOfflineCount()+"");
+                            tv_wifi_total.setText(data.getTotal() + "");
+                            tv_wifi_online.setText(data.getOnlineCount() + "");
+                            tv_wifi_unline.setText(data.getOfflineCount() + "");
                         }
+                    }
+                });
+    }
+
+    /**
+     * 获取设备列表json
+     */
+    private List<LatLng> envList = new ArrayList<>();// 环境监测
+    private List<LatLng> garbageList = new ArrayList<>();//智能回收
+    private List<LatLng> wifiList = new ArrayList<>();//无线网络
+    private List<LatLng> cameraList = new ArrayList<>();//安防监控
+    private List<LatLng> sprayList = new ArrayList<>();//智能雾森
+    private List<LatLng> fireList = new ArrayList<>();//智能消防
+    private List<LatLng> lightList = new ArrayList<>();//灯光互动
+    private List<LatLng> screenList = new ArrayList<>();//广告大屏
+
+    private void Devices() {
+        EasyHttp.get(AppUrl.Devices)
+                .syncRequest(false)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        MainDevicesBean mainDevicesBean = JSON.parseObject(s, MainDevicesBean.class);
+                        List<MainDevicesBean.FeaturesBean> features = mainDevicesBean.getFeatures();
+                        envList.clear();
+                        garbageList.clear();
+                        wifiList.clear();
+                        cameraList.clear();
+                        sprayList.clear();
+                        fireList.clear();
+                        lightList.clear();
+                        screenList.clear();
+                        for (int i = 0; i < features.size(); i++) {
+                            String devType = features.get(i).getProperties().getDevType();
+                            if (devType != null && devType.equals("envMonitor")) {
+                                envList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            } else if (devType != null && devType.equals("garbageCollector")) {
+                                garbageList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            } else if (devType != null && devType.equals("wifi")) {
+                                wifiList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            } else if (devType != null && devType.equals("camera")) {
+                                cameraList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            } else if (devType != null && devType.equals("spray")) {
+                                sprayList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            } else if (devType != null && devType.equals("fireStation")) {
+                                fireList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            } else if (devType != null && devType.equals("lighting")) {
+                                lightList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            } else if (devType != null && devType.equals("screen")) {
+                                screenList.add(gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0)));
+                            }
+                        }
+
                     }
                 });
     }
@@ -556,29 +707,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MainEquAdapter equAdapter;
     private List<MainEquBean> equBeansList = new ArrayList<>();
 
+    /**
+     * 侧滑抽屉数据
+     */
     private void sceneRecycle() {
-        mainSceneBeanList.add(new MainSceneBean("两个", 2));
-//        for (int i = 0; i < 8; i++) {
-//            mainSceneBeanList.add(new MainSceneBean("英协花" + i, 2));
-//        }
-        mainSceneBeanList.add(new MainSceneBean("三个字", 2));
-        mainSceneBeanList.add(new MainSceneBean("我猜就是看了觉得", 2));
-        mainSceneBeanList.add(new MainSceneBean("你得四字", 2));
-        mainSceneBeanList.add(new MainSceneBean("两个2", 2));
-        mainSceneBeanList.add(new MainSceneBean("你得五个字", 2));
+        mainSceneBeanList.add(new MainSceneBean("河南信息广场", 2, 113.723801, 34.766674));
+        mainSceneBeanList.add(new MainSceneBean("新鑫花园西门", 2, 113.725302, 34.766352));
+        mainSceneBeanList.add(new MainSceneBean("燕庄农贸市场", 2, 113.725162, 34.764932));
+        mainSceneBeanList.add(new MainSceneBean("寻味江南", 2, 113.725315, 34.766756));
+        mainSceneBeanList.add(new MainSceneBean("福之源酒店", 2, 113.725293, 34.763064));
+        mainSceneBeanList.add(new MainSceneBean("天泰轩", 2, 113.724646, 34.76101));
+        mainSceneBeanList.add(new MainSceneBean("路长亭", 2, 113.72518, 34.761804));
+        mainSceneBeanList.add(new MainSceneBean("锦城山庄西门", 2, 113.725144, 34.760002));
+        mainSceneBeanList.add(new MainSceneBean("伟业大厦", 2, 113.724363, 34.758634));
+        mainSceneBeanList.add(new MainSceneBean("天佑小区东门", 2, 113.724668, 34.760273));
 
 
-        equBeansList.add(new MainEquBean("设备", 2));
-        equBeansList.add(new MainEquBean("设备四字", 2));
-        for (int i = 0; i < 8; i++) {
-            equBeansList.add(new MainEquBean("设备" + i, 2));
-        }
-        equBeansList.add(new MainEquBean("设备五个字", 2));
-        equBeansList.add(new MainEquBean("设备五个字", 2));
-        equBeansList.add(new MainEquBean("设备六六个字", 2));
+        equBeansList.add(new MainEquBean("环境监测", 2));
+        equBeansList.add(new MainEquBean("智能回收", 2));
+        equBeansList.add(new MainEquBean("无线网络", 2));
+        equBeansList.add(new MainEquBean("安防监控", 2));
+        equBeansList.add(new MainEquBean("智能雾森", 2));
+        equBeansList.add(new MainEquBean("智能消防", 2));
+        equBeansList.add(new MainEquBean("灯光互动", 2));
+        equBeansList.add(new MainEquBean("广告大屏", 2));
 
-        mainSceneBeanList.get(0).setIsTrue(1);
-        equBeansList.get(0).setIsChoose(1);
 
         secneAdapter = new MainSecneAdapter(R.layout.item_scene, mainSceneBeanList, this);
         flexboxLayoutManager = new FlexboxLayoutManager(this);
@@ -596,8 +749,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tvMessage:
-                        Toast.makeText(MainActivity.this, "点击了" + position, Toast.LENGTH_SHORT).show();
-
+                        mapMoveCenter(new LatLng(mainSceneBeanList.get(position).getLat(), mainSceneBeanList.get(position).getLng()), 20);
+//                        Toast.makeText(MainActivity.this, "点击了" + mainSceneBeanList.get(position).toString(), Toast.LENGTH_SHORT).show();
                         for (int i = 0; i < mainSceneBeanList.size(); i++) {
                             mainSceneBeanList.get(i).setIsTrue(2);
                         }
@@ -623,7 +776,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tvMessage:
-                        Toast.makeText(MainActivity.this, "点击了" + position, Toast.LENGTH_SHORT).show();
+                        switch (position) {
+                            case 0:
+                                setMaker(envList, "env");
+                                break;
+                            case 1:
+                                setMaker(garbageList, "garbage");
+                                break;
+                            case 2:
+                                setMaker(wifiList, "wifi");
+                                break;
+                            case 3:
+                                setMaker(cameraList, "camera");
+                                break;
+                            case 4:
+                                setMaker(sprayList, "spray");
+                                break;
+                            case 5:
+                                setMaker(fireList, "fire");
+                                break;
+                            case 6:
+                                setMaker(lightList, "light");
+                                break;
+                            case 7:
+                                setMaker(screenList, "screen");
+                                break;
+                        }
+
                         for (int i = 0; i < equBeansList.size(); i++) {
                             equBeansList.get(i).setIsChoose(2);
                         }
@@ -656,6 +835,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+    }
+
+    /**
+     * gps坐标转百度坐标
+     *
+     * @param lat
+     * @param lng
+     * @return
+     */
+    private LatLng gpsToBaidu(double lat, double lng) {
+        LatLng sourceLatLng = new LatLng(lat, lng);
+        CoordinateConverter converter = new CoordinateConverter();
+        converter.from(CoordinateConverter.CoordType.GPS);
+        // sourceLatLng待转换坐标
+        converter.coord(sourceLatLng);
+        LatLng desLatLng = converter.convert();
+
+        return desLatLng;
     }
 
     @Override
