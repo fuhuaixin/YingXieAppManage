@@ -408,7 +408,7 @@ public class LightingActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onSuccess(String s) {
                         LightSettingBean lightSettingBean = JSON.parseObject(s, LightSettingBean.class);
-                        if (lightSettingBean.isStatus()) {
+                        if (lightSettingBean.isStatus()&&lightSettingBean.getData()!=null) {
                             if (lightSettingBean.getData().isTimingon()) {
                                 timeSwitch = 1;
                                 daysList.clear();

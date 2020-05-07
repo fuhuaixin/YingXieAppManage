@@ -1,9 +1,11 @@
 package com.example.manage.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -37,6 +39,7 @@ public class MonitorActivity extends BaseActivity {
     private MonitorAdapter monitorAdapter;
     private VideoView vitamio;
     private List<MonitorBean> monitorBeanList =new ArrayList<>();
+    private LinearLayout ll_reback_vidio;
 
     private String strTitle,strUrl,strId;
     private String videoUrl ="http://111.6.98.254:8073/live/yxl_4.flv?sign=4100731932000-c671c4341e3bf539d1f462e864644262";
@@ -65,6 +68,7 @@ public class MonitorActivity extends BaseActivity {
         tv_monitor_title =findViewById(R.id.tv_monitor_title);
         recycle_monitor =findViewById(R.id.recycle_monitor);
         vitamio =findViewById(R.id.vitamio);
+        ll_reback_vidio =findViewById(R.id.ll_reback_vidio);
 
     }
 
@@ -126,6 +130,14 @@ public class MonitorActivity extends BaseActivity {
             }
         });
 
+        ll_reback_vidio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MonitorActivity.this,RebackVidioListActivity.class);
+                intent.putExtra("backId",strId);
+                startActivity(intent);
+            }
+        });
     }
 
 }

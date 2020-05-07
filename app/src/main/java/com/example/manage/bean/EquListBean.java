@@ -82,8 +82,9 @@ public class EquListBean implements Serializable {
         }
 
         public static class ListBean {
-            public ListBean(String message) {
+            public ListBean(String message, int status) {
                 this.message = message;
+                this.status = status;
             }
 
             /**
@@ -92,6 +93,15 @@ public class EquListBean implements Serializable {
 
 
             private String message;
+            private int status;
+
+            public int getStatus() {
+                return status;
+            }
+
+            public void setStatus(int status) {
+                this.status = status;
+            }
 
             public String getMessage() {
                 return message;

@@ -58,6 +58,12 @@ public class AppUrl {
     public static final String VideoVideos = basePath+"video/videos";
     //设备列表数据
     public static final String Devices = "zhjd/config/devices.json";
+    //获取所有设备在线状态
+    public static final String DeviceStatus = basePath+"info/deviceStatus";
+
+
+    //获取视频回放列表
+    public static final String HistoryDatesDetial = basePath+"video/historyDatesDetial";
 
 
 

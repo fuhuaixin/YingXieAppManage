@@ -430,7 +430,7 @@ public class SenFogActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onSuccess(String s) {
                         FogSettingBean fogSettingBean = JSON.parseObject(s, FogSettingBean.class);
-                        if (fogSettingBean.isStatus()) {
+                        if (fogSettingBean.isStatus()&&fogSettingBean.getData()!=null) {
                             FogSettingBean.DataBean data = fogSettingBean.getData();
 
                             if (data.isTimingon()) {

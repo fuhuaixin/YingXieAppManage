@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<OverlayOptions> optionsList = new ArrayList<>();
 
     private void setMaker(List<LatLng> latLngList, final String type) {
-        ToastUtils.show(latLngList.toString());
+//        ToastUtils.show(latLngList.toString());
         mBaiduMap.clear();
         mBaiduMap.removeMarkerClickListener(onMarkerClickListener);
         optionsList.clear();
@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             double lat = extraInfo.getDouble("lat");
             double lng = extraInfo.getDouble("lng");
-            Toast.makeText(MainActivity.this, title + " ---- " + lat + "----" + lng, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this, title + " ---- " + lat + "----" + lng, Toast.LENGTH_SHORT).show();
 
             if (title.equals("light")) {
                 startActivity(new Intent(MainActivity.this, LightingActivity.class));
@@ -390,30 +390,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ll_cut:
-                draw_layout.openDrawer(GravityCompat.END);
-                break;
-            case R.id.btn_war: //水量
-                btn_war.setBackgroundColor(getResources().getColor(R.color.light_blue));
-                btn_war.setTextColor(getResources().getColor(R.color.white));
-                btn_ele.setBackgroundColor(getResources().getColor(R.color.white));
-                btn_ele.setTextColor(getResources().getColor(R.color.black));
-                initBarChartData(1);
-                break;
-            case R.id.btn_ele: //电量
-                btn_ele.setBackgroundColor(getResources().getColor(R.color.light_blue));
-                btn_ele.setTextColor(getResources().getColor(R.color.white));
-                btn_war.setBackgroundColor(getResources().getColor(R.color.white));
-                btn_war.setTextColor(getResources().getColor(R.color.black));
-                initBarChartData(2);
-                break;
-            case R.id.ll_visible: //隐藏
-                if (IsVisible == 1) {
-                    slidingdrawer.setVisibility(View.GONE);
-                    ll_cut.setVisibility(View.GONE);
-                    ll_setting.setVisibility(View.GONE);
-                    ll_title.setVisibility(View.GONE);
-                    ll_search.setVisibility(View.GONE);
+                    case R.id.ll_cut:
+                        draw_layout.openDrawer(GravityCompat.END);
+                        break;
+                    case R.id.btn_war: //水量
+                        btn_war.setBackgroundColor(getResources().getColor(R.color.light_blue));
+                        btn_war.setTextColor(getResources().getColor(R.color.white));
+                        btn_ele.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn_ele.setTextColor(getResources().getColor(R.color.black));
+                        initBarChartData(1);
+                        break;
+                    case R.id.btn_ele: //电量
+                        btn_ele.setBackgroundColor(getResources().getColor(R.color.light_blue));
+                        btn_ele.setTextColor(getResources().getColor(R.color.white));
+                        btn_war.setBackgroundColor(getResources().getColor(R.color.white));
+                        btn_war.setTextColor(getResources().getColor(R.color.black));
+                        initBarChartData(2);
+                        break;
+                    case R.id.ll_visible: //隐藏
+                        if (IsVisible == 1) {
+                            slidingdrawer.setVisibility(View.GONE);
+                            ll_cut.setVisibility(View.GONE);
+                            ll_setting.setVisibility(View.GONE);
+                            ll_title.setVisibility(View.GONE);
+                            ll_search.setVisibility(View.GONE);
                     IsVisible = 2;
                 } else if (IsVisible == 2) {
                     slidingdrawer.setVisibility(View.VISIBLE);
