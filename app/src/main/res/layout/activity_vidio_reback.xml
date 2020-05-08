@@ -13,7 +13,7 @@
             android:id="@+id/tv_today"
             android:textSize="16sp"
             android:textColor="@color/tv33"
-            android:text="当前回放"
+            android:text="当前日期"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"/>

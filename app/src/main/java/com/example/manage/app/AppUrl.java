@@ -64,6 +64,8 @@ public class AppUrl {
 
     //获取视频回放列表
     public static final String HistoryDatesDetial = basePath+"video/historyDatesDetial";
+    //创建监控视频回放
+    public static final String CreatePlayBack = basePath+"video/createPlayBack";
 
 
 

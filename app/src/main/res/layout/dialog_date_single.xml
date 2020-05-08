@@ -62,6 +62,8 @@
             app:year_view_month_text_size="20sp"
             app:year_view_scheme_color="#f17706" />
     </com.haibin.calendarview.CalendarLayout>
+    <!--            app:month_view="com.example.manage.view.SimpleMonthView"
+-->
     <Button
         android:id="@+id/btn_choose"
         android:layout_margin="30dp"

@@ -569,7 +569,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(String s) {
                         EnvironmentBean environmentBean = JSON.parseObject(s, EnvironmentBean.class);
 
-                        if (environmentBean.isStatus()) {
+                        if (environmentBean.isStatus()&&environmentBean.getData()!=null&&!environmentBean.getData().equals("")) {
+
                             EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
                             EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
                             tv_tem_top.setText(weather.getTem() + "℃");

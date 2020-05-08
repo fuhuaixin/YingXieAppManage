@@ -17,7 +17,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.manage.R;
 import com.example.manage.adapter.MonitorListAdapter;
 import com.example.manage.app.AppUrl;
+import com.example.manage.base.BaseActivity;
 import com.example.manage.bean.MonitorListBean;
+import com.example.manage.utils.ToastUtils;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
@@ -25,7 +27,7 @@ import com.zhouyou.http.exception.ApiException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonitorListActivity extends AppCompatActivity {
+public class MonitorListActivity extends BaseActivity {
     private ImageView imageBack;
     private TextView tvTitle;
     private RecyclerView recycle_monitor;
@@ -38,6 +40,8 @@ public class MonitorListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor_list);
+        dialog();
+        zLoadingDialog.show();
         initViews();
         getMonitorList();//获取视频列表
         init();
@@ -69,6 +73,8 @@ public class MonitorListActivity extends AppCompatActivity {
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
+                        zLoadingDialog.dismiss();
+                        ToastUtils.show("请求失败");
                     }
 
                     @Override
@@ -94,7 +100,7 @@ public class MonitorListActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-
+                            zLoadingDialog.dismiss();
                         }
                     }
                 });

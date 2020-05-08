@@ -1,5 +1,6 @@
 package com.example.manage.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.example.manage.R;
 import com.example.manage.adapter.ReBackVidioAdapter;
 import com.example.manage.app.AppUrl;
 import com.example.manage.base.BaseActivity;
-import com.example.manage.bean.ReBackVidioBean;
+import com.example.manage.bean.ReBackVidioListBean;
 import com.example.manage.utils.DateUtil;
 import com.example.manage.utils.ToastUtils;
 import com.example.manage.view.DateSingleDialog;
@@ -29,8 +30,6 @@ import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
 import java.util.List;
-
-import io.vov.vitamio.utils.Log;
 
 /**
  * 回放列表
@@ -48,6 +47,8 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vidio_reback);
+        dialog();
+        zLoadingDialog.show();
         backId =getIntent().getStringExtra("backId");
         initViews();
         initData();
@@ -91,8 +92,18 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                 singleDialog.getWindow().setAttributes(lp);
 
-//                CalendarView calendarView =singleDialog.findViewById(R.id.calendarView);
+                CalendarView calendarView =singleDialog.findViewById(R.id.calendarView);
+                calendarView.setOnCalendarSelectListener(new CalendarView.OnCalendarSelectListener() {
+                    @Override
+                    public void onCalendarOutOfRange(Calendar calendar) {
 
+                    }
+
+                    @Override
+                    public void onCalendarSelect(Calendar calendar, boolean isClick) {
+                        getVidio(backId,calendar.getYear()+"-"+calendar.getMonth()+"-"+calendar.getDay());
+                    }
+                });
 
                 break;
 
@@ -104,7 +115,7 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
      * @param id
      * @param data
      */
-    private void getVidio(String id,String data){
+    private void getVidio(final String id, String data){
         EasyHttp.get(AppUrl.HistoryDatesDetial)
                 .params("videoId",id)
                 .params("time",data)
@@ -113,13 +124,16 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
+                        zLoadingDialog.dismiss();
+                        ToastUtils.show("请求失败");
                     }
 
                     @Override
                     public void onSuccess(String s) {
-                        final ReBackVidioBean reBackVidioBean = JSON.parseObject(s, ReBackVidioBean.class);
-                        if (reBackVidioBean.isStatus()){
-                            final List<ReBackVidioBean.DataBean> data1 = reBackVidioBean.getData();
+                        final ReBackVidioListBean reBackVidioListBean = JSON.parseObject(s, ReBackVidioListBean.class);
+                        zLoadingDialog.dismiss();
+                        if (reBackVidioListBean.isStatus()&&reBackVidioListBean.getData()!=null){
+                            final List<ReBackVidioListBean.DataBean> data1 = reBackVidioListBean.getData();
                             reBackVidioAdapter =new ReBackVidioAdapter(R.layout.item_reback_vidio, data1);
                             recycle_reback.setAdapter(reBackVidioAdapter);
                             reBackVidioAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -127,11 +141,17 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                     switch (view.getId()){
                                         case R.id.ll_item:
-                                            ToastUtils.show(data1.get(position).getEndTime());
+                                            Intent intent = new Intent(RebackVidioListActivity.this,ReBackVidioActivity.class);
+                                            intent.putExtra("videoId",backId);
+                                            intent.putExtra("startTime",data1.get(position).getStartTime());
+                                            intent.putExtra("endTime",data1.get(position).getEndTime());
+                                            startActivity(intent);
                                             break;
                                     }
                                 }
                             });
+                        }else {
+                            ToastUtils.show("列表请求失败，请稍后再试");
                         }
                     }
                 });
