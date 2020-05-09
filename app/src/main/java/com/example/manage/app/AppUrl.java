@@ -69,6 +69,13 @@ public class AppUrl {
 
 
 
+    //检查app版本更新
+    public static final String GetLastVersion =basePath+"app/getLastVersion";
+
+    //app下载
+    public static final String DownloadApk ="zhjd/apk/yxlzhjd-manager.apk";
+
+
 
 
 }

@@ -213,32 +213,22 @@
             android:layout_marginBottom="180dp"
             android:layout_width="40dp"
             android:layout_height="wrap_content">
-
-            <LinearLayout
+            <ImageView
+                android:padding="5dp"
+                android:id="@+id/image_add_zoom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="35dp"
+                android:background="@color/white"
+                android:src="@mipmap/icon_map_magnify" />
 
-                <TextView
-                    android:id="@+id/tv_add_zoom"
-                    android:textColor="@color/tv8C"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:text="＋"
-                    android:textSize="18sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"/>
-                <TextView
-                    android:id="@+id/tv_lose_zoom"
-                    android:layout_marginTop="0.5dp"
-                    android:textColor="@color/tv8C"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:text="-"
-                    android:textSize="18sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"/>
-            </LinearLayout>
+            <ImageView
+                android:padding="5dp"
+                android:id="@+id/image_lose_zoom"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:src="@mipmap/icon_map_minish" />
 
         </LinearLayout>
 

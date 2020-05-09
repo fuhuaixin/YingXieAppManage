@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.manage"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -66,4 +66,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     //日历
     implementation 'com.haibin:calendarview:3.6.9'
+    //https://github.com/teprinciple/UpdateAppUtils
+    implementation 'com.teprinciple:updateapputilsx:2.3.0'
 }

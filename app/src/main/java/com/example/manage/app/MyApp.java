@@ -11,6 +11,7 @@ import com.zhouyou.http.cache.converter.SerializableDiskConverter;
 import com.zhouyou.http.cache.model.CacheMode;
 
 import retrofit2.converter.gson.GsonConverterFactory;
+import update.UpdateAppUtils;
 
 /**
  * 所有初始化都写再这边
@@ -23,6 +24,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         myApplication = getApplicationContext();
+        UpdateAppUtils.init(myApplication);
         SDKInitializer.initialize(myApplication);
         SDKInitializer.setCoordType(CoordType.BD09LL);
         EasyHttp.init(this);

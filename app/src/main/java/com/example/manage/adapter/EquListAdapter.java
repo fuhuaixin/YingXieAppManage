@@ -26,14 +26,15 @@ public class EquListAdapter extends BaseQuickAdapter<EquListBean.ResultBean, Bas
 
 
     private Context context;
-    public EquListAdapter(int layoutResId, @Nullable List<EquListBean.ResultBean> data,Context context) {
+
+    public EquListAdapter(int layoutResId, @Nullable List<EquListBean.ResultBean> data, Context context) {
         super(layoutResId, data);
-        this.context =context;
+        this.context = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, final EquListBean.ResultBean item) {
-        helper.setText(R.id.tv_header,item.getTitle());
+        helper.setText(R.id.tv_header, item.getTitle());
         ImageView tvState = helper.getView(R.id.tv_state);
         LinearLayout ll_item_item = helper.getView(R.id.ll_item_item);
         RecyclerView recycle_item = helper.getView(R.id.recycle_item);
@@ -41,10 +42,10 @@ public class EquListAdapter extends BaseQuickAdapter<EquListBean.ResultBean, Bas
         recycle_item.setLayoutManager(new LinearLayoutManager(context));
         EquListItemAdapter equListItemAdapter = new EquListItemAdapter(R.layout.item_equ_list_item, item.getList());
         recycle_item.setAdapter(equListItemAdapter);
-        if (item.getState()){
+        if (item.getState()) {
             tvState.setImageResource(R.mipmap.icon_item_down);
             ll_item_item.setVisibility(View.GONE);
-        }else {
+        } else {
             tvState.setImageResource(R.mipmap.icon_item_up);
             ll_item_item.setVisibility(View.VISIBLE);
         }
@@ -53,10 +54,9 @@ public class EquListAdapter extends BaseQuickAdapter<EquListBean.ResultBean, Bas
         equListItemAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.ll_item_item:
-                    Toast.makeText(context, "子条目"+position +"---->"+item.getList().get(position).getMessage(), Toast.LENGTH_SHORT).show();
-                    break;
+                        break;
                 }
 
             }

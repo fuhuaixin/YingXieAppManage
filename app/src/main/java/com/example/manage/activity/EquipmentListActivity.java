@@ -50,9 +50,9 @@ public class EquipmentListActivity extends BaseActivity {
     }
 
     private void initViews() {
-        imageBack =findViewById(R.id.image_back);
-        tvTitle =findViewById(R.id.tv_title);
-        recycle_equ_list =findViewById(R.id.recycle_equ_list);
+        imageBack = findViewById(R.id.image_back);
+        tvTitle = findViewById(R.id.tv_title);
+        recycle_equ_list = findViewById(R.id.recycle_equ_list);
         recycle_equ_list.setLayoutManager(new LinearLayoutManager(this));
 
     }
@@ -73,23 +73,23 @@ public class EquipmentListActivity extends BaseActivity {
     private List<EquListBean.ResultBean.ListBean> listBean2 = new ArrayList<>();
     private List<EquListBean.ResultBean.ListBean> listBean4 = new ArrayList<>();
     private List<EquListBean.ResultBean.ListBean> listBean5 = new ArrayList<>();
-    private EquListAdapter adapter ;
-    private List<Boolean> stateList =new ArrayList<>();
+    private EquListAdapter adapter;
+    private List<Boolean> stateList = new ArrayList<>();
 
-    private void initData(){
+    private void initData() {
 
-        adapter=new EquListAdapter(R.layout.item_equ_list_header,resultBeans,this);
+        adapter = new EquListAdapter(R.layout.item_equ_list_header, resultBeans, this);
         recycle_equ_list.setAdapter(adapter);
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.ll_item:
-                        if (stateList.get(position)){
-                            stateList.set(position,false);
-                        }else {
-                            stateList.set(position,true);
+                        if (stateList.get(position)) {
+                            stateList.set(position, false);
+                        } else {
+                            stateList.set(position, true);
                         }
                         resultBeans.set(position,
                                 new EquListBean.ResultBean(
@@ -97,7 +97,6 @@ public class EquipmentListActivity extends BaseActivity {
                                         resultBeans.get(position).getTitle(),
                                         resultBeans.get(position).getList()));
                         adapter.notifyDataSetChanged();
-                        Toast.makeText(EquipmentListActivity.this, ""+position, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -108,7 +107,7 @@ public class EquipmentListActivity extends BaseActivity {
      * 获取设备列表状态
      */
 
-    private void getState(){
+    private void getState() {
         EasyHttp.get(AppUrl.DeviceStatus)
                 .syncRequest(false)
                 .timeStamp(true)
@@ -122,26 +121,26 @@ public class EquipmentListActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s) {
                         DeviceStatusBean deviceStatusBean = JSON.parseObject(s, DeviceStatusBean.class);
-                        if (deviceStatusBean.isStatus()){
+                        if (deviceStatusBean.isStatus()) {
                             DeviceStatusBean.DataBeanX.ApInfoBean apInfo = deviceStatusBean.getData().getApInfo();
                             for (int i = 0; i < apInfo.getData().size(); i++) {
-                                listBean1.add(new EquListBean.ResultBean.ListBean(apInfo.getData().get(i).getName(),apInfo.getData().get(i).getStatus()));
+                                listBean1.add(new EquListBean.ResultBean.ListBean(apInfo.getData().get(i).getName(), apInfo.getData().get(i).getStatus()));
                             }
                             List<DeviceStatusBean.DataBeanX.CameraListBean> cameraList = deviceStatusBean.getData().getCameraList();
-                            for (int i = 0; i <cameraList.size() ; i++) {
-                                listBean2.add(new EquListBean.ResultBean.ListBean(cameraList.get(i).getName(),cameraList.get(i).getStatus()));
+                            for (int i = 0; i < cameraList.size(); i++) {
+                                listBean2.add(new EquListBean.ResultBean.ListBean(cameraList.get(i).getName(), cameraList.get(i).getStatus()));
                             }
                             DeviceStatusBean.DataBeanX.FogStatusBean fogStatus = deviceStatusBean.getData().getFogStatus();
-                            listBean4.add(new EquListBean.ResultBean.ListBean(fogStatus.getRealyName(),fogStatus.getStatus()));
+                            listBean4.add(new EquListBean.ResultBean.ListBean(fogStatus.getRealyName(), fogStatus.getStatus()));
                             DeviceStatusBean.DataBeanX.LightStatusBean lightStatus = deviceStatusBean.getData().getLightStatus();
-                            listBean5.add(new EquListBean.ResultBean.ListBean(lightStatus.getRealyName(),lightStatus.getStatus()));
-                            resultBeans.add(new EquListBean.ResultBean(true,"警报",null));
-                            resultBeans.add(new EquListBean.ResultBean(true,"无线网络",listBean1));
-                            resultBeans.add(new EquListBean.ResultBean(true,"安防监控",listBean2));
-                            resultBeans.add(new EquListBean.ResultBean(true,"环境监测",null));
-                            resultBeans.add(new EquListBean.ResultBean(true,"智能雾森",listBean4));
-                            resultBeans.add(new EquListBean.ResultBean(true,"灯光互动",listBean5));
-                            resultBeans.add(new EquListBean.ResultBean(true,"广告大屏",null));
+                            listBean5.add(new EquListBean.ResultBean.ListBean(lightStatus.getRealyName(), lightStatus.getStatus()));
+                            resultBeans.add(new EquListBean.ResultBean(true, "警报", null));
+                            resultBeans.add(new EquListBean.ResultBean(true, "无线网络", listBean1));
+                            resultBeans.add(new EquListBean.ResultBean(true, "安防监控", listBean2));
+                            resultBeans.add(new EquListBean.ResultBean(true, "环境监测", null));
+                            resultBeans.add(new EquListBean.ResultBean(true, "智能雾森", listBean4));
+                            resultBeans.add(new EquListBean.ResultBean(true, "灯光互动", listBean5));
+                            resultBeans.add(new EquListBean.ResultBean(true, "广告大屏", null));
                             for (int i = 0; i < 7; i++) {
                                 stateList.add(true);
                             }

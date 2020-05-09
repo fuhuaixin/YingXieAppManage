@@ -321,7 +321,7 @@ public class SenFogActivity extends AppCompatActivity implements View.OnClickLis
         TextView tv_message = screenDialog.findViewById(R.id.tv_message);
         Button btn_sure = screenDialog.findViewById(R.id.btn_sure);
         wheel_light_min = screenDialog.findViewById(R.id.wheel_light_min);
-        wheel_light_min.setItemTextSize(25);
+        wheel_light_min.setItemTextSize(40);
 
         wheel_light_min.setData(closeMin);
         image_title.setImageResource(R.mipmap.icon_equ_switch);

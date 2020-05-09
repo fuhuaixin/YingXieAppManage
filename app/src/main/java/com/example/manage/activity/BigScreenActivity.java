@@ -106,6 +106,9 @@ public class BigScreenActivity extends AppCompatActivity {
                         wheel_date = screenDialog.findViewById(R.id.wheel_date);
                         ll_wheel = screenDialog.findViewById(R.id.ll_wheel);
                         ll_wheel.setVisibility(View.GONE);
+                        wheel_date.setItemTextSize(40);
+                        wheel_hour.setItemTextSize(40);
+                        wheel_min.setItemTextSize(40);
                         dataLiean();
                         if (position == 0) {
                             imageTitle.setImageResource(R.mipmap.icon_hand_dia_close);

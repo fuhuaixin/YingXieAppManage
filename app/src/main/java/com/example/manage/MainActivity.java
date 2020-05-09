@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout headerMesBottom, headerMesTop, ll_main_location;
     private CircularProgressView progress_rub_one, progress_rub_two; //第一个垃圾桶， 第二个
     private TextView tv_progress_two, tv_progress_one; //第一个垃圾桶数值， 第二个
-    private TextView btn_ele, btn_war, tv_lose_zoom, tv_add_zoom; //电能，水能
+    private TextView btn_ele, btn_war; //电能，水能
     private BarChart barChart; // 柱状图
     private PieChart pieChart;// 饼状图
     private RecyclerView recycle_scene, recycle_equ;
@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvTotalOne, tvTotalTwo, tvTotalThr, tvTotalFour, tvTotalFive, tvTotalSix;
     private TextView tv_rainvalue_bot, tv_pm_bot, tv_humidity_bot, tv_windirection_bot, tv_tem_bot, tv_tem_title_bot;
     private TextView tv_rainvalue_top, tv_pm_top, tv_humidity_top, tv_windirection_top, tv_tem_top, tv_tem_title_top;
-    private TextView tv_flow_total, tv_flow_total_bot, tv_online, tv_stack, tv_wifi_total, tv_wifi_online, tv_wifi_unline;
+    private TextView tv_flow_total, tv_flow_total_bot, tv_online, tv_stack, tv_wifi_total, tv_wifi_online, tv_wifi_unline, tv_unit;
+    private ImageView image_add_zoom, image_lose_zoom;
 
     private boolean isFirstLoc = true; //第一次定位
     private int IsVisible = 1; //1为显示 2 为隐藏
@@ -180,12 +181,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_flow_total_bot = findViewById(R.id.tv_flow_total_bot);
         tv_stack = findViewById(R.id.tv_stack);
         tv_online = findViewById(R.id.tv_online);
+        tv_unit = findViewById(R.id.tv_unit);
 
         tv_wifi_total = findViewById(R.id.tv_wifi_total);
         tv_wifi_online = findViewById(R.id.tv_wifi_online);
         tv_wifi_unline = findViewById(R.id.tv_wifi_unline);
-        tv_add_zoom = findViewById(R.id.tv_add_zoom);
-        tv_lose_zoom = findViewById(R.id.tv_lose_zoom);
+        image_add_zoom = findViewById(R.id.image_add_zoom);
+        image_lose_zoom = findViewById(R.id.image_lose_zoom);
 
         ll_visible.setOnClickListener(this);
         btn_ele.setOnClickListener(this);
@@ -197,8 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rl_monitor.setOnClickListener(this);
         ll_search.setOnClickListener(this);
         ll_main_location.setOnClickListener(this);
-        tv_add_zoom.setOnClickListener(this);
-        tv_lose_zoom.setOnClickListener(this);
+        image_add_zoom.setOnClickListener(this);
+        image_lose_zoom.setOnClickListener(this);
     }
 
 
@@ -299,6 +301,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //	MapStatusUpdate state = MapStatusUpdateFactory.zoomBy(4);
         //	mBaiduMap.animateMapStatus(state);
         BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_location);
+        Bundle mBundle = new Bundle();
+        mBundle.putString("title", "changjing");
+        mBundle.putDouble("lat", arg0.latitude);
+        mBundle.putDouble("lng", arg0.longitude);
         OverlayOptions option = new MarkerOptions().position(arg0).icon(mCurrentMarker);
         // 在地图上添加Marker，并显示
         mBaiduMap.addOverlay(option);
@@ -390,30 +396,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-                    case R.id.ll_cut:
-                        draw_layout.openDrawer(GravityCompat.END);
-                        break;
-                    case R.id.btn_war: //水量
-                        btn_war.setBackgroundColor(getResources().getColor(R.color.light_blue));
-                        btn_war.setTextColor(getResources().getColor(R.color.white));
-                        btn_ele.setBackgroundColor(getResources().getColor(R.color.white));
-                        btn_ele.setTextColor(getResources().getColor(R.color.black));
-                        initBarChartData(1);
-                        break;
-                    case R.id.btn_ele: //电量
-                        btn_ele.setBackgroundColor(getResources().getColor(R.color.light_blue));
-                        btn_ele.setTextColor(getResources().getColor(R.color.white));
-                        btn_war.setBackgroundColor(getResources().getColor(R.color.white));
-                        btn_war.setTextColor(getResources().getColor(R.color.black));
-                        initBarChartData(2);
-                        break;
-                    case R.id.ll_visible: //隐藏
-                        if (IsVisible == 1) {
-                            slidingdrawer.setVisibility(View.GONE);
-                            ll_cut.setVisibility(View.GONE);
-                            ll_setting.setVisibility(View.GONE);
-                            ll_title.setVisibility(View.GONE);
-                            ll_search.setVisibility(View.GONE);
+            case R.id.ll_cut:
+                draw_layout.openDrawer(GravityCompat.END);
+                break;
+            case R.id.btn_war: //水量
+                btn_war.setBackgroundColor(getResources().getColor(R.color.light_blue));
+                btn_war.setTextColor(getResources().getColor(R.color.white));
+                btn_ele.setBackgroundColor(getResources().getColor(R.color.white));
+                btn_ele.setTextColor(getResources().getColor(R.color.black));
+                initBarChartData(1);
+                break;
+            case R.id.btn_ele: //电量
+                btn_ele.setBackgroundColor(getResources().getColor(R.color.light_blue));
+                btn_ele.setTextColor(getResources().getColor(R.color.white));
+                btn_war.setBackgroundColor(getResources().getColor(R.color.white));
+                btn_war.setTextColor(getResources().getColor(R.color.black));
+                initBarChartData(2);
+                break;
+            case R.id.ll_visible: //隐藏
+                if (IsVisible == 1) {
+                    slidingdrawer.setVisibility(View.GONE);
+                    ll_cut.setVisibility(View.GONE);
+                    ll_setting.setVisibility(View.GONE);
+                    ll_title.setVisibility(View.GONE);
+                    ll_search.setVisibility(View.GONE);
                     IsVisible = 2;
                 } else if (IsVisible == 2) {
                     slidingdrawer.setVisibility(View.VISIBLE);
@@ -451,11 +457,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ll_main_location:
                 mapMoveCenter(new LatLng(34.763375, 113.724974), 17);
                 break;
-            case R.id.tv_add_zoom:
+            case R.id.image_add_zoom:
                 mapStatus = mBaiduMap.getMapStatus();
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(mapStatus.zoom + 1).build()));
                 break;
-            case R.id.tv_lose_zoom:
+            case R.id.image_lose_zoom:
                 mapStatus = mBaiduMap.getMapStatus();
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(mapStatus.zoom - 1).build()));
                 break;
@@ -472,17 +478,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ArrayList<BarEntry> yValues = new ArrayList<>();
         if (type == 1) {
-            for (int x = 0; x < 30; x++) {
-                // 2.0 ----xValues.add(String.valueOf(i));
-                float y = (float) (Math.random() * 500);
-                yValues.add(new BarEntry(x, y));
-            }
+            tv_unit.setText("单位：立方（m³）");
+            yValues.add(new BarEntry(1, Float.valueOf("0.3621")));
+            yValues.add(new BarEntry(2, Float.valueOf("0.2548")));
+            yValues.add(new BarEntry(3, Float.valueOf("0.1865")));
+            yValues.add(new BarEntry(4, Float.valueOf("0.3354")));
+            yValues.add(new BarEntry(5, Float.valueOf("0.2130")));
+            yValues.add(new BarEntry(6, Float.valueOf("0.25")));
+            yValues.add(new BarEntry(7, Float.valueOf("0.1896")));
+            yValues.add(new BarEntry(8, Float.valueOf("0.2864")));
+            yValues.add(new BarEntry(9, Float.valueOf("0.3654")));
+            yValues.add(new BarEntry(10, Float.valueOf("0.4426")));
+            yValues.add(new BarEntry(11, Float.valueOf("0.4235")));
+            yValues.add(new BarEntry(12, Float.valueOf("0.3356")));
+
         } else if (type == 2) {
-            for (int x = 0; x < 15; x++) {
-                // 2.0 ----xValues.add(String.valueOf(i));
-                float y = (float) (Math.random() * 500);
-                yValues.add(new BarEntry(x, y));
-            }
+            tv_unit.setText("单位：千瓦（kw）");
+
+            yValues.add(new BarEntry(1, 25));
+            yValues.add(new BarEntry(2, 28));
+            yValues.add(new BarEntry(3, 30));
+            yValues.add(new BarEntry(4, 26));
+            yValues.add(new BarEntry(5, 35));
+            yValues.add(new BarEntry(6, 25));
+            yValues.add(new BarEntry(7, 32));
+            yValues.add(new BarEntry(8, 31));
+            yValues.add(new BarEntry(9, 29));
+            yValues.add(new BarEntry(10, 25));
+            yValues.add(new BarEntry(11, 36));
+            yValues.add(new BarEntry(12, 34));
         }
         BarChartUtils.getBarChart().setBarChart(barChart, type, yValues, this);
     }
@@ -569,7 +593,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(String s) {
                         EnvironmentBean environmentBean = JSON.parseObject(s, EnvironmentBean.class);
 
-                        if (environmentBean.isStatus()&&environmentBean.getData()!=null&&!environmentBean.getData().equals("")) {
+                        if (environmentBean.isStatus() && environmentBean.getData() != null && !environmentBean.getData().equals("")) {
 
                             EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
                             EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
