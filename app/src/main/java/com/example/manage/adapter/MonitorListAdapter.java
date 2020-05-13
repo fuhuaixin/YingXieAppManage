@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.manage.R;
+import com.example.manage.app.AppUrl;
 import com.example.manage.bean.MonitorListBean;
 
 import java.util.List;
@@ -25,10 +26,10 @@ public class MonitorListAdapter extends BaseQuickAdapter<MonitorListBean.DataBea
     @Override
     protected void convert(BaseViewHolder helper, MonitorListBean.DataBean.AllVideoUrlBean item) {
         helper.setText(R.id.tv_title,item.getVideoname());
-        ImageView image_mes = helper.getView(R.id.image_mes);
-//        Glide.with(context).load(item.getImage()).into(image_mes);
-
-
+        if (item.getImg()!=null&&!item.getImg().equals("")){
+            ImageView image_mes = helper.getView(R.id.image_mes);
+            Glide.with(context).load(AppUrl.BaseURLTest2+"zhjd"+item.getImg()).into(image_mes);
+        }
         helper.addOnClickListener(R.id.ll_item);
     }
 }

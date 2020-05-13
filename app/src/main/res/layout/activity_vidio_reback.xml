@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_activity_title"/>
+    <include layout="@layout/layout_activity_title" />
+
     <LinearLayout
-
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/white">
+
         <TextView
-            android:gravity="center"
             android:id="@+id/tv_today"
-            android:textSize="16sp"
-            android:textColor="@color/tv33"
-            android:text="当前日期"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
-        <TextView
             android:gravity="center"
-            android:id="@+id/tv_choose_data"
-            android:textSize="16sp"
+            android:text="查询今日回放列表"
             android:textColor="@color/tv33"
-            android:text="选择日期"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/line" />
+
+        <TextView
+            android:id="@+id/tv_choose_data"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="match_parent"/>
+            android:gravity="center"
+            android:text="选择别日回放列表"
+            android:textColor="@color/tv33"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_reback"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/white" />
 </LinearLayout>

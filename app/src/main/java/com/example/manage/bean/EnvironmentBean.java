@@ -55,6 +55,14 @@ public class EnvironmentBean {
         private MonitorBean monitor;
         private WeatherBean weather;
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "monitor=" + monitor +
+                    ", weather=" + weather +
+                    '}';
+        }
+
         public MonitorBean getMonitor() {
             return monitor;
         }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.zhouyou.http.callback.SimpleCallBack;
 import com.zhouyou.http.exception.ApiException;
 
 import constant.UiType;
+import listener.OnInitUiListener;
 import listener.UpdateDownloadListener;
 import model.UiConfig;
 import model.UpdateConfig;
@@ -30,8 +32,8 @@ import update.UpdateAppUtils;
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView imageBack;
-    private TextView tvTitle,tv_logout;
-    private LinearLayout ll_equ_list,ll_check;
+    private TextView tvTitle, tv_logout;
+    private LinearLayout ll_equ_list, ll_check;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,11 +45,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void initViews() {
-        imageBack =findViewById(R.id.image_back);
-        tvTitle =findViewById(R.id.tv_title);
-        ll_equ_list =findViewById(R.id.ll_equ_list);
-        tv_logout =findViewById(R.id.tv_logout);
-        ll_check =findViewById(R.id.ll_check);
+        imageBack = findViewById(R.id.image_back);
+        tvTitle = findViewById(R.id.tv_title);
+        ll_equ_list = findViewById(R.id.ll_equ_list);
+        tv_logout = findViewById(R.id.tv_logout);
+        ll_check = findViewById(R.id.ll_check);
 
         imageBack.setOnClickListener(this);
         ll_equ_list.setOnClickListener(this);
@@ -62,12 +64,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.image_back:
                 finish();
                 break;
             case R.id.ll_equ_list:
-                startActivity(new Intent(SettingActivity.this,EquipmentListActivity.class));
+                startActivity(new Intent(SettingActivity.this, EquipmentListActivity.class));
                 break;
             case R.id.tv_logout:
                 finish();
@@ -99,11 +101,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                             double VersionName = Double.valueOf(PackageUtils.getVersionName(SettingActivity.this));
                             double code = Double.valueOf(gmBean.getData().toString());
                             if (VersionName < code) {
-                                upDate();
-                            }else {
+                                upDate(code);
+                            } else {
                                 ToastUtils.show("已经是最新版本");
                             }
-
                         }
                     }
                 });
@@ -112,46 +113,31 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * 去更新
      */
-
-    private void upDate() {
-        String apkUrl = AppUrl.BaseURLTest2+AppUrl.DownloadApk;
+    private void upDate(final Double code) {
+        String apkUrl = AppUrl.BaseURLTest2 + AppUrl.DownloadApk;
         String updateTitle = "发现新版本";
         String updateContent = "发现新版本升级后体验更顺畅";
         UpdateConfig updateConfig = new UpdateConfig();
         updateConfig.setCheckWifi(true);
         updateConfig.isShowNotification();
         updateConfig.setAlwaysShowDownLoadDialog(true);
+        updateConfig.setNotifyImgRes(R.mipmap.ic_launcher);
 
         UiConfig uiConfig = new UiConfig();
-        uiConfig.setUiType(UiType.PLENTIFUL);
+        uiConfig.setUiType(UiType.CUSTOM);
+        uiConfig.setCustomLayoutId(R.layout.view_update_dialog_custom);
+
         UpdateAppUtils.getInstance()
                 .apkUrl(apkUrl)
                 .updateTitle(updateTitle)
                 .updateContent(updateContent)
                 .uiConfig(uiConfig)
                 .updateConfig(updateConfig)
-                .setUpdateDownloadListener(new UpdateDownloadListener() {
+                .setOnInitUiListener(new OnInitUiListener() {
                     @Override
-                    public void onStart() {
-                        Log.e("fhxx", "开始");
-                    }
-
-                    @Override
-                    public void onDownload(int i) {
-                        Log.e("fhxx", "下载中" + i);
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Log.e("fhxx", "完成");
-                        ToastUtils.show("下载完成");
-
-                    }
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.e("fhxx", "错误");
-                        ToastUtils.show("下载失败");
-
+                    public void onInitUpdateUi(View view, UpdateConfig updateConfig, UiConfig uiConfig) {
+                        TextView tv_code =view.findViewById(R.id.tv_code);
+                        tv_code.setText("V"+code);
                     }
                 })
                 .update();

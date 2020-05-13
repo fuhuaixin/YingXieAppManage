@@ -41,9 +41,10 @@ public class EquListBean implements Serializable {
 
     public static class ResultBean {
 
-        public ResultBean(Boolean state, String title, List<ListBean> list) {
+        public ResultBean(Boolean state, String title, Boolean titleStatus, List<ListBean> list) {
             this.state = state;
             this.title = title;
+            this.titleStatus = titleStatus;
             this.list = list;
         }
 
@@ -55,10 +56,19 @@ public class EquListBean implements Serializable {
 
         private Boolean state;
         private String title;
+        private Boolean titleStatus;
         private List<ListBean> list;
 
         public Boolean getState() {
             return state;
+        }
+
+        public Boolean getTitleStatus() {
+            return titleStatus;
+        }
+
+        public void setTitleStatus(Boolean titleStatus) {
+            this.titleStatus = titleStatus;
         }
 
         public void setState(Boolean state) {

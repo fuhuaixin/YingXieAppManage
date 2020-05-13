@@ -4,19 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="15dp"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <ImageView
-        android:id="@+id/image_mes"
-        android:layout_width="160dp"
-        android:layout_height="110dp"
-        android:src="@drawable/icon_monitor_list" />
-
-    <TextView
-        android:id="@+id/tv_title"
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:background="@mipmap/ic_monitor_list_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="你好么点评" />
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/image_mes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_monitor_list" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="你好么点评" />
+    </LinearLayout>
+
 </LinearLayout>

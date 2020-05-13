@@ -639,6 +639,7 @@ public class MonitorListBean{
             private String videoid;
             private String videoname;
             private String videourl;
+            private String img;
 
             public String getVideoid() {
                 return videoid;
@@ -662,6 +663,14 @@ public class MonitorListBean{
 
             public void setVideourl(String videourl) {
                 this.videourl = videourl;
+            }
+
+            public String getImg() {
+                return img;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
             }
         }
     }

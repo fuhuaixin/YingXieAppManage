@@ -10,25 +10,12 @@
         android:background="#2D71FB"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:text="切换"
+        android:text="设备切换"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="场景"
-        android:textColor="@color/tv33"
-        android:textSize="14sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycle_scene"
-        android:layout_marginRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +26,21 @@
         android:textSize="14sp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_equ"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="快捷定位"
+        android:textColor="@color/tv33"
+        android:textSize="14sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_scene"
         android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

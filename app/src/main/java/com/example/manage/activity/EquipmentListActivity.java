@@ -95,6 +95,7 @@ public class EquipmentListActivity extends BaseActivity {
                                 new EquListBean.ResultBean(
                                         stateList.get(position),
                                         resultBeans.get(position).getTitle(),
+                                        resultBeans.get(position).getTitleStatus(),
                                         resultBeans.get(position).getList()));
                         adapter.notifyDataSetChanged();
                         break;
@@ -122,6 +123,7 @@ public class EquipmentListActivity extends BaseActivity {
                     public void onSuccess(String s) {
                         DeviceStatusBean deviceStatusBean = JSON.parseObject(s, DeviceStatusBean.class);
                         if (deviceStatusBean.isStatus()) {
+                            DeviceStatusBean.DataBeanX data = deviceStatusBean.getData();
                             DeviceStatusBean.DataBeanX.ApInfoBean apInfo = deviceStatusBean.getData().getApInfo();
                             for (int i = 0; i < apInfo.getData().size(); i++) {
                                 listBean1.add(new EquListBean.ResultBean.ListBean(apInfo.getData().get(i).getName(), apInfo.getData().get(i).getStatus()));
@@ -134,13 +136,13 @@ public class EquipmentListActivity extends BaseActivity {
                             listBean4.add(new EquListBean.ResultBean.ListBean(fogStatus.getRealyName(), fogStatus.getStatus()));
                             DeviceStatusBean.DataBeanX.LightStatusBean lightStatus = deviceStatusBean.getData().getLightStatus();
                             listBean5.add(new EquListBean.ResultBean.ListBean(lightStatus.getRealyName(), lightStatus.getStatus()));
-                            resultBeans.add(new EquListBean.ResultBean(true, "警报", null));
-                            resultBeans.add(new EquListBean.ResultBean(true, "无线网络", listBean1));
-                            resultBeans.add(new EquListBean.ResultBean(true, "安防监控", listBean2));
-                            resultBeans.add(new EquListBean.ResultBean(true, "环境监测", null));
-                            resultBeans.add(new EquListBean.ResultBean(true, "智能雾森", listBean4));
-                            resultBeans.add(new EquListBean.ResultBean(true, "灯光互动", listBean5));
-                            resultBeans.add(new EquListBean.ResultBean(true, "广告大屏", null));
+                            resultBeans.add(new EquListBean.ResultBean(true, "警报",data.isAlarmStatus(), null));
+                            resultBeans.add(new EquListBean.ResultBean(true, "无线网络",null, listBean1));
+                            resultBeans.add(new EquListBean.ResultBean(true, "安防监控",null, listBean2));
+                            resultBeans.add(new EquListBean.ResultBean(true, "环境监测", data.isEnvMonitor(),null));
+                            resultBeans.add(new EquListBean.ResultBean(true, "智能雾森", null,listBean4));
+                            resultBeans.add(new EquListBean.ResultBean(true, "灯光互动", null,listBean5));
+                            resultBeans.add(new EquListBean.ResultBean(true, "广告大屏", data.isScreenStatus(),null));
                             for (int i = 0; i < 7; i++) {
                                 stateList.add(true);
                             }

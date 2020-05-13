@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="14℃"
+                    android:text="0℃"
                     android:textSize="14sp" />
 
                 <TextView
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="14℃"
+                    android:text="0"
                     android:textSize="14sp" />
 
                 <TextView
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="14℃"
+                    android:text="0"
                     android:textSize="14sp" />
 
                 <TextView
@@ -122,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="14℃"
+                    android:text="0"
                     android:textSize="14sp" />
 
                 <TextView
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="14℃"
+                    android:text="0"
                     android:textSize="14sp" />
 
                 <TextView
@@ -610,21 +610,37 @@
             android:layout_height="10dp"
             android:background="@color/line" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_net_top"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
 
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="@mipmap/icon_sliding_title_bg"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:text="无线接入点"
-            android:textColor="@color/content_tv_title" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@mipmap/icon_sliding_title_bg"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="无线接入点"
+                android:textColor="@color/content_tv_title" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/icon_right_into"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -641,7 +657,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="18dp"
@@ -653,15 +670,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="7dp"
-                        android:text="在线人数:2689人"
+                        android:text="在线人数:0"
                         android:textColor="@color/tv21"
-                        android:textSize="13sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="18dp"
@@ -673,9 +691,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="7dp"
-                        android:text="累计人数:1258人"
+                        android:text="累计人数:0"
                         android:textColor="@color/tv21"
-                        android:textSize="13sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -700,7 +718,7 @@
                         android:id="@+id/tv_wifi_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="26"
+                        android:text="0"
                         android:textColor="#F65449"
                         android:textSize="18sp" />
 
@@ -708,7 +726,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="设备总数 >"
+                        android:text="接入点总数"
                         android:textColor="@color/tv8C"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -729,7 +747,7 @@
                         android:id="@+id/tv_wifi_online"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="26"
+                        android:text="0"
                         android:textColor="#4280FC"
                         android:textSize="18sp" />
 
@@ -737,7 +755,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="在线设备 >"
+                        android:text="在线接入点"
                         android:textColor="@color/tv8C"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -758,7 +776,7 @@
                         android:id="@+id/tv_wifi_unline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="26"
+                        android:text="0"
                         android:textColor="@color/tv33"
                         android:textSize="18sp" />
 
@@ -766,7 +784,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="离线设备 >"
+                        android:text="离线接入点"
                         android:textColor="@color/tv8C"
                         android:textSize="14sp" />
                 </LinearLayout>

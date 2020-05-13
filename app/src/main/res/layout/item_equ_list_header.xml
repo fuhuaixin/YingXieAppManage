@@ -26,8 +26,20 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_statue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_login_btn"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="正常"
+            android:textColor="@color/white" />
         <ImageView
-            android:id="@+id/tv_state"
+            android:id="@+id/image_state"
             android:src="@mipmap/icon_item_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

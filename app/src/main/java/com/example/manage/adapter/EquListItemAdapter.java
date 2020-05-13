@@ -22,9 +22,11 @@ public class EquListItemAdapter extends BaseQuickAdapter<EquListBean.ResultBean.
         helper.setText(R.id.tv_item_title,item.getMessage());
         TextView tv_statue = helper.getView(R.id.tv_statue);
         if (item.getStatus()==1){
+            tv_statue.setBackgroundResource(R.drawable.shape_login_btn);
             tv_statue.setText("正常");
         }else {
-            tv_statue.setText("异常");
+            tv_statue.setBackgroundResource(R.drawable.shape_error_red);
+            tv_statue.setText("离线");
         }
         helper.addOnClickListener(R.id.ll_item_item);
     }

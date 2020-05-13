@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -33,7 +34,7 @@ import io.vov.vitamio.widget.VideoView;
  */
 public class MonitorActivity extends BaseActivity {
 
-    private ImageView imageBack;
+    private ImageView imageBack,image_stop;
     private TextView tvTitle,tv_monitor_title;
     private RecyclerView recycle_monitor;
     private MonitorAdapter monitorAdapter;
@@ -41,10 +42,10 @@ public class MonitorActivity extends BaseActivity {
     private List<MonitorBean> monitorBeanList =new ArrayList<>();
     private LinearLayout ll_reback_vidio;
 
-    private String strTitle,strUrl,strId;
+    private String strTitle="",strUrl="",strId="";
     private String videoUrl ="http://111.6.98.254:8073/live/yxl_4.flv?sign=4100731932000-c671c4341e3bf539d1f462e864644262";
     private String videoUrl2 ="http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4";
-
+    private int isStop =0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Vitamio.isInitialized(this);
@@ -69,6 +70,7 @@ public class MonitorActivity extends BaseActivity {
         recycle_monitor =findViewById(R.id.recycle_monitor);
         vitamio =findViewById(R.id.vitamio);
         ll_reback_vidio =findViewById(R.id.ll_reback_vidio);
+        image_stop =findViewById(R.id.image_stop);
 
     }
 
@@ -117,6 +119,7 @@ public class MonitorActivity extends BaseActivity {
                 //此处设置播放速度为正常速度1
 //                mediaPlayer.setPlaybackSpeed(1.0f);
                 zLoadingDialog.dismiss();
+                isStop=1;
 
             }
         });
@@ -136,6 +139,20 @@ public class MonitorActivity extends BaseActivity {
                 Intent intent = new Intent(MonitorActivity.this,RebackVidioListActivity.class);
                 intent.putExtra("backId",strId);
                 startActivity(intent);
+            }
+        });
+
+        image_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isStop==0){
+                    vitamio.start();
+                    isStop=1;
+                }else {
+                    vitamio.pause();
+                    isStop=0;
+                }
+
             }
         });
     }

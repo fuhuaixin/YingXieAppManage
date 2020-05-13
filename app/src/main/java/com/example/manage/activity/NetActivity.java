@@ -41,7 +41,6 @@ public class NetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_net);
         apStatusBean = (ApStatusBean) getIntent().getSerializableExtra("apStatusBean");
         mList =apStatusBean.getData().getData();
-        ToastUtils.show(mList.get(0).getIp());
         initViews();
         init();
     }

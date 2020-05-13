@@ -140,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:scaleX="2"
+                android:scaleX="1.5"
                 android:scaleY="1.5" />
 
             <TextView
@@ -156,6 +156,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="忘记账号密码？"

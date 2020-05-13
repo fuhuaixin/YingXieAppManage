@@ -6,18 +6,33 @@
 
     <include layout="@layout/layout_activity_title" />
 
-    <io.vov.vitamio.widget.CenterLayout
+    <RelativeLayout
         android:id="@+id/dd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:orientation="vertical" >
 
         <io.vov.vitamio.widget.VideoView
             android:id="@+id/vitamio"
             android:layout_width="match_parent"
             android:layout_height="250dp" />
-    </io.vov.vitamio.widget.CenterLayout>
-
+        <ImageView
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/image_stop"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="35dp"
+            android:layout_height="35dp"/>
+    </RelativeLayout>
+    <SeekBar
+        android:visibility="gone"
+        android:id="@+id/seekBar"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tv_monitor_title"
         android:layout_width="match_parent"
@@ -34,7 +49,6 @@
         android:background="@color/line" />
 
     <LinearLayout
-        android:id="@+id/ll_reback_vidio"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -42,6 +56,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_reback_vidio"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -49,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:text="回访列表"
+                android:text="回放列表"
                 android:textColor="@color/tv21"
                 android:textSize="15sp" />
             <View
@@ -63,7 +78,12 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-
+        <View
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_monitor"
             android:visibility="gone"

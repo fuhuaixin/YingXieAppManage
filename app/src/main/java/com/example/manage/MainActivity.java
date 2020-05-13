@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BarChart barChart; // 柱状图
     private PieChart pieChart;// 饼状图
     private RecyclerView recycle_scene, recycle_equ;
-    private LinearLayout ll_net; //进入网络界面
+    private LinearLayout ll_net,ll_net_top; //进入网络界面
     private ArrayList count = new ArrayList();
     private FlexboxLayoutManager flexboxLayoutManager;
     private FlexboxLayoutManager flexboxLayoutManagerEqu;
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tv_rainvalue_bot, tv_pm_bot, tv_humidity_bot, tv_windirection_bot, tv_tem_bot, tv_tem_title_bot;
     private TextView tv_rainvalue_top, tv_pm_top, tv_humidity_top, tv_windirection_top, tv_tem_top, tv_tem_title_top;
     private TextView tv_flow_total, tv_flow_total_bot, tv_online, tv_stack, tv_wifi_total, tv_wifi_online, tv_wifi_unline, tv_unit;
-    private ImageView image_add_zoom, image_lose_zoom;
+    private ImageView image_add_zoom, image_lose_zoom,image_tem;
 
     private boolean isFirstLoc = true; //第一次定位
     private int IsVisible = 1; //1为显示 2 为隐藏
@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recycle_scene = findViewById(R.id.recycle_scene);
         recycle_equ = findViewById(R.id.recycle_equ);
         ll_net = findViewById(R.id.ll_net);
+        ll_net_top = findViewById(R.id.ll_net_top);
         btn_login = findViewById(R.id.btn_login);
         rl_monitor = findViewById(R.id.rl_monitor);
         mapView = findViewById(R.id.mapView);
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_wifi_unline = findViewById(R.id.tv_wifi_unline);
         image_add_zoom = findViewById(R.id.image_add_zoom);
         image_lose_zoom = findViewById(R.id.image_lose_zoom);
+        image_tem = findViewById(R.id.image_tem);
 
         ll_visible.setOnClickListener(this);
         btn_ele.setOnClickListener(this);
@@ -195,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_cut.setOnClickListener(this);
         ll_setting.setOnClickListener(this);
         ll_net.setOnClickListener(this);
+        ll_net_top.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         rl_monitor.setOnClickListener(this);
         ll_search.setOnClickListener(this);
@@ -313,14 +316,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private List<OverlayOptions> optionsList = new ArrayList<>();
-
+    //构建Marker图标
+    BitmapDescriptor bitmap = null;
     private void setMaker(List<LatLng> latLngList, final String type) {
 //        ToastUtils.show(latLngList.toString());
         mBaiduMap.clear();
         mBaiduMap.removeMarkerClickListener(onMarkerClickListener);
         optionsList.clear();
-        //构建Marker图标
-        BitmapDescriptor bitmap = null;
+
         switch (type) {
             case "wifi":
                 bitmap = BitmapDescriptorFactory
@@ -365,6 +368,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .icon(bitmap);
             optionsList.add(option);
         }
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(latLngList.get(0))
+                .zoom(17)
+                .build();
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        //改变地图状态
+        mBaiduMap.animateMapStatus(mMapStatusUpdate);
 
         //在地图上添加Marker，并显示
         //        mBaiduMap.addOverlay(option);
@@ -375,6 +386,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BaiduMap.OnMarkerClickListener onMarkerClickListener = new BaiduMap.OnMarkerClickListener() {
         @Override
         public boolean onMarkerClick(Marker marker) {
+//            marker.setIcon(bitmap);
+//            marker.setIcons();
             Bundle extraInfo = marker.getExtraInfo();
             String title = extraInfo.getString("title");
 
@@ -382,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             double lng = extraInfo.getDouble("lng");
 //            Toast.makeText(MainActivity.this, title + " ---- " + lat + "----" + lng, Toast.LENGTH_SHORT).show();
 
+            assert title != null;
             if (title.equals("light")) {
                 startActivity(new Intent(MainActivity.this, LightingActivity.class));
             } else if (title.equals("spray")) {
@@ -431,6 +445,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     IsVisible = 1;
                 }
                 break;
+            case R.id.ll_net_top:
             case R.id.ll_net: //进入网络界面
                 Intent intent = new Intent(MainActivity.this, NetActivity.class);
                 Log.e("fhxx", "发送前--->" + data1.toString());
@@ -568,10 +583,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         TrushLastestBean trushLastestBean = JSON.parseObject(s, TrushLastestBean.class);
                         if (trushLastestBean.isStatus()) {
                             List<TrushLastestBean.DataBean.ListBean> list = trushLastestBean.getData().getList();
-                            progress_rub_one.setProgress(list.get(0).getNowrecovery() * 100);
-                            tv_progress_one.setText(list.get(0).getNowrecovery() * 100 + "%");
-                            progress_rub_two.setProgress(list.get(1).getNowrecovery() * 100);
-                            tv_progress_two.setText(list.get(1).getNowrecovery() * 100 + "%");
+                            progress_rub_one.setProgress((int)(list.get(0).getOveralam() * 100));
+                            tv_progress_one.setText(list.get(0).getOveralam() * 100 + "%");
+                            progress_rub_two.setProgress((int) (list.get(1).getOveralam() * 100));
+                            tv_progress_two.setText(list.get(1).getOveralam() * 100 + "%");
                         }
                     }
                 });
@@ -593,23 +608,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(String s) {
                         EnvironmentBean environmentBean = JSON.parseObject(s, EnvironmentBean.class);
 
-                        if (environmentBean.isStatus() && environmentBean.getData() != null && !environmentBean.getData().equals("")) {
+                        if (environmentBean.isStatus() && environmentBean.getData().getMonitor() != null) {
 
                             EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
                             EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
-                            tv_tem_top.setText(weather.getTem() + "℃");
-                            tv_tem_bot.setText(weather.getTem() + "℃");
-                            tv_windirection_bot.setText(weather.getWin());
-                            tv_windirection_top.setText(weather.getWin());
-                            tv_humidity_top.setText(weather.getHumidity());
-                            tv_humidity_bot.setText(weather.getHumidity());
-                            tv_pm_top.setText(weather.getAir_pm25());
-                            tv_pm_bot.setText(weather.getAir_pm25());
+                            tv_tem_top.setText(monitor.getTemperature() + "℃");
+                            tv_tem_bot.setText(monitor.getTemperature() + "℃");
+                            tv_windirection_bot.setText(monitor.getWindirection());
+                            tv_windirection_top.setText(monitor.getWindirection());
+                            tv_humidity_top.setText(monitor.getHumidity());
+                            tv_humidity_bot.setText(monitor.getHumidity());
+                            tv_pm_top.setText(monitor.getPm25());
+                            tv_pm_bot.setText(monitor.getPm25());
                             tv_rainvalue_top.setText(monitor.getRainvalue());
                             tv_rainvalue_bot.setText(monitor.getRainvalue());
 
-                            tv_tem_title_top.setText(weather.getWea());
-                            tv_tem_title_bot.setText(weather.getTem() + "℃");
+                            tv_tem_title_bot.setText(monitor.getTemperature() + "℃");
+                            if (environmentBean.getData().getWeather()!=null){
+                                tv_tem_title_top.setText(weather.getWea());
+                                switch (weather.getWea_img()){
+                                    case "xue":
+                                    case "bingbao":
+                                        image_tem.setImageResource(R.mipmap.icon_bingbao);
+                                        break;
+                                    case "lei":
+                                        image_tem.setImageResource(R.mipmap.icon_lei);
+                                        break;
+                                    case "shachen":
+                                        image_tem.setImageResource(R.mipmap.icon_shachen);
+                                        break;
+                                    case "wu":
+                                        image_tem.setImageResource(R.mipmap.icon_wu);
+                                        break;
+                                    case "yun":
+                                        image_tem.setImageResource(R.mipmap.icon_yun);
+                                        break;
+                                    case "yu":
+                                        image_tem.setImageResource(R.mipmap.icon_yu);
+                                        break;
+                                    case "yin":
+                                        image_tem.setImageResource(R.mipmap.icon_yin);
+                                        break;
+                                    case "qing":
+                                        image_tem.setImageResource(R.mipmap.icon_qing);
+                                        break;
+                                }
+
+                            }
                         }
                     }
                 });
@@ -631,8 +676,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(String s) {
                         ClientNumsBean clientNumsBean = JSON.parseObject(s, ClientNumsBean.class);
                         if (clientNumsBean.isStatus()) {
-                            tv_online.setText("在线人数:" + clientNumsBean.getData().getOnlineusernum() + "");
-                            tv_stack.setText("累计人数:" + clientNumsBean.getData().getStackusernum() + "");
+                            tv_online.setText("在线人数:" + clientNumsBean.getData().getOnlineusernum() + "人");
+                            tv_stack.setText("累计人数:" + clientNumsBean.getData().getStackusernum() + "人");
                         }
                     }
                 });

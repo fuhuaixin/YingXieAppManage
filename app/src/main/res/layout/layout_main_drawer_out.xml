@@ -52,13 +52,13 @@
                     android:id="@+id/image_tem"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/icon_tem" />
+                    android:src="@mipmap/icon_yun" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
@@ -66,13 +66,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="晴"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_tem_title_bot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="15℃"
+                        android:text="0℃"
                         android:textSize="14sp" />
                 </LinearLayout>
 
