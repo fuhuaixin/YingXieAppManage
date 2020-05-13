@@ -1,5 +1,7 @@
 package com.example.manage.adapter;
 
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -18,7 +20,13 @@ public class NetAdapter extends BaseQuickAdapter<ApStatusBean.DataBeanX.DataBean
 
     @Override
     protected void convert(BaseViewHolder helper, ApStatusBean.DataBeanX.DataBean item) {
-        helper.setText(R.id.tv_state,"状态  "+(item.getStatus()==2?"离线":"在线"))
+        TextView tv_state =helper.getView(R.id.tv_state);
+        if (item.getStatus()==2){
+            tv_state.setTextColor(mContext.getResources().getColor(R.color.red));
+        }else {
+            tv_state.setTextColor(mContext.getResources().getColor(R.color.text_blue));
+        }
+        helper.setText(R.id.tv_state,(item.getStatus()==2?"离线":"在线"))
                 .setText(R.id.tv_name,"名称  "+item.getName())
                 .setText(R.id.tv_sn,"SN码  "+item.getSn())
                 .setText(R.id.tv_ip,"IP码  "+item.getIp())

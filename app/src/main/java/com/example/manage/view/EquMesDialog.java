@@ -321,12 +321,11 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                                 tv_three.setText("设备状态："+((channlInfoBeans.get(i).getStatus()==1)?"正常":"离线"));
                                 tv_four.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
                                 tv_four.getPaint().setAntiAlias(true);//抗锯齿
-                                tv_four.setText("设备管控");
+                                tv_four.setText("查看视频");
                                 tv_four_title.setText("操作:");
                                 tv_four.setTextColor(mContext.getResources().getColor(R.color.light_blue));
                                 if (channlInfoBeans.get(i).getStatus()!=1){
                                     tv_four.setClickable(false);
-                                    ToastUtils.show("设备离线状态");
                                 }
                             }
                         }
