@@ -37,7 +37,7 @@ import java.util.List;
 public class RebackVidioListActivity  extends BaseActivity implements View.OnClickListener{
 
     private TextView tvTitle,tv_today,tv_choose_data;
-    private ImageView imageBack;
+    private ImageView imageBack,image_right;
     private RecyclerView recycle_reback;
     private ReBackVidioAdapter reBackVidioAdapter;
     private String backId;
@@ -58,18 +58,20 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
     private void initViews() {
         tvTitle =findViewById(R.id.tv_title);
         imageBack =findViewById(R.id.image_back);
+        image_right =findViewById(R.id.image_right);
         recycle_reback =findViewById(R.id.recycle_reback);
         tv_today =findViewById(R.id.tv_today);
         tv_choose_data =findViewById(R.id.tv_choose_data);
 
         imageBack.setOnClickListener(this);
         tv_today.setOnClickListener(this);
+        image_right.setOnClickListener(this);
         tv_choose_data.setOnClickListener(this);
     }
 
     private void initData(){
         tvTitle.setText("回放列表");
-
+        image_right.setVisibility(View.VISIBLE);
         recycle_reback.setLayoutManager(new LinearLayoutManager(this));
         singleDialog =new DateSingleDialog(this);
     }
@@ -84,6 +86,7 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
             case R.id.image_back:
                 finish();
                 break;
+            case R.id.image_right:
             case R.id.tv_choose_data:
                 singleDialog.show();
                 Window window = singleDialog.getWindow();

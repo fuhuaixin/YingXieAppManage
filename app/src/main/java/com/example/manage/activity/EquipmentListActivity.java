@@ -136,7 +136,7 @@ public class EquipmentListActivity extends BaseActivity {
                             listBean4.add(new EquListBean.ResultBean.ListBean(fogStatus.getRealyName(), fogStatus.getStatus()));
                             DeviceStatusBean.DataBeanX.LightStatusBean lightStatus = deviceStatusBean.getData().getLightStatus();
                             listBean5.add(new EquListBean.ResultBean.ListBean(lightStatus.getRealyName(), lightStatus.getStatus()));
-                            resultBeans.add(new EquListBean.ResultBean(true, "警报",data.isAlarmStatus(), null));
+                            resultBeans.add(new EquListBean.ResultBean(true, "紧急对讲",data.isAlarmStatus(), null));
                             resultBeans.add(new EquListBean.ResultBean(true, "无线网络",null, listBean1));
                             resultBeans.add(new EquListBean.ResultBean(true, "安防监控",null, listBean2));
                             resultBeans.add(new EquListBean.ResultBean(true, "环境监测", data.isEnvMonitor(),null));

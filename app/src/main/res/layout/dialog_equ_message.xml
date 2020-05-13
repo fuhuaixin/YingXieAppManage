@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/shape_main_search_bg"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="查询中"
+            android:textColor="@color/tv33"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/tv_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="查询中"
+            android:textColor="@color/tv66"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="查询中"
+            android:textColor="@color/tv66"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="查询中"
+            android:textColor="@color/tv66"
+            android:textSize="14sp" />
+        <LinearLayout
+            android:id="@+id/ll_four"
+            android:layout_margin="10dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_four_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询中："
+                android:textColor="@color/tv66"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询中"
+                android:textColor="@color/tv66"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>

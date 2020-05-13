@@ -43,8 +43,6 @@ public class MonitorActivity extends BaseActivity {
     private LinearLayout ll_reback_vidio;
 
     private String strTitle="",strUrl="",strId="";
-    private String videoUrl ="http://111.6.98.254:8073/live/yxl_4.flv?sign=4100731932000-c671c4341e3bf539d1f462e864644262";
-    private String videoUrl2 ="http://2449.vod.myqcloud.com/2449_22ca37a6ea9011e5acaaf51d105342e3.f20.mp4";
     private int isStop =0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

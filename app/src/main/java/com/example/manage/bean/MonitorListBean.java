@@ -16,6 +16,7 @@ public class MonitorListBean{
     private String message;
     private boolean status;
 
+
     public String getCode() {
         return code;
     }
@@ -640,7 +641,15 @@ public class MonitorListBean{
             private String videoname;
             private String videourl;
             private String img;
+            private String idname;
 
+            public String getIdname() {
+                return idname;
+            }
+
+            public void setIdname(String idname) {
+                this.idname = idname;
+            }
             public String getVideoid() {
                 return videoid;
             }

@@ -69,12 +69,21 @@ public class MainDevicesBean {
              * height : 3.9
              */
 
-            private String devType;/*
+            private String devType;
             private double height;
             private String label;
             private String name;
-            private long id;
-            private String channelNo;*/
+            private String id;
+            private String channelNo;
+            private int eid;
+
+            public int getEid() {
+                return eid;
+            }
+
+            public void setEid(int eid) {
+                this.eid = eid;
+            }
 
             public String getDevType() {
                 return devType;
@@ -84,13 +93,45 @@ public class MainDevicesBean {
                 this.devType = devType;
             }
 
-          /*  public double getHeight() {
+            public double getHeight() {
                 return height;
             }
 
             public void setHeight(double height) {
                 this.height = height;
-            }*/
+            }
+
+            public String getLabel() {
+                return label;
+            }
+
+            public void setLabel(String label) {
+                this.label = label;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getChannelNo() {
+                return channelNo;
+            }
+
+            public void setChannelNo(String channelNo) {
+                this.channelNo = channelNo;
+            }
         }
 
         public static class GeometryBean {

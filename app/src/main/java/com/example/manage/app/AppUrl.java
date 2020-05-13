@@ -2,8 +2,8 @@ package com.example.manage.app;
 
 public class AppUrl {
 
-    public static final String BaseURLTest = "http://192.168.10.151:8080/"; //测试(测试环境)
-    public static final String BaseURLTest2 = "http://192.168.10.104:8080/"; //测试(测试环境)2
+//    public static final String BaseURLTest2 = "http://192.168.10.104:8080/"; //测试(测试环境)2
+    public static final String BaseURLTest2 = "http://192.168.10.50:8080/"; //测试(测试环境)2
 //    public static final String PRODUCT_URL = "https://www.jianshu.com/"; //正式服务器(生产环境)
 
 
@@ -23,6 +23,8 @@ public class AppUrl {
     public static final String Clientnums = basePath+"wifi/clientnums";
     //无线网ap列表和状态
     public static final String ApStatus = basePath+"wifi/apstatus";
+    //环境监测设备在线状态
+    public static final String EnvStatus = basePath+"info/envStatus";
 
     //获取广告屏开机状态
     public static final String ScreenStatus = basePath+"screen/getStatus";
@@ -60,6 +62,8 @@ public class AppUrl {
     public static final String Devices = "zhjd/config/devices.json";
     //获取所有设备在线状态
     public static final String DeviceStatus = basePath+"info/deviceStatus";
+    //查询视频在线状态
+    public static final String Chanelinfo = basePath+"video/chanelinfo";
 
 
     //获取视频回放列表

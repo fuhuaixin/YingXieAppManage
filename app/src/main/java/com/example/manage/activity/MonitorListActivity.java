@@ -91,11 +91,17 @@ public class MonitorListActivity extends BaseActivity {
                                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                     switch (view.getId()) {
                                         case R.id.ll_item:
-                                            Intent intent = new Intent(MonitorListActivity.this, MonitorActivity.class);
-                                            intent.putExtra("videoname", allVideoUrl.get(position).getVideoname());
-                                            intent.putExtra("videourl", allVideoUrl.get(position).getVideourl());
-                                            intent.putExtra("videoid", allVideoUrl.get(position).getVideoid());
-                                            startActivity(intent);
+                                            String videourl = allVideoUrl.get(position).getVideourl();
+                                            if (videourl !=null&&!videourl.equals("")){
+                                                Intent intent = new Intent(MonitorListActivity.this, MonitorActivity.class);
+                                                intent.putExtra("videoname", allVideoUrl.get(position).getVideoname());
+                                                intent.putExtra("videourl", videourl);
+                                                intent.putExtra("videoid", allVideoUrl.get(position).getVideoid());
+                                                startActivity(intent);
+                                            }else {
+                                                ToastUtils.show("未获取到摄像头状态");
+                                            }
+
                                             break;
                                     }
                                 }
