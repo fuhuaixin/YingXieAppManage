@@ -54,6 +54,8 @@ public class LoginBean implements Serializable {
          */
 
         private String username;
+        private String timestamp;
+        private String token;
 
         public String getUsername() {
             return username;
@@ -61,6 +63,22 @@ public class LoginBean implements Serializable {
 
         public void setUsername(String username) {
             this.username = username;
+        }
+
+        public String getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(String timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
         }
     }
 }

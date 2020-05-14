@@ -99,13 +99,16 @@
         <!--监控播放-->
         <activity
             android:name=".activity.MonitorActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--回放列表-->
-        <activity android:name=".activity.RebackVidioListActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.RebackVidioListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--回放-->
-        <activity android:name=".activity.ReBackVidioActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.ReBackVidioActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

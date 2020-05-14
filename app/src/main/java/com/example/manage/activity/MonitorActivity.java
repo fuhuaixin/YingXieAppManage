@@ -26,6 +26,7 @@ import java.util.List;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
+import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
 
@@ -34,7 +35,7 @@ import io.vov.vitamio.widget.VideoView;
  */
 public class MonitorActivity extends BaseActivity {
 
-    private ImageView imageBack,image_stop;
+    private ImageView imageBack,image_stop,image_scale;
     private TextView tvTitle,tv_monitor_title;
     private RecyclerView recycle_monitor;
     private MonitorAdapter monitorAdapter;
@@ -69,6 +70,7 @@ public class MonitorActivity extends BaseActivity {
         vitamio =findViewById(R.id.vitamio);
         ll_reback_vidio =findViewById(R.id.ll_reback_vidio);
         image_stop =findViewById(R.id.image_stop);
+        image_scale =findViewById(R.id.image_scale);
 
     }
 
@@ -92,7 +94,9 @@ public class MonitorActivity extends BaseActivity {
         recycle_monitor.setLayoutManager(new LinearLayoutManager(this));
         monitorAdapter=new MonitorAdapter(R.layout.item_monitor,monitorBeanList);
         recycle_monitor.setAdapter(monitorAdapter);
-
+//        vitamio.setMediaController(new MediaController(this));
+//        vitamio.requestFocus();
+//        vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE,0);
         monitorAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -110,7 +114,7 @@ public class MonitorActivity extends BaseActivity {
 
         vitamio.setVideoURI(Uri.parse(strUrl));
         vitamio.start();
-//        vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH, 0);
+//
         vitamio.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
@@ -151,6 +155,13 @@ public class MonitorActivity extends BaseActivity {
                     isStop=0;
                 }
 
+            }
+        });
+
+        image_scale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_FIT_PARENT, 0);
             }
         });
     }

@@ -324,9 +324,7 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                                 tv_four.setText("查看视频");
                                 tv_four_title.setText("操作:");
                                 tv_four.setTextColor(mContext.getResources().getColor(R.color.light_blue));
-                                if (channlInfoBeans.get(i).getStatus()!=1){
-                                    tv_four.setClickable(false);
-                                }
+                               
                             }
                         }
                     }
@@ -351,14 +349,16 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                                 Log.e("fhxx",title+ allVideoUrl.get(i).getVideoname());
                                 Log.e("fhxx",title.equals(allVideoUrl.get(i).getVideoname())+" ------ " );
                                 if (title.equals(allVideoUrl.get(i).getIdname())){
+                                    if (allVideoUrl.get(i).getVideourl().equals("")){
+                                        ToastUtils.show("设备异常");
+                                        return;
+                                    }
                                     Intent intent = new Intent(mContext, MonitorActivity.class);
                                     intent.putExtra("videoname", allVideoUrl.get(i).getVideoname());
                                     intent.putExtra("videourl", allVideoUrl.get(i).getVideourl());
                                     intent.putExtra("videoid", allVideoUrl.get(i).getVideoid());
                                     mContext.startActivity(intent);
                                     dismiss();
-                                }else {
-                                    ToastUtils.show("设备离线");
                                 }
                             }
                         }

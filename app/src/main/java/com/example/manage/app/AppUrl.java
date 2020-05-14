@@ -2,8 +2,8 @@ package com.example.manage.app;
 
 public class AppUrl {
 
-//    public static final String BaseURLTest2 = "http://192.168.10.104:8080/"; //测试(测试环境)2
-    public static final String BaseURLTest2 = "http://111.6.98.253:8072/"; //测试(测试环境)2
+    public static final String BaseURLTest2 = "http://192.168.10.104:8080/"; //测试(测试环境)2
+//    public static final String BaseURLTest2 = "http://111.6.98.253:8072/"; //测试(测试环境)2
 //    public static final String PRODUCT_URL = "https://www.jianshu.com/"; //正式服务器(生产环境)
 
 

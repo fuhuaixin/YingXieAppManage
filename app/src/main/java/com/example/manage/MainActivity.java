@@ -315,28 +315,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (type) {
             case "wifi":
                 bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.icon_wifi_type_one);
+                        .fromResource(R.mipmap.icon_wifi_type_big);
                 break;
             case "fire":
                 bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.icon_fire_type_one);
+                        .fromResource(R.mipmap.icon_fire_type_big);
                 break;
             case "garbage":
                 bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.icon_recycl_type_one);
+                        .fromResource(R.mipmap.icon_recycl_type_big);
                 break;
             case "env":
                 bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.icon_envir_type_one);
+                        .fromResource(R.mipmap.icon_envir_type_big);
                 break;
             case "camera":
                 bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.icon_safe_type_one);
+                        .fromResource(R.mipmap.icon_safe_type_big);
                 break;
             case "spray":
                 bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.icon_park_type_one);
+                        .fromResource(R.mipmap.icon_park_type_big);
                 break;
+            case "light":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_light_type_big);
+                break;
+            case "screen":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_screen_type_big);
+                break;
+
             default:
                 bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.icon_map_location);

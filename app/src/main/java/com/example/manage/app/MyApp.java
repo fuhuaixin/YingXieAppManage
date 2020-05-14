@@ -5,10 +5,12 @@ import android.content.Context;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.example.manage.utils.SPUtils;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.GsonDiskConverter;
 import com.zhouyou.http.cache.converter.SerializableDiskConverter;
 import com.zhouyou.http.cache.model.CacheMode;
+import com.zhouyou.http.model.HttpHeaders;
 
 import retrofit2.converter.gson.GsonConverterFactory;
 import update.UpdateAppUtils;
@@ -20,6 +22,7 @@ public class MyApp extends Application {
     public static Context myApplication;
 
 //    .cacheDiskConverter()
+    private String tokens ="";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,6 +31,14 @@ public class MyApp extends Application {
         SDKInitializer.initialize(myApplication);
         SDKInitializer.setCoordType(CoordType.BD09LL);
         EasyHttp.init(this);
+
+        String username = SPUtils.getString(myApplication, "username");
+        String timestamp = SPUtils.getString(myApplication, "timestamp");
+        String token = SPUtils.getString(myApplication, "token");
+        tokens =username+"-"+timestamp+"-"+token;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.put("token", tokens);
         EasyHttp.getInstance()
                 //可以全局统一设置全局URL
                 .setBaseUrl(AppUrl.BaseURLTest2)//设置全局URL  url只能是域名 或者域名+端口号
@@ -46,6 +57,7 @@ public class MyApp extends Application {
                 .setRetryIncreaseDelay(500)//每次延时叠加500ms
 //                .setCacheDiskConverter(new GsonDiskConverter())
                 //可以全局统一设置缓存模式,默认是不使用缓存,可以不传,具体请看CacheMode
+                .addCommonHeaders(headers)
                 .setCertificates();
 
 

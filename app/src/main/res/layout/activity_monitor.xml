@@ -7,32 +7,50 @@
     <include layout="@layout/layout_activity_title" />
 
     <RelativeLayout
-        android:id="@+id/dd"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-        <io.vov.vitamio.widget.VideoView
-            android:id="@+id/vitamio"
+        <io.vov.vitamio.widget.CenterLayout
+            android:id="@+id/dd"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <io.vov.vitamio.widget.VideoView
+                android:id="@+id/vitamio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </io.vov.vitamio.widget.CenterLayout>
+
         <ImageView
             android:visibility="gone"
-            android:layout_alignParentBottom="true"
             android:id="@+id/image_stop"
-            android:src="@mipmap/ic_launcher"
             android:layout_width="35dp"
-            android:layout_height="35dp"/>
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_launcher" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/image_scale"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/ic_launcher" />
     </RelativeLayout>
+
     <SeekBar
-        android:visibility="gone"
         android:id="@+id/seekBar"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tv_monitor_title"
         android:layout_width="match_parent"
@@ -57,9 +75,10 @@
 
         <LinearLayout
             android:id="@+id/ll_reback_vidio"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,28 +86,31 @@
                 android:text="回放列表"
                 android:textColor="@color/tv21"
                 android:textSize="15sp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
+
             <ImageView
-                android:layout_marginRight="15dp"
-                android:src="@mipmap/icon_right_into"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/icon_right_into" />
         </LinearLayout>
 
         <View
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:background="@color/line" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_monitor"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
     </LinearLayout>
 
