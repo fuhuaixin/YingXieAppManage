@@ -86,10 +86,12 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
 	OnVideoSizeChangedListener mSizeChangedListener = new OnVideoSizeChangedListener() {
 		public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
       Log.d("onVideoSizeChanged: (%dx%d)", width, height);
-      mVideoWidth = mp.getVideoWidth();
-      mVideoHeight = mp.getVideoHeight();
+//      mVideoWidth = mp.getVideoWidth();
+//      mVideoHeight = mp.getVideoHeight();
       mVideoAspectRatio = mp.getVideoAspectRatio();
       if (mVideoWidth != 0 && mVideoHeight != 0)
+          mVideoWidth = mSurfaceWidth;
+            mVideoHeight = mSurfaceHeight;
         setVideoLayout(mVideoLayout, mAspectRatio);
     }
   };
@@ -106,15 +108,17 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
         mOnPreparedListener.onPrepared(mMediaPlayer);
       if (mMediaController != null)
         mMediaController.setEnabled(true);
-      mVideoWidth = mp.getVideoWidth();
-      mVideoHeight = mp.getVideoHeight();
+//      mVideoWidth = mp.getVideoWidth();
+//      mVideoHeight = mp.getVideoHeight();
       mVideoAspectRatio = mp.getVideoAspectRatio();
 
       long seekToPosition = mSeekWhenPrepared;
       if (seekToPosition != 0)
         seekTo(seekToPosition);
-      
+
       if (mVideoWidth != 0 && mVideoHeight != 0) {
+          mVideoWidth = mSurfaceWidth;
+          mVideoHeight = mSurfaceHeight;
         setVideoLayout(mVideoLayout, mAspectRatio);
         if (mSurfaceWidth == mVideoWidth && mSurfaceHeight == mVideoHeight) {
           if (mTargetState == STATE_PLAYING) {
@@ -243,13 +247,13 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     @Override
     public boolean onInfo(MediaPlayer mp, int what, int extra) {
       Log.d("onInfo: (%d, %d)", what, extra);
-    	
+
       	if(MediaPlayer.MEDIA_INFO_UNKNOW_TYPE == what){
     		Log.e(" VITAMIO--TYPE_CHECK  stype  not include  onInfo mediaplayer unknow type ");
-    	} 
-    	
+    	}
+
     	if(MediaPlayer.MEDIA_INFO_FILE_OPEN_OK == what){
-    		long buffersize=mMediaPlayer.audioTrackInit(); 
+    		long buffersize=mMediaPlayer.audioTrackInit();
     		mMediaPlayer.audioInitedOk(buffersize);
     	}
 
@@ -383,7 +387,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
   public boolean isValid() {
     return (mSurfaceHolder != null && mSurfaceHolder.getSurface().isValid());
   }
- 
+
   public void setVideoPath(String path) {
     setVideoURI(Uri.parse(path));
   }
@@ -391,7 +395,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
   public void setVideoURI(Uri uri) {
     setVideoURI(uri, null);
   }
-  
+
   public void setVideoURI(Uri uri, Map<String, String> headers) {
     mUri = uri;
     mHeaders = headers;
@@ -410,7 +414,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
       mTargetState = STATE_IDLE;
     }
   }
-  
+
   private void openVideo() {
 //    if (mUri == null || mSurfaceHolder == null || !Vitamio.isInitialized(mContext))
 //      return;
@@ -463,7 +467,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     mMediaController = controller;
     attachMediaController();
   }
-  
+
   public void setMediaBufferingIndicator(View mediaBufferingIndicator) {
     if (mMediaBufferingIndicator != null)
       mMediaBufferingIndicator.setVisibility(View.GONE);
@@ -665,7 +669,7 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
   public float getVideoAspectRatio() {
     return mVideoAspectRatio;
   }
-  
+
   /**
    * Must set before {@link #setVideoURI}
    * @param chroma
@@ -674,16 +678,16 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     getHolder().setFormat(chroma == MediaPlayer.VIDEOCHROMA_RGB565 ? PixelFormat.RGB_565 : PixelFormat.RGBA_8888); // PixelFormat.RGB_565
     mVideoChroma = chroma;
   }
-  
+
   public void setHardwareDecoder(boolean hardware) {
     mHardwareDecoder= hardware;
   }
-  
+
   public void setVideoQuality(int quality) {
     if (mMediaPlayer != null)
       mMediaPlayer.setVideoQuality(quality);
   }
-  
+
   public void setBufferSize(int bufSize) {
     mBufSize = bufSize;
   }

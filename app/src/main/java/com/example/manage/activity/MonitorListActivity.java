@@ -97,6 +97,7 @@ public class MonitorListActivity extends BaseActivity {
                                                 intent.putExtra("videoname", allVideoUrl.get(position).getVideoname());
                                                 intent.putExtra("videourl", videourl);
                                                 intent.putExtra("videoid", allVideoUrl.get(position).getVideoid());
+                                                intent.putExtra("historyurl", allVideoUrl.get(position).getHistoryurl());
                                                 startActivity(intent);
                                             }else {
                                                 ToastUtils.show("未获取到摄像头状态");

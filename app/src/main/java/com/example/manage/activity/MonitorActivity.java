@@ -1,16 +1,19 @@
 package com.example.manage.activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +22,7 @@ import com.example.manage.R;
 import com.example.manage.adapter.MonitorAdapter;
 import com.example.manage.base.BaseActivity;
 import com.example.manage.bean.MonitorBean;
+import com.example.manage.utils.DeviceUtil;
 import com.example.manage.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -26,7 +30,6 @@ import java.util.List;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
-import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
 
@@ -35,16 +38,20 @@ import io.vov.vitamio.widget.VideoView;
  */
 public class MonitorActivity extends BaseActivity {
 
-    private ImageView imageBack,image_stop,image_scale;
-    private TextView tvTitle,tv_monitor_title;
+    private ImageView imageBack, image_stop, image_scale;
+    private TextView tvTitle, tv_monitor_title;
     private RecyclerView recycle_monitor;
     private MonitorAdapter monitorAdapter;
     private VideoView vitamio;
-    private List<MonitorBean> monitorBeanList =new ArrayList<>();
+    private List<MonitorBean> monitorBeanList = new ArrayList<>();
     private LinearLayout ll_reback_vidio;
+    private RelativeLayout ll_bot;
+    private LinearLayout mTopPart, mBottomPart;
+    private FrameLayout mFlVideoView;
 
-    private String strTitle="",strUrl="",strId="";
-    private int isStop =0;
+    private String strTitle = "", strUrl = "", strId = "",strHis="";
+    private int isStop = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Vitamio.isInitialized(this);
@@ -59,26 +66,30 @@ public class MonitorActivity extends BaseActivity {
     }
 
     private void initViews() {
-        strTitle =getIntent().getStringExtra("videoname");
-        strUrl =getIntent().getStringExtra("videourl");
-        strId =getIntent().getStringExtra("videoid");
+        strTitle = getIntent().getStringExtra("videoname");
+        strUrl = getIntent().getStringExtra("videourl");
+        strId = getIntent().getStringExtra("videoid");
+        strHis = getIntent().getStringExtra("historyurl");
 
-        imageBack =findViewById(R.id.image_back);
-        tvTitle =findViewById(R.id.tv_title);
-        tv_monitor_title =findViewById(R.id.tv_monitor_title);
-        recycle_monitor =findViewById(R.id.recycle_monitor);
-        vitamio =findViewById(R.id.vitamio);
-        ll_reback_vidio =findViewById(R.id.ll_reback_vidio);
-        image_stop =findViewById(R.id.image_stop);
-        image_scale =findViewById(R.id.image_scale);
+        imageBack = findViewById(R.id.image_back);
+        tvTitle = findViewById(R.id.tv_title);
+        tv_monitor_title = findViewById(R.id.tv_monitor_title);
+        recycle_monitor = findViewById(R.id.recycle_monitor);
+        vitamio = findViewById(R.id.vitamio);
+        ll_reback_vidio = findViewById(R.id.ll_reback_vidio);
+        image_stop = findViewById(R.id.image_stop);
+        image_scale = findViewById(R.id.image_scale);
+        ll_bot = findViewById(R.id.ll_bot);
+        mTopPart = findViewById(R.id.top_part_live_activity);
+        mBottomPart = findViewById(R.id.bottom_part_live_activity);
+        mFlVideoView = findViewById(R.id.fl_video_view_live_activity);
 
     }
 
-    private void inits(){
+    private void inits() {
 
         tvTitle.setText("监控播放");
         tv_monitor_title.setText(strTitle);
-
 
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,19 +99,18 @@ public class MonitorActivity extends BaseActivity {
         });
 
         for (int i = 0; i < 8; i++) {
-            monitorBeanList.add(new MonitorBean("time"+i,false));
+            monitorBeanList.add(new MonitorBean("time" + i, false));
         }
 
         recycle_monitor.setLayoutManager(new LinearLayoutManager(this));
-        monitorAdapter=new MonitorAdapter(R.layout.item_monitor,monitorBeanList);
+        monitorAdapter = new MonitorAdapter(R.layout.item_monitor, monitorBeanList);
         recycle_monitor.setAdapter(monitorAdapter);
 //        vitamio.setMediaController(new MediaController(this));
-//        vitamio.requestFocus();
 //        vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE,0);
         monitorAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.ll_item:
                         for (int i = 0; i < monitorBeanList.size(); i++) {
                             monitorBeanList.get(i).setChoose(false);
@@ -121,7 +131,7 @@ public class MonitorActivity extends BaseActivity {
                 //此处设置播放速度为正常速度1
 //                mediaPlayer.setPlaybackSpeed(1.0f);
                 zLoadingDialog.dismiss();
-                isStop=1;
+                isStop = 1;
 
             }
         });
@@ -138,8 +148,9 @@ public class MonitorActivity extends BaseActivity {
         ll_reback_vidio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MonitorActivity.this,RebackVidioListActivity.class);
-                intent.putExtra("backId",strId);
+                Intent intent = new Intent(MonitorActivity.this, RebackVidioListActivity.class);
+                intent.putExtra("backId", strId);
+                intent.putExtra("historyurl", strHis);
                 startActivity(intent);
             }
         });
@@ -147,12 +158,14 @@ public class MonitorActivity extends BaseActivity {
         image_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isStop==0){
+                if (isStop == 0) {
                     vitamio.start();
-                    isStop=1;
-                }else {
+                    isStop = 1;
+                    image_stop.setImageResource(R.mipmap.icon_vidio_stop);
+                } else {
                     vitamio.pause();
-                    isStop=0;
+                    isStop = 0;
+                    image_stop.setImageResource(R.mipmap.icon_vidio_start);
                 }
 
             }
@@ -161,9 +174,86 @@ public class MonitorActivity extends BaseActivity {
         image_scale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_FIT_PARENT, 0);
+                if (!isFullScreen) {
+                    setFullScreen();
+                } else {
+                    setVideoPreview();
+                }
             }
         });
+
+        vitamio.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.ACTION_DOWN == event.getAction()) {
+                    if (isScreenClear) {
+                        isScreenClear = false;
+                        ll_bot.setVisibility(View.VISIBLE);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!isScreenClear) {
+                                    isScreenClear = true;
+                                    ll_bot.setVisibility(View.GONE);
+                                }
+                            }
+                        }, 3000);
+                    } else {
+                        isScreenClear = true;
+                        ll_bot.setVisibility(View.GONE);
+                    }
+                }
+                return true;
+            }
+        });
+
+    }
+
+    /**
+     * 设置视频全屏
+     */
+    private boolean isScreenClear = true;
+    private boolean isFullScreen;
+
+    private void setFullScreen() {
+        LinearLayout.LayoutParams fullScreenLLP = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        LinearLayout.LayoutParams fullScreenLLP = new LinearLayout.LayoutParams(
+//                DeviceUtil.getHeightPixel(this), DeviceUtil.getWidthPixel(this) - DeviceUtil.getStatusBarHeight(this));
+
+        mTopPart.setVisibility(View.GONE);
+        mBottomPart.setVisibility(View.GONE);
+        mFlVideoView.setLayoutParams(fullScreenLLP);//mFlVideoView的宽是屏幕高度，高是屏幕宽度-状态栏高度
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//Activity横屏
+        vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH, 0);
+        isFullScreen = true;
+        image_scale.setImageResource(R.mipmap.icon_vidio_shrink);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    /**
+     * 设置视频缩小
+     */
+    public void setVideoPreview() {
+        LinearLayout.LayoutParams previewLLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DeviceUtil.dip2px(213, this));
+        mTopPart.setVisibility(View.VISIBLE);
+        mBottomPart.setVisibility(View.VISIBLE);
+        mFlVideoView.setLayoutParams(previewLLP);//mFlVideoView的宽是屏幕的宽度，高是203dp
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//Activity竖屏
+        vitamio.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE, 0);
+        isFullScreen = false;
+        image_scale.setImageResource(R.mipmap.icon_vidio_full);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (vitamio != null && vitamio.isPlaying()) {
+            vitamio.stopPlayback();//停止播放，并释放资源
+        }
     }
 
 }

@@ -2,7 +2,10 @@ package com.example.manage.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateUtil {
     /**
@@ -52,4 +55,26 @@ public class DateUtil {
         }
         return date.getTime();
     }
+
+    /**
+     * 1则代表的是对年份操作，2是对月份操作，3是对星期操作，5是对日期操作，11是对小时操作，12是对分钟操作，13是对秒操作，14是对毫秒操作。
+     * @param date
+     * @param calendarField
+     * @param amount
+     * @return
+     */
+    public static Date addTime(Date date, int calendarField, int amount)
+    {
+        if(date == null)
+        {
+            throw new IllegalArgumentException("The date must not be null");
+        } else
+        {
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            c.add(calendarField, amount);
+            return c.getTime();
+        }
+    }
+
 }

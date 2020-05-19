@@ -357,6 +357,7 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                                     intent.putExtra("videoname", allVideoUrl.get(i).getVideoname());
                                     intent.putExtra("videourl", allVideoUrl.get(i).getVideourl());
                                     intent.putExtra("videoid", allVideoUrl.get(i).getVideoid());
+                                    intent.putExtra("historyurl", allVideoUrl.get(i).getHistoryurl());
                                     mContext.startActivity(intent);
                                     dismiss();
                                 }

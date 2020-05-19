@@ -2,7 +2,7 @@ package com.example.manage.app;
 
 public class AppUrl {
 
-    public static final String BaseURLTest2 = "http://192.168.10.104:8080/"; //测试(测试环境)2
+    public static final String BaseURLTest2 = "http://192.168.10.50:8080/"; //测试(测试环境)2
 //    public static final String BaseURLTest2 = "http://111.6.98.253:8072/"; //测试(测试环境)2
 //    public static final String PRODUCT_URL = "https://www.jianshu.com/"; //正式服务器(生产环境)
 
@@ -70,6 +70,8 @@ public class AppUrl {
     public static final String HistoryDatesDetial = basePath+"video/historyDatesDetial";
     //创建监控视频回放
     public static final String CreatePlayBack = basePath+"video/createPlayBack";
+    //停止视频回放进程
+    public static final String KillVideo = basePath+"video/killurl";
 
 
 

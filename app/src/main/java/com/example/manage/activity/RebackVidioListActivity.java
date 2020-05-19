@@ -40,7 +40,7 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
     private ImageView imageBack,image_right;
     private RecyclerView recycle_reback;
     private ReBackVidioAdapter reBackVidioAdapter;
-    private String backId;
+    private String backId,strHis;
     private DateSingleDialog singleDialog;
 
     @Override
@@ -50,6 +50,7 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
         dialog();
         zLoadingDialog.show();
         backId =getIntent().getStringExtra("backId");
+        strHis =getIntent().getStringExtra("historyurl");
         initViews();
         initData();
         getVidio(backId, DateUtil.getCurDate("yyyy-MM-dd"));
@@ -148,6 +149,7 @@ public class RebackVidioListActivity  extends BaseActivity implements View.OnCli
                                             intent.putExtra("videoId",backId);
                                             intent.putExtra("startTime",data1.get(position).getStartTime());
                                             intent.putExtra("endTime",data1.get(position).getEndTime());
+                                            intent.putExtra("historyurl",strHis);
                                             startActivity(intent);
                                             break;
                                     }

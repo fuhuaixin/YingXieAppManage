@@ -68,4 +68,6 @@ dependencies {
     implementation 'com.haibin:calendarview:3.6.9'
     //https://github.com/teprinciple/UpdateAppUtils
     implementation 'com.teprinciple:updateapputilsx:2.3.0'
+    implementation 'com.github.NodeMedia:NodeMediaClient-Android:2.7.2'
+
 }

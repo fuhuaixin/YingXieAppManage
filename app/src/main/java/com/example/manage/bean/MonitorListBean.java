@@ -642,6 +642,15 @@ public class MonitorListBean{
             private String videourl;
             private String img;
             private String idname;
+            private String historyurl;
+
+            public String getHistoryurl() {
+                return historyurl;
+            }
+
+            public void setHistoryurl(String historyurl) {
+                this.historyurl = historyurl;
+            }
 
             public String getIdname() {
                 return idname;
