@@ -76,6 +76,15 @@ public class MainDevicesBean {
             private String id;
             private String channelNo;
             private int eid;
+            private String msid;
+
+            public String getMsid() {
+                return msid;
+            }
+
+            public void setMsid(String msid) {
+                this.msid = msid;
+            }
 
             public int getEid() {
                 return eid;

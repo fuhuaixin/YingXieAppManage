@@ -2,7 +2,7 @@ package com.example.manage.app;
 
 public class AppUrl {
 
-    public static final String BaseURLTest2 = "http://192.168.10.50:8080/"; //测试(测试环境)2
+    public static final String BaseURLTest2 = "http://117.160.157.90:8055/"; //测试(测试环境)2
 //    public static final String BaseURLTest2 = "http://111.6.98.253:8072/"; //测试(测试环境)2
 //    public static final String PRODUCT_URL = "https://www.jianshu.com/"; //正式服务器(生产环境)
 
@@ -17,6 +17,8 @@ public class AppUrl {
     public static final String PoiStatistic = basePath+"info/poiStatistic";
     //获取垃圾桶最新数据
     public static final String TrushLatestData = basePath+"env/getTrushLatestData";
+    //获取小垃圾桶最新数据
+    public static final String TrushInfo = basePath+"trash/getTrushInfo";
     //实时环境信息接口
     public static final String RealEnvironment = basePath+"env/realEnvironment";
     //wifi在线人数和累计人数
@@ -45,7 +47,6 @@ public class AppUrl {
     public static final String LightSetting = basePath+"light/lightSetting";
     //设置互动灯光定时任务
     public static final String LightSaveSetting = basePath+"light/saveLightSetting";
-
 
     //雾森设备开关状态
     public static final String FogStatus = basePath+"fog/fogStatus";

@@ -28,6 +28,7 @@ import com.example.manage.bean.GMBean;
 import com.example.manage.bean.LightStatusBean;
 import com.example.manage.bean.MonitorListBean;
 import com.example.manage.bean.ScreenStatusBean;
+import com.example.manage.bean.TrushInfoBean;
 import com.example.manage.bean.TrushLastestBean;
 import com.example.manage.utils.ToastUtils;
 import com.google.gson.JsonArray;
@@ -37,6 +38,7 @@ import com.zhouyou.http.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 
 public class EquMesDialog extends Dialog implements View.OnClickListener {
@@ -113,6 +115,8 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
             tv_four.setOnClickListener(this);
         }else if (type.equals("env")){
             EnvStatus();
+        }else if (type.equals("trash")){
+            TrushInfo(title);
         }
     }
 
@@ -392,6 +396,42 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                         }else {
                             tv_two.setText("设备状态：离线");
                         }
+
+                    }
+                });
+    }
+
+    /**
+     * 查询小垃圾桶状态
+     */
+
+    private void TrushInfo(String id){
+        EasyHttp.get(AppUrl.TrushInfo)
+                .params("bucketid1",id)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        TrushInfoBean trushInfoBean = JSON.parseObject(s, TrushInfoBean.class);
+                        tv_title.setText(title);
+                        TrushInfoBean.DataBean dataBean = trushInfoBean.getData().get(0);
+                        String shebeiState = dataBean.getShebeiState();
+                        if (shebeiState.equals("1")){
+                            tv_one.setText("设备状态：满");
+                        }else {
+                            tv_one.setText("设备状态：未满");
+                        }
+                        tv_two.setText("电量："+dataBean.getShebeiPower()+"%");
+                        String wendu = dataBean.getWendu();
+                        StringTokenizer stringTokenizer = new StringTokenizer(wendu,".");
+                        tv_three.setVisibility(View.GONE);
+                        tv_four_title.setText("温度：");
+                        tv_four.setText(stringTokenizer.nextToken()+"℃");
 
                     }
                 });

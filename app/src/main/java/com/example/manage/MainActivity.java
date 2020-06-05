@@ -36,6 +36,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FlexboxLayoutManager flexboxLayoutManagerEqu;
     private Button btn_login;
     private RelativeLayout rl_monitor;
-    private MapView mapView = null;
+    private TextureMapView mapView = null;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
     private TextView tvTotalOne, tvTotalTwo, tvTotalThr, tvTotalFour, tvTotalFive, tvTotalSix;
@@ -345,7 +346,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.icon_screen_type_big);
                 break;
-
+            case "trash":
+                bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_recycl_type_big);
+                break;
             default:
                 bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.icon_map_location);
@@ -559,7 +563,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             data = statisticBean.getData();
                             count.clear();
                             total = 0;
-                            for (int i = 0; i < data.getStatis().size(); i++) {
+                            for (int i = 0; i < 6; i++) {
                                 count.add(data.getStatis().get(i).getNum());
                                 total += data.getStatis().get(i).getNum();
                             }
@@ -735,6 +739,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<MainEquMesBean> fireList = new ArrayList<>();//智能消防
     private List<MainEquMesBean> lightList = new ArrayList<>();//灯光互动
     private List<MainEquMesBean> screenList = new ArrayList<>();//广告大屏
+    private List<MainEquMesBean> trashList = new ArrayList<>();//小垃圾桶
 
     private void Devices() {
         EasyHttp.get(AppUrl.Devices)
@@ -757,6 +762,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fireList.clear();
                         lightList.clear();
                         screenList.clear();
+                        trashList.clear();
                         for (int i = 0; i < features.size(); i++) {
                             String devType = features.get(i).getProperties().getDevType();
                             LatLng latLng = gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0));
@@ -777,6 +783,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 lightList.add(new MainEquMesBean(latLng,"lighting",features.get(i).getProperties().getLabel()));
                             } else if (devType != null && devType.equals("screen")) {
                                 screenList.add(new MainEquMesBean(latLng,"screen",features.get(i).getProperties().getLabel()));
+                            }else if (devType != null && devType.equals("trash")) {
+                                trashList.add(new MainEquMesBean(latLng,"trash",features.get(i).getProperties().getMsid()));
                             }
                         }
 
@@ -815,6 +823,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         equBeansList.add(new MainEquBean("智能消防", 2));
         equBeansList.add(new MainEquBean("灯光互动", 2));
         equBeansList.add(new MainEquBean("广告大屏", 2));
+        equBeansList.add(new MainEquBean("智能垃圾桶", 2));
 
 
         secneAdapter = new MainSecneAdapter(R.layout.item_scene, mainSceneBeanList, this);
@@ -886,6 +895,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 break;
                             case 7:
                                 setMaker(screenList, "screen");
+                                break;
+                            case 8:
+                                setMaker(trashList,"trash");
                                 break;
                         }
 
