@@ -15,23 +15,23 @@ import com.example.manage.bean.MainSceneBean;
 
 import java.util.List;
 
-public class MainSecneAdapter extends BaseQuickAdapter<MainSceneBean,BaseViewHolder>{
+public class MainSecneAdapter extends BaseQuickAdapter<MainSceneBean, BaseViewHolder> {
 
     private Context context;
 
     public MainSecneAdapter(int layoutResId, @Nullable List<MainSceneBean> data, Context context) {
         super(layoutResId, data);
-        this.context =context;
+        this.context = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MainSceneBean item) {
-        helper.setText(R.id.tvMessage,item.getMsg());
+        helper.setText(R.id.tvMessage, item.getMsg());
         TextView view = helper.getView(R.id.tvMessage);
-        if (item.getIsTrue()==1){
+        if (item.getIsTrue() == 1) {
             view.setTextColor(context.getResources().getColor(R.color.light_blue));
             view.setBackgroundResource(R.drawable.shape_drawer_scence_sel);
-        }else {
+        } else {
             view.setTextColor(context.getResources().getColor(R.color.tv66));
             view.setBackgroundResource(R.drawable.shape_drawer_scence);
         }

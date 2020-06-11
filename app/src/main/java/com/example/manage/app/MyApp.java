@@ -21,8 +21,9 @@ import update.UpdateAppUtils;
 public class MyApp extends Application {
     public static Context myApplication;
 
-//    .cacheDiskConverter()
-    private String tokens ="";
+    //    .cacheDiskConverter()
+    private String tokens = "";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,14 +36,14 @@ public class MyApp extends Application {
         String username = SPUtils.getString(myApplication, "username");
         String timestamp = SPUtils.getString(myApplication, "timestamp");
         String token = SPUtils.getString(myApplication, "token");
-        tokens =username+"-"+timestamp+"-"+token;
+        tokens = username + "-" + timestamp + "-" + token;
 
         HttpHeaders headers = new HttpHeaders();
         headers.put("token", tokens);
         EasyHttp.getInstance()
                 //可以全局统一设置全局URL
                 .setBaseUrl(AppUrl.BaseURLTest2)//设置全局URL  url只能是域名 或者域名+端口号
-                .debug("EasyHttp",true)
+                .debug("EasyHttp", true)
                 //如果使用默认的60秒,以下三行也不需要设置
                 .setReadTimeOut(60 * 1000)
                 .setWriteTimeOut(60 * 100)
@@ -59,7 +60,6 @@ public class MyApp extends Application {
                 //可以全局统一设置缓存模式,默认是不使用缓存,可以不传,具体请看CacheMode
                 .addCommonHeaders(headers)
                 .setCertificates();
-
 
 
     }

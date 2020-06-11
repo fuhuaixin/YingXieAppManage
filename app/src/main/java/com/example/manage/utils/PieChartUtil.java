@@ -21,7 +21,7 @@ import java.util.List;
 
 public class PieChartUtil {
     //设置各区域颜色
-    public  final int[]  PIE_COLORS={
+    public final int[] PIE_COLORS = {
             Color.rgb(50, 208, 254), Color.rgb(72, 229, 41), Color.rgb(254, 119, 53),
             Color.rgb(255, 164, 29), Color.rgb(157, 80, 253), Color.rgb(251, 215, 191),
             Color.rgb(237, 189, 189), Color.rgb(172, 217, 243)
@@ -29,16 +29,17 @@ public class PieChartUtil {
     private static PieChartUtil pieChartUtil;
     private List<PieEntry> entries;
     private Context mContext;
-    public static  PieChartUtil getPitChart(){
-        if( pieChartUtil==null){
-            pieChartUtil=new PieChartUtil();
+
+    public static PieChartUtil getPitChart() {
+        if (pieChartUtil == null) {
+            pieChartUtil = new PieChartUtil();
         }
-        return  pieChartUtil;
+        return pieChartUtil;
     }
 
 
-    public void setPieChart(PieChart pieChart,ArrayList count, String title, boolean showLegend,Context context,int total) {
-        mContext =context;
+    public void setPieChart(PieChart pieChart, ArrayList count, String title, boolean showLegend, Context context, int total) {
+        mContext = context;
         pieChart.setUsePercentValues(true);//设置使用百分比（后续有详细介绍）
         pieChart.getDescription().setEnabled(false);//设置描述
         pieChart.setRotationEnabled(false);//是否可以旋转
@@ -79,11 +80,12 @@ public class PieChartUtil {
         }
 
         //设置饼图数据
-        setPieChartData(pieChart,count );
+        setPieChartData(pieChart, count);
 
-        pieChart.animateX(1500,Easing.EaseInOutQuad);//数据显示动画
+        pieChart.animateX(1500, Easing.EaseInOutQuad);//数据显示动画
 
     }
+
     //设置饼图数据
     private void setPieChartData(PieChart pieChart, ArrayList count) {
         entries = new ArrayList<>();
@@ -100,7 +102,7 @@ public class PieChartUtil {
         dataSet.setValueLinePart1OffsetPercentage(100f);//数据连接线距图形片内部边界的距离，为百分数
         dataSet.setValueLinePart1Length(0.3f);
         dataSet.setValueLinePart2Length(0.4f);
-        dataSet.setValueLineColor( PIE_COLORS[3]);//设置连接线的颜色
+        dataSet.setValueLineColor(PIE_COLORS[3]);//设置连接线的颜色
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);//y轴数据显示在饼图内/外
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);//x轴数据显示在饼图内/外
 
@@ -115,14 +117,14 @@ public class PieChartUtil {
     }
 
     private SpannableString generateCenterSpannableText(int tatol) {
-        SpannableString s = new SpannableString("总数\n"+tatol);
-        Log.e("fhxx","s的长度"+s.length());
+        SpannableString s = new SpannableString("总数\n" + tatol);
+        Log.e("fhxx", "s的长度" + s.length());
         s.setSpan(new RelativeSizeSpan(0.8f), 0, 2, 0);
 //        s.setSpan(new StyleSpan(Typeface.NORMAL), 0, s.length() - 15, 0);
         s.setSpan(new ForegroundColorSpan(Color.GRAY), 0, 2, 0);
         s.setSpan(new RelativeSizeSpan(1.3f), 2, s.length(), 0);
 //        s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 4, s.length(), 0);
-        s.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.light_blue)), s.length() -4, s.length(), 0);
+        s.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.light_blue)), s.length() - 4, s.length(), 0);
         return s;
     }
 

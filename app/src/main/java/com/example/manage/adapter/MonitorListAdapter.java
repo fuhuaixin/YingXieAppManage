@@ -18,17 +18,18 @@ import java.util.List;
 public class MonitorListAdapter extends BaseQuickAdapter<MonitorListBean.DataBean.AllVideoUrlBean, BaseViewHolder> {
 
     private Context context;
-    public MonitorListAdapter(int layoutResId, @Nullable List<MonitorListBean.DataBean.AllVideoUrlBean> data,Context context) {
+
+    public MonitorListAdapter(int layoutResId, @Nullable List<MonitorListBean.DataBean.AllVideoUrlBean> data, Context context) {
         super(layoutResId, data);
-        this.context =context;
+        this.context = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MonitorListBean.DataBean.AllVideoUrlBean item) {
-        helper.setText(R.id.tv_title,item.getVideoname());
-        if (item.getImg()!=null&&!item.getImg().equals("")){
+        helper.setText(R.id.tv_title, item.getVideoname());
+        if (item.getImg() != null && !item.getImg().equals("")) {
             ImageView image_mes = helper.getView(R.id.image_mes);
-            Glide.with(context).load(AppUrl.BaseURLTest2+"zhjd"+item.getImg()).into(image_mes);
+            Glide.with(context).load(AppUrl.BaseURLTest2 + "zhjd" + item.getImg()).into(image_mes);
         }
         helper.addOnClickListener(R.id.ll_item);
     }

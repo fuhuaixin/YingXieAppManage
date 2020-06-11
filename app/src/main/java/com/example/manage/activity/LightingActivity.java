@@ -63,6 +63,7 @@ public class LightingActivity extends AppCompatActivity implements View.OnClickL
     private ChooseDateDialog chooseDateDialog; //
 
     private List<String> daysList = new ArrayList<>(); //用来存储选中的日期
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -408,7 +409,7 @@ public class LightingActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onSuccess(String s) {
                         LightSettingBean lightSettingBean = JSON.parseObject(s, LightSettingBean.class);
-                        if (lightSettingBean.isStatus()&&lightSettingBean.getData()!=null) {
+                        if (lightSettingBean.isStatus() && lightSettingBean.getData() != null) {
                             if (lightSettingBean.getData().isTimingon()) {
                                 timeSwitch = 1;
                                 daysList.clear();
@@ -432,7 +433,6 @@ public class LightingActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 设置互动灯光定时任务
      */
-
 
 
     private void saveSetting() {

@@ -16,7 +16,7 @@ public class SearchHistoryAdapter extends BaseQuickAdapter<String, BaseViewHolde
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        helper.setText(R.id.tv_hot,item);
+        helper.setText(R.id.tv_hot, item);
 
         helper.addOnClickListener(R.id.ll_item);
         helper.addOnLongClickListener(R.id.ll_item);

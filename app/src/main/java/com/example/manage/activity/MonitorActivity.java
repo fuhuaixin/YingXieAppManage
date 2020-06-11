@@ -49,7 +49,7 @@ public class MonitorActivity extends BaseActivity {
     private LinearLayout mTopPart, mBottomPart;
     private FrameLayout mFlVideoView;
 
-    private String strTitle = "", strUrl = "", strId = "",strHis="";
+    private String strTitle = "", strUrl = "", strId = "", strHis = "";
     private int isStop = 0;
 
     @Override

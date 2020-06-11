@@ -19,12 +19,12 @@ public class EquListItemAdapter extends BaseQuickAdapter<EquListBean.ResultBean.
 
     @Override
     protected void convert(BaseViewHolder helper, EquListBean.ResultBean.ListBean item) {
-        helper.setText(R.id.tv_item_title,item.getMessage());
+        helper.setText(R.id.tv_item_title, item.getMessage());
         TextView tv_statue = helper.getView(R.id.tv_statue);
-        if (item.getStatus()==1){
+        if (item.getStatus() == 1) {
             tv_statue.setBackgroundResource(R.drawable.shape_login_btn);
             tv_statue.setText("正常");
-        }else {
+        } else {
             tv_statue.setBackgroundResource(R.drawable.shape_error_red);
             tv_statue.setText("离线");
         }

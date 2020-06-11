@@ -10,7 +10,7 @@ public class ToastUtils {
         Toast.makeText(MyApp.myApplication, text, Toast.LENGTH_SHORT).show();
     }
 
-    public static void showLong( CharSequence text) {
+    public static void showLong(CharSequence text) {
         Toast.makeText(MyApp.myApplication, text, Toast.LENGTH_LONG).show();
     }
 

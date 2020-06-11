@@ -17,18 +17,18 @@ public class MainEquAdapter extends BaseQuickAdapter<MainEquBean, BaseViewHolder
 
     public MainEquAdapter(int layoutResId, @Nullable List<MainEquBean> data, Context context) {
         super(layoutResId, data);
-        this.mContext =context;
+        this.mContext = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MainEquBean item) {
-        helper.setText(R.id.tvMessage,item.getMsg());
+        helper.setText(R.id.tvMessage, item.getMsg());
 
         TextView view = helper.getView(R.id.tvMessage);
-        if (item.getIsChoose()==1){
+        if (item.getIsChoose() == 1) {
             view.setTextColor(mContext.getResources().getColor(R.color.light_blue));
             view.setBackgroundResource(R.drawable.shape_drawer_scence_sel);
-        }else {
+        } else {
             view.setTextColor(mContext.getResources().getColor(R.color.tv66));
             view.setBackgroundResource(R.drawable.shape_drawer_scence);
         }

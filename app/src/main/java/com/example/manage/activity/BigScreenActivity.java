@@ -134,14 +134,14 @@ public class BigScreenActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 if (position == 0) {
                                     ScreenShutDown("1111111111");
-                                }else if (position==1){
+                                } else if (position == 1) {
                                     ScreenReBoot("1111111111");
-                                }else if (position==2){
+                                } else if (position == 2) {
                                     HardReBoot("1111111111");
-                                } else if (position==3){
-                                    ScreenAlarm("1111111111",strDate+" "+strHour+":"+strMin+":"+"00");
-                                    Log.e("fhxx",strDate+strHour+strMin);
-                                    Log.e("fhxx",strDate+strHour+strMin);
+                                } else if (position == 3) {
+                                    ScreenAlarm("1111111111", strDate + " " + strHour + ":" + strMin + ":" + "00");
+                                    Log.e("fhxx", strDate + strHour + strMin);
+                                    Log.e("fhxx", strDate + strHour + strMin);
 //                                    Toast.makeText(BigScreenActivity.this, strDate+strHour+strMin, Toast.LENGTH_SHORT).show();
                                 }
                                 screenDialog.dismiss();
@@ -158,24 +158,25 @@ public class BigScreenActivity extends AppCompatActivity {
     /**
      * 时间选择器监听
      */
-    private String strHour="00",strMin="00",strDate="2000";
-    private void dataLiean(){
+    private String strHour = "00", strMin = "00", strDate = "2000";
+
+    private void dataLiean() {
         wheel_hour.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
             @Override
             public void onItemSelected(WheelPicker picker, Object data, int position) {
-                strHour=data.toString();
+                strHour = data.toString();
             }
         });
         wheel_min.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
             @Override
             public void onItemSelected(WheelPicker picker, Object data, int position) {
-                strMin =data.toString();
+                strMin = data.toString();
             }
         });
         wheel_date.setOnDateSelectedListener(new WheelDatePicker.OnDateSelectedListener() {
             @Override
             public void onDateSelected(WheelDatePicker picker, Date date) {
-                strDate= DateUtil.getDateToString(date.getTime(),"yyyy-MM-dd");
+                strDate = DateUtil.getDateToString(date.getTime(), "yyyy-MM-dd");
             }
         });
     }
@@ -237,7 +238,7 @@ public class BigScreenActivity extends AppCompatActivity {
     /**
      * 系统重启
      */
-    private void ScreenReBoot(String deviceName){
+    private void ScreenReBoot(String deviceName) {
         EasyHttp.get(AppUrl.ScreenSoftReBoot)
                 .timeStamp(true)
                 .syncRequest(false)
@@ -260,7 +261,7 @@ public class BigScreenActivity extends AppCompatActivity {
     /**
      * 硬件重启
      */
-    private void HardReBoot(String deviceName){
+    private void HardReBoot(String deviceName) {
         EasyHttp.get(AppUrl.ScreenHardReBoot)
                 .timeStamp(true)
                 .syncRequest(false)
@@ -284,7 +285,7 @@ public class BigScreenActivity extends AppCompatActivity {
      * 关机并定时开机
      */
 
-    private void ScreenAlarm(String deviceName,String dateTime){
+    private void ScreenAlarm(String deviceName, String dateTime) {
         EasyHttp.get(AppUrl.ScreenAlarm)
                 .timeStamp(true)
                 .syncRequest(false)

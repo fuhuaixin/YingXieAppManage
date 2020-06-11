@@ -157,28 +157,28 @@ public class SenFogActivity extends AppCompatActivity implements View.OnClickLis
                 dialogSetting(3);
                 break;
             case R.id.btn_commit:
-                strNowHm= DateUtil.getCurDate("HH:mm");
+                strNowHm = DateUtil.getCurDate("HH:mm");
                 long stringToDate = DateUtil.getStringToDate(strNowHm, "HH:mm");//当前时间
                 long oneStart = DateUtil.getStringToDate(tv_one_start.getText().toString(), "HH:mm");//第一开始
                 long oneEnd = DateUtil.getStringToDate(tv_one_end.getText().toString(), "HH:mm");//第一end
                 long twoStart = DateUtil.getStringToDate(tv_two_start.getText().toString(), "HH:mm");//第二开始
                 long twoEnd = DateUtil.getStringToDate(tv_two_end.getText().toString(), "HH:mm");//第二end
-                Log.e("fhxx",stringToDate+"--"+oneStart+"--"+oneEnd);
+                Log.e("fhxx", stringToDate + "--" + oneStart + "--" + oneEnd);
 
                 if (timeSwitch == 1) {
                     isTimeSwitch = true;
-                    if (check_one.isChecked()){
-                        if (oneEnd<oneStart){
+                    if (check_one.isChecked()) {
+                        if (oneEnd < oneStart) {
                             ToastUtils.show("第一时段：结束时间请大于开始时间");
                             break;
                         }
                     }
-                   if (checkbox_two.isChecked()){
-                       if (twoEnd<twoStart){
-                           ToastUtils.show("第二时段：结束时间请大于开始时间");
-                           break;
-                       }
-                   }
+                    if (checkbox_two.isChecked()) {
+                        if (twoEnd < twoStart) {
+                            ToastUtils.show("第二时段：结束时间请大于开始时间");
+                            break;
+                        }
+                    }
 
                 } else if (timeSwitch == 2) {
                     isTimeSwitch = false;
@@ -244,10 +244,10 @@ public class SenFogActivity extends AppCompatActivity implements View.OnClickLis
      */
     private String hourStr = "00", minStr = "00";
     String strNowHm;
+
     private void dialogSetting(final int type) {
 
         String hh = DateUtil.getCurDate("HH");
-
 
 
         chooseTimeDialog.show();
@@ -430,7 +430,7 @@ public class SenFogActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onSuccess(String s) {
                         FogSettingBean fogSettingBean = JSON.parseObject(s, FogSettingBean.class);
-                        if (fogSettingBean.isStatus()&&fogSettingBean.getData()!=null) {
+                        if (fogSettingBean.isStatus() && fogSettingBean.getData() != null) {
                             FogSettingBean.DataBean data = fogSettingBean.getData();
 
                             if (data.isTimingon()) {
@@ -480,9 +480,9 @@ public class SenFogActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onSuccess(String s) {
                         FogSettingBean fogSettingBean = JSON.parseObject(s, FogSettingBean.class);
-                        if (fogSettingBean.isStatus()){
+                        if (fogSettingBean.isStatus()) {
                             finish();
-                        }else {
+                        } else {
                             ToastUtils.show(fogSettingBean.getMessage());
                         }
                     }

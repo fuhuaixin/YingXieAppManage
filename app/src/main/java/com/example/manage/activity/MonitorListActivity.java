@@ -92,14 +92,14 @@ public class MonitorListActivity extends BaseActivity {
                                     switch (view.getId()) {
                                         case R.id.ll_item:
                                             String videourl = allVideoUrl.get(position).getVideourl();
-                                            if (videourl !=null&&!videourl.equals("")){
+                                            if (videourl != null && !videourl.equals("")) {
                                                 Intent intent = new Intent(MonitorListActivity.this, MonitorActivity.class);
                                                 intent.putExtra("videoname", allVideoUrl.get(position).getVideoname());
                                                 intent.putExtra("videourl", videourl);
                                                 intent.putExtra("videoid", allVideoUrl.get(position).getVideoid());
                                                 intent.putExtra("historyurl", allVideoUrl.get(position).getHistoryurl());
                                                 startActivity(intent);
-                                            }else {
+                                            } else {
                                                 ToastUtils.show("未获取到摄像头状态");
                                             }
 

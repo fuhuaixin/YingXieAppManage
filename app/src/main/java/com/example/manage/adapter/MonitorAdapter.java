@@ -20,13 +20,13 @@ public class MonitorAdapter extends BaseQuickAdapter<MonitorBean, BaseViewHolder
     @Override
     protected void convert(BaseViewHolder helper, MonitorBean item) {
 
-        helper.setText(R.id.tv_time,item.getTime());
+        helper.setText(R.id.tv_time, item.getTime());
 
         ImageView imageStart = helper.getView(R.id.image_start);
 
-        if (item.getChoose()){
+        if (item.getChoose()) {
             imageStart.setImageResource(R.mipmap.icon_monitor_ing);
-        }else {
+        } else {
             imageStart.setImageResource(R.mipmap.icon_monitor_start);
         }
 

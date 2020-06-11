@@ -23,8 +23,8 @@ public class BigScreenAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         ImageView image_title = helper.getView(R.id.image_title);
         TextView tv_message = helper.getView(R.id.tv_message);
         RelativeLayout rl_item = helper.getView(R.id.rl_item);
-        helper.setText(R.id.tv_message,item);
-        switch (helper.getPosition()){
+        helper.setText(R.id.tv_message, item);
+        switch (helper.getPosition()) {
             case 0:
                 image_title.setImageResource(R.mipmap.icon_hand_close);
                 rl_item.setBackgroundResource(R.drawable.ic_screen_lan);

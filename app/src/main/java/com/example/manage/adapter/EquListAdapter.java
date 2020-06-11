@@ -36,7 +36,7 @@ public class EquListAdapter extends BaseQuickAdapter<EquListBean.ResultBean, Bas
     protected void convert(BaseViewHolder helper, final EquListBean.ResultBean item) {
         helper.setText(R.id.tv_header, item.getTitle());
         ImageView image_state = helper.getView(R.id.image_state);
-        TextView tv_statue =helper.getView(R.id.tv_statue);
+        TextView tv_statue = helper.getView(R.id.tv_statue);
         LinearLayout ll_item_item = helper.getView(R.id.ll_item_item);
         RecyclerView recycle_item = helper.getView(R.id.recycle_item);
 
@@ -50,18 +50,18 @@ public class EquListAdapter extends BaseQuickAdapter<EquListBean.ResultBean, Bas
             image_state.setImageResource(R.mipmap.icon_item_up);
             ll_item_item.setVisibility(View.VISIBLE);
         }
-        if (item.getTitleStatus()!=null){
+        if (item.getTitleStatus() != null) {
             image_state.setVisibility(View.GONE);
             tv_statue.setVisibility(View.VISIBLE);
-            if (item.getTitleStatus()){
+            if (item.getTitleStatus()) {
                 tv_statue.setBackgroundResource(R.drawable.shape_login_btn);
                 tv_statue.setText("正常");
-            }else {
+            } else {
                 tv_statue.setBackgroundResource(R.drawable.shape_error_red);
                 tv_statue.setText("离线");
             }
 
-        }else {
+        } else {
             image_state.setVisibility(View.VISIBLE);
             tv_statue.setVisibility(View.GONE);
         }

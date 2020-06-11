@@ -136,8 +136,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 .setOnInitUiListener(new OnInitUiListener() {
                     @Override
                     public void onInitUpdateUi(View view, UpdateConfig updateConfig, UiConfig uiConfig) {
-                        TextView tv_code =view.findViewById(R.id.tv_code);
-                        tv_code.setText("V"+code);
+                        TextView tv_code = view.findViewById(R.id.tv_code);
+                        tv_code.setText("V" + code);
                     }
                 })
                 .update();

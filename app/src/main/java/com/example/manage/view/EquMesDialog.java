@@ -97,25 +97,25 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
             getRubash();
         } else if (type.equals("wifi")) {
             ApStatus();
-        }else if (type.equals("fire")){
+        } else if (type.equals("fire")) {
             tv_title.setText("智能消防栓");
             tv_one.setText("安装日期:2019年10月11日");
             tv_four_title.setText("设备状态:");
             tv_four.setText("正常");
             tv_two.setVisibility(View.GONE);
             tv_three.setVisibility(View.GONE);
-        }else if (type.equals("light")){
+        } else if (type.equals("light")) {
             getLightStatus();
             tv_four.setOnClickListener(this);
-        }else if (type.equals("screen")){
+        } else if (type.equals("screen")) {
             getScreenStatus();
             tv_four.setOnClickListener(this);
-        }else if (type.equals("camera")){
+        } else if (type.equals("camera")) {
             Chanelinfo();
             tv_four.setOnClickListener(this);
-        }else if (type.equals("env")){
+        } else if (type.equals("env")) {
             EnvStatus();
-        }else if (type.equals("trash")){
+        } else if (type.equals("trash")) {
             TrushInfo(title);
         }
     }
@@ -127,13 +127,13 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                 if (type.equals("spray")) {
                     dismiss();
                     mContext.startActivity(new Intent(mContext, SenFogActivity.class));
-                }else if (type.equals("light")){
+                } else if (type.equals("light")) {
                     dismiss();
                     mContext.startActivity(new Intent(mContext, LightingActivity.class));
-                }else if (type.equals("screen")){
+                } else if (type.equals("screen")) {
                     dismiss();
                     mContext.startActivity(new Intent(mContext, BigScreenActivity.class));
-                }else if (type.equals("camera")){
+                } else if (type.equals("camera")) {
                     getMonitorList();
                 }
                 break;
@@ -196,6 +196,7 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                     }
                 });
     }
+
     /**
      * 获取无线网ap列表和状态
      */
@@ -220,13 +221,13 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                         if (apStatusBean.isStatus()) {
                             data1 = apStatusBean.getData().getData();
                             for (int i = 0; i < data1.size(); i++) {
-                                if (title.equals(data1.get(i).getName())){
-                                    tv_two.setText("接入点名称："+data1.get(i).getName());
-                                    tv_three.setText("连接人数："+data1.get(i).getConnection());
+                                if (title.equals(data1.get(i).getName())) {
+                                    tv_two.setText("接入点名称：" + data1.get(i).getName());
+                                    tv_three.setText("连接人数：" + data1.get(i).getConnection());
                                     tv_four_title.setText("设备状态:");
-                                    if (data1.get(i).getStatus()==1){
+                                    if (data1.get(i).getStatus() == 1) {
                                         tv_four.setText("正常");
-                                    }else {
+                                    } else {
                                         tv_four.setText("离线");
                                     }
                                 }
@@ -248,6 +249,7 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                     @Override
                     public void onError(ApiException e) {
                     }
+
                     @Override
                     public void onSuccess(String s) {
                         LightStatusBean lightStatusBean = JSON.parseObject(s, LightStatusBean.class);
@@ -261,8 +263,8 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
 
                         if (lightStatusBean.isStatus()) {
                             tv_three.setText("设备状态:正常");
-                            tv_two.setText("设备名称:"+lightStatusBean.getData().getRealyName());
-                        }else {
+                            tv_two.setText("设备名称:" + lightStatusBean.getData().getRealyName());
+                        } else {
                             tv_three.setText("设备状态:离线");
                         }
                     }
@@ -295,7 +297,7 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                         tv_four.setTextColor(mContext.getResources().getColor(R.color.light_blue));
                         if (screenStatusBean.isStatus()) {
                             tv_two.setText("设备状态:正常");
-                        }else {
+                        } else {
                             tv_two.setText("设备状态:离线");
                         }
                     }
@@ -306,7 +308,7 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
      * 查询查询视频在线状态
      */
 
-    private void Chanelinfo(){
+    private void Chanelinfo() {
         EasyHttp.get(AppUrl.Chanelinfo)
                 .syncRequest(false)
                 .timeStamp(true)
@@ -314,21 +316,22 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                     @Override
                     public void onError(ApiException e) {
                     }
+
                     @Override
                     public void onSuccess(String s) {
                         List<ChannlInfoBean> channlInfoBeans = JSON.parseArray(s, ChannlInfoBean.class);
                         tv_title.setText("智能视频摄像头");
                         tv_one.setText("安装日期：2019年10月11日");
                         for (int i = 0; i < channlInfoBeans.size(); i++) {
-                            if (title.equals(channlInfoBeans.get(i).getName())){
-                                tv_two.setText("摄像头名称："+channlInfoBeans.get(i).getName());
-                                tv_three.setText("设备状态："+((channlInfoBeans.get(i).getStatus()==1)?"正常":"离线"));
+                            if (title.equals(channlInfoBeans.get(i).getName())) {
+                                tv_two.setText("摄像头名称：" + channlInfoBeans.get(i).getName());
+                                tv_three.setText("设备状态：" + ((channlInfoBeans.get(i).getStatus() == 1) ? "正常" : "离线"));
                                 tv_four.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
                                 tv_four.getPaint().setAntiAlias(true);//抗锯齿
                                 tv_four.setText("查看视频");
                                 tv_four_title.setText("操作:");
                                 tv_four.setTextColor(mContext.getResources().getColor(R.color.light_blue));
-                               
+
                             }
                         }
                     }
@@ -347,13 +350,13 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                     @Override
                     public void onSuccess(String s) {
                         MonitorListBean monitorListBean = JSON.parseObject(s, MonitorListBean.class);
-                        if (monitorListBean.isStatus()){
+                        if (monitorListBean.isStatus()) {
                             List<MonitorListBean.DataBean.AllVideoUrlBean> allVideoUrl = monitorListBean.getData().getAllVideoUrl();
                             for (int i = 0; i < allVideoUrl.size(); i++) {
-                                Log.e("fhxx",title+ allVideoUrl.get(i).getVideoname());
-                                Log.e("fhxx",title.equals(allVideoUrl.get(i).getVideoname())+" ------ " );
-                                if (title.equals(allVideoUrl.get(i).getIdname())){
-                                    if (allVideoUrl.get(i).getVideourl().equals("")){
+                                Log.e("fhxx", title + allVideoUrl.get(i).getVideoname());
+                                Log.e("fhxx", title.equals(allVideoUrl.get(i).getVideoname()) + " ------ ");
+                                if (title.equals(allVideoUrl.get(i).getIdname())) {
+                                    if (allVideoUrl.get(i).getVideourl().equals("")) {
                                         ToastUtils.show("设备异常");
                                         return;
                                     }
@@ -373,9 +376,9 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
     }
 
     /**
-     *查询环境监测设备在线状态
+     * 查询环境监测设备在线状态
      */
-    private void EnvStatus(){
+    private void EnvStatus() {
         EasyHttp.get(AppUrl.EnvStatus)
                 .syncRequest(false)
                 .execute(new SimpleCallBack<String>() {
@@ -391,9 +394,9 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                         tv_four.setVisibility(View.GONE);
                         tv_four_title.setVisibility(View.GONE);
                         GMBean gmBean = JSON.parseObject(s, GMBean.class);
-                        if (gmBean.getData().toString().equals("true")){
+                        if (gmBean.getData().toString().equals("true")) {
                             tv_two.setText("设备状态：正常");
-                        }else {
+                        } else {
                             tv_two.setText("设备状态：离线");
                         }
 
@@ -405,9 +408,9 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
      * 查询小垃圾桶状态
      */
 
-    private void TrushInfo(String id){
+    private void TrushInfo(String id) {
         EasyHttp.get(AppUrl.TrushInfo)
-                .params("bucketid1",id)
+                .params("bucketid1", id)
                 .syncRequest(false)
                 .execute(new SimpleCallBack<String>() {
                     @Override
@@ -421,17 +424,17 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                         tv_title.setText(title);
                         TrushInfoBean.DataBean dataBean = trushInfoBean.getData().get(0);
                         String shebeiState = dataBean.getShebeiState();
-                        if (shebeiState.equals("1")){
+                        if (shebeiState.equals("1")) {
                             tv_one.setText("设备状态：满");
-                        }else {
+                        } else {
                             tv_one.setText("设备状态：未满");
                         }
-                        tv_two.setText("电量："+dataBean.getShebeiPower()+"%");
+                        tv_two.setText("电量：" + dataBean.getShebeiPower() + "%");
                         String wendu = dataBean.getWendu();
-                        StringTokenizer stringTokenizer = new StringTokenizer(wendu,".");
+                        StringTokenizer stringTokenizer = new StringTokenizer(wendu, ".");
                         tv_three.setVisibility(View.GONE);
                         tv_four_title.setText("温度：");
-                        tv_four.setText(stringTokenizer.nextToken()+"℃");
+                        tv_four.setText(stringTokenizer.nextToken() + "℃");
 
                     }
                 });

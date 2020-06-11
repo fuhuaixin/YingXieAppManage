@@ -19,26 +19,27 @@ import java.util.ArrayList;
 public class BarChartUtils {
 
     private static BarChartUtils barChartUtil;
-    private ArrayList<BarEntry> yValues =new ArrayList<>();
+    private ArrayList<BarEntry> yValues = new ArrayList<>();
     private BarData mBarData;
     private BarDataSet barDataSet;
     private Context mContext;
-    public static BarChartUtils getBarChart(){
-        if( barChartUtil==null){
-            barChartUtil=new BarChartUtils();
+
+    public static BarChartUtils getBarChart() {
+        if (barChartUtil == null) {
+            barChartUtil = new BarChartUtils();
         }
-        return  barChartUtil;
+        return barChartUtil;
     }
 
-    public void setBarChart(BarChart barChart, int type, ArrayList<BarEntry> yValues, Context context){
-        this.yValues =yValues;
-        mContext =context;
+    public void setBarChart(BarChart barChart, int type, ArrayList<BarEntry> yValues, Context context) {
+        this.yValues = yValues;
+        mContext = context;
         // y 轴数据集
-        if (type==1){
+        if (type == 1) {
 
             barDataSet = new BarDataSet(yValues, "水量");
             barDataSet.setColor(mContext.getResources().getColor(R.color.war));
-        }else if (type==2){
+        } else if (type == 2) {
 
             // y 轴数据集
             barDataSet = new BarDataSet(yValues, "电量");

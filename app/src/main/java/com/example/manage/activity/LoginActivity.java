@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private LinearLayout ll_user, ll_password;
     private CheckBox checkbox;
     LoginBean loginBean;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,26 +140,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onSuccess(String s) {
-                        Log.e("fhxx",s);
+                        Log.e("fhxx", s);
                         loginBean = JSON.parseObject(s, LoginBean.class);
 
-                        if (loginBean.isStatus()){
-                            SPUtils.putString(LoginActivity.this,"login_user",et_user.getText().toString());
+                        if (loginBean.isStatus()) {
+                            SPUtils.putString(LoginActivity.this, "login_user", et_user.getText().toString());
                             LoginBean.DataBean data = loginBean.getData();
-                            SPUtils.putString(LoginActivity.this,"username", data.getUsername());
-                            SPUtils.putString(LoginActivity.this,"timestamp", data.getTimestamp());
-                            SPUtils.putString(LoginActivity.this,"token", data.getToken());
-                            if (checkbox.isChecked()){
-                                SPUtils.putString(LoginActivity.this,"login_pass",et_password.getText().toString());
-                                SPUtils.putString(LoginActivity.this,"ischeck","check");
-                            }else {
-                                SPUtils.putString(LoginActivity.this,"login_pass","");
-                                SPUtils.putString(LoginActivity.this,"ischeck","unCheck");
+                            SPUtils.putString(LoginActivity.this, "username", data.getUsername());
+                            SPUtils.putString(LoginActivity.this, "timestamp", data.getTimestamp());
+                            SPUtils.putString(LoginActivity.this, "token", data.getToken());
+                            if (checkbox.isChecked()) {
+                                SPUtils.putString(LoginActivity.this, "login_pass", et_password.getText().toString());
+                                SPUtils.putString(LoginActivity.this, "ischeck", "check");
+                            } else {
+                                SPUtils.putString(LoginActivity.this, "login_pass", "");
+                                SPUtils.putString(LoginActivity.this, "ischeck", "unCheck");
                             }
 
                             finish();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        }else {
+                        } else {
                             ToastUtils.show(loginBean.getMessage());
                         }
                     }

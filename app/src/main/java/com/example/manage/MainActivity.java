@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BarChart barChart; // 柱状图
     private PieChart pieChart;// 饼状图
     private RecyclerView recycle_scene, recycle_equ;
-    private LinearLayout ll_net,ll_net_top; //进入网络界面
+    private LinearLayout ll_net, ll_net_top; //进入网络界面
     private ArrayList count = new ArrayList();
     private FlexboxLayoutManager flexboxLayoutManager;
     private FlexboxLayoutManager flexboxLayoutManagerEqu;
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tv_rainvalue_bot, tv_pm_bot, tv_humidity_bot, tv_windirection_bot, tv_tem_bot, tv_tem_title_bot;
     private TextView tv_rainvalue_top, tv_pm_top, tv_humidity_top, tv_windirection_top, tv_tem_top, tv_tem_title_top;
     private TextView tv_flow_total, tv_flow_total_bot, tv_online, tv_stack, tv_wifi_total, tv_wifi_online, tv_wifi_unline, tv_unit;
-    private ImageView image_add_zoom, image_lose_zoom,image_tem;
+    private ImageView image_add_zoom, image_lose_zoom, image_tem;
 
     private boolean isFirstLoc = true; //第一次定位
     private int IsVisible = 1; //1为显示 2 为隐藏
@@ -248,6 +248,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         UiSettings uiSettings = mBaiduMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
         mapView.showZoomControls(false);
+        //打开室内图，默认为关闭状态
+        mBaiduMap.setIndoorEnable(true);
 
    /*     //定位初始化
         mLocationClient = new LocationClient(this);
@@ -289,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         //改变地图状态
         mBaiduMap.animateMapStatus(mMapStatusUpdate);
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         //	MapStatusUpdate state = MapStatusUpdateFactory.zoomBy(4);
@@ -308,6 +309,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<OverlayOptions> optionsList = new ArrayList<>();
     //构建Marker图标
     BitmapDescriptor bitmap = null;
+
     private void setMaker(List<MainEquMesBean> latLngList, final String type) {
         mBaiduMap.clear();
         mBaiduMap.removeMarkerClickListener(onMarkerClickListener);
@@ -323,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .fromResource(R.mipmap.icon_fire_type_big);
                 break;
             case "garbage":
+            case "trash":
                 bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.icon_recycl_type_big);
                 break;
@@ -346,16 +349,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.icon_screen_type_big);
                 break;
-            case "trash":
-                bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.icon_recycl_type_big);
-                break;
             default:
                 bitmap = BitmapDescriptorFactory
                         .fromResource(R.mipmap.icon_map_location);
                 break;
         }
-        Log.e("fhxx",latLngList.toString());
+        Log.e("fhxx", latLngList.toString());
 
         //构建MarkerOption，用于在地图上添加Marker
         for (int i = 0; i < latLngList.size(); i++) {
@@ -391,18 +390,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BaiduMap.OnMarkerClickListener onMarkerClickListener = new BaiduMap.OnMarkerClickListener() {
         @Override
         public boolean onMarkerClick(Marker marker) {
-//            marker.setIcon(bitmap);
-//            marker.setIcons();
-            if (ifshowDialog){
+            if (ifshowDialog) {
                 Bundle extraInfo = marker.getExtraInfo();
                 String title = extraInfo.getString("title");
                 String type = extraInfo.getString("type");
 
-                Log.e("fhxx",title+" ----- "+type);
+                Log.e("fhxx", title + " ----- " + type);
 
-                equMesDialog =new EquMesDialog(MainActivity.this);
-//            Toast.makeText(MainActivity.this, type + " ---- " + title, Toast.LENGTH_SHORT).show();
-                equMesDialog.SetMessage(type,title);
+                equMesDialog = new EquMesDialog(MainActivity.this);
+                equMesDialog.SetMessage(type, title);
                 equMesDialog.show();
                 Window window = equMesDialog.getWindow();
                 WindowManager.LayoutParams lp = window.getAttributes();
@@ -411,13 +407,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 equMesDialog.getWindow().setAttributes(lp);
             }
 
-           /* if (type.equals("light")) {
-                startActivity(new Intent(MainActivity.this, LightingActivity.class));
-            } else if (type.equals("spray")) {
-                startActivity(new Intent(MainActivity.this, SenFogActivity.class));
-            } else if (type.equals("screen")) {
-                startActivity(new Intent(MainActivity.this, BigScreenActivity.class));
-            }*/
             return false;
         }
     };
@@ -598,7 +587,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         TrushLastestBean trushLastestBean = JSON.parseObject(s, TrushLastestBean.class);
                         if (trushLastestBean.isStatus()) {
                             List<TrushLastestBean.DataBean.ListBean> list = trushLastestBean.getData().getList();
-                            progress_rub_one.setProgress((int)(list.get(0).getOveralam() * 100));
+                            progress_rub_one.setProgress((int) (list.get(0).getOveralam() * 100));
                             tv_progress_one.setText(list.get(0).getOveralam() * 100 + "%");
                             progress_rub_two.setProgress((int) (list.get(1).getOveralam() * 100));
                             tv_progress_two.setText(list.get(1).getOveralam() * 100 + "%");
@@ -633,15 +622,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             tv_windirection_top.setText(monitor.getWindirection());
                             tv_humidity_top.setText(monitor.getHumidity());
                             tv_humidity_bot.setText(monitor.getHumidity());
-                            tv_pm_top.setText(monitor.getPm25()+"μg");
-                            tv_pm_bot.setText(monitor.getPm25()+"μg");
-                            tv_rainvalue_top.setText(monitor.getRainvalue()+"mm");
-                            tv_rainvalue_bot.setText(monitor.getRainvalue()+"mm");
+                            tv_pm_top.setText(monitor.getPm25() + "μg");
+                            tv_pm_bot.setText(monitor.getPm25() + "μg");
+                            tv_rainvalue_top.setText(monitor.getRainvalue() + "mm");
+                            tv_rainvalue_bot.setText(monitor.getRainvalue() + "mm");
 
                             tv_tem_title_bot.setText(monitor.getTemperature() + "℃");
-                            if (environmentBean.getData().getWeather()!=null){
+                            if (environmentBean.getData().getWeather() != null) {
                                 tv_tem_title_top.setText(weather.getWea());
-                                switch (weather.getWea_img()){
+                                switch (weather.getWea_img()) {
                                     case "xue":
                                     case "bingbao":
                                         image_tem.setImageResource(R.mipmap.icon_bingbao);
@@ -768,23 +757,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             LatLng latLng = gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0));
 
                             if (devType != null && devType.equals("envMonitor")) {
-                                envList.add(new MainEquMesBean(latLng,"envMonitor","env"));
+                                envList.add(new MainEquMesBean(latLng, "envMonitor", "env"));
                             } else if (devType != null && devType.equals("garbageCollector")) {
-                                garbageList.add(new MainEquMesBean(latLng,"garbageCollector",features.get(i).getProperties().getEid()+""));
+                                garbageList.add(new MainEquMesBean(latLng, "garbageCollector", features.get(i).getProperties().getEid() + ""));
                             } else if (devType != null && devType.equals("wifi")) {
-                                wifiList.add(new MainEquMesBean(latLng,"wifi",features.get(i).getProperties().getName()));
+                                wifiList.add(new MainEquMesBean(latLng, "wifi", features.get(i).getProperties().getName()));
                             } else if (devType != null && devType.equals("camera")) {
-                                cameraList.add(new MainEquMesBean(latLng,"camera",features.get(i).getProperties().getName()));
+                                cameraList.add(new MainEquMesBean(latLng, "camera", features.get(i).getProperties().getName()));
                             } else if (devType != null && devType.equals("spray")) {
-                                sprayList.add(new MainEquMesBean(latLng,"spray","spray"));
+                                sprayList.add(new MainEquMesBean(latLng, "spray", "spray"));
                             } else if (devType != null && devType.equals("fireStation")) {
-                                fireList.add(new MainEquMesBean(latLng,"fireStation","fireStation"));
+                                fireList.add(new MainEquMesBean(latLng, "fireStation", "fireStation"));
                             } else if (devType != null && devType.equals("lighting")) {
-                                lightList.add(new MainEquMesBean(latLng,"lighting",features.get(i).getProperties().getLabel()));
+                                lightList.add(new MainEquMesBean(latLng, "lighting", features.get(i).getProperties().getLabel()));
                             } else if (devType != null && devType.equals("screen")) {
-                                screenList.add(new MainEquMesBean(latLng,"screen",features.get(i).getProperties().getLabel()));
-                            }else if (devType != null && devType.equals("trash")) {
-                                trashList.add(new MainEquMesBean(latLng,"trash",features.get(i).getProperties().getMsid()));
+                                screenList.add(new MainEquMesBean(latLng, "screen", features.get(i).getProperties().getLabel()));
+                            } else if (devType != null && devType.equals("trash")) {
+                                trashList.add(new MainEquMesBean(latLng, "trash", features.get(i).getProperties().getMsid()));
                             }
                         }
 
@@ -801,7 +790,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 侧滑抽屉数据
      */
-    private Boolean ifshowDialog =false;
+    private Boolean ifshowDialog = false;
+
     private void sceneRecycle() {
         mainSceneBeanList.add(new MainSceneBean("河南信息广场", 2, 113.723801, 34.766674));
         mainSceneBeanList.add(new MainSceneBean("新鑫花园西门", 2, 113.725302, 34.766352));
@@ -842,7 +832,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tvMessage:
-                        ifshowDialog=false;
+                        ifshowDialog = false;
                         mapMoveCenter(new LatLng(mainSceneBeanList.get(position).getLat(), mainSceneBeanList.get(position).getLng()), 20);
 //                        Toast.makeText(MainActivity.this, "点击了" + mainSceneBeanList.get(position).toString(), Toast.LENGTH_SHORT).show();
                         for (int i = 0; i < mainSceneBeanList.size(); i++) {
@@ -870,7 +860,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tvMessage:
-                        ifshowDialog=true;
+                        ifshowDialog = true;
                         switch (position) {
                             case 0:
                                 setMaker(envList, "env");
@@ -897,7 +887,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 setMaker(screenList, "screen");
                                 break;
                             case 8:
-                                setMaker(trashList,"trash");
+                                setMaker(trashList, "trash");
                                 break;
                         }
 

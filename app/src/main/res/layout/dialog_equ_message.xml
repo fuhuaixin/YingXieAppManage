@@ -52,12 +52,14 @@
             android:text="查询中"
             android:textColor="@color/tv66"
             android:textSize="14sp" />
+
         <LinearLayout
             android:id="@+id/ll_four"
-            android:layout_margin="10dp"
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
             <TextView
                 android:id="@+id/tv_four_title"
                 android:layout_width="wrap_content"
@@ -65,6 +67,7 @@
                 android:text="查询中："
                 android:textColor="@color/tv66"
                 android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_four"
                 android:layout_width="wrap_content"
@@ -73,7 +76,6 @@
                 android:textColor="@color/tv66"
                 android:textSize="14sp" />
         </LinearLayout>
-
 
 
     </LinearLayout>

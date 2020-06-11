@@ -17,7 +17,7 @@ public class ReBackVidioAdapter extends BaseQuickAdapter<ReBackVidioListBean.Dat
 
     @Override
     protected void convert(BaseViewHolder helper, ReBackVidioListBean.DataBean item) {
-        helper.setText(R.id.tv_name,item.getStartTime()+"-"+item.getEndTime());
+        helper.setText(R.id.tv_name, item.getStartTime() + "-" + item.getEndTime());
         helper.addOnClickListener(R.id.ll_item);
     }
 }

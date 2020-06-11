@@ -12,6 +12,7 @@ import com.zyao89.view.zloading.Z_TYPE;
 public class BaseActivity extends AppCompatActivity {
 
     public ZLoadingDialog zLoadingDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +24,7 @@ public class BaseActivity extends AppCompatActivity {
      * dialog相关
      */
     public void dialog() {
-        zLoadingDialog =new  ZLoadingDialog(this);
+        zLoadingDialog = new ZLoadingDialog(this);
         zLoadingDialog.setLoadingBuilder(Z_TYPE.CIRCLE_CLOCK)
                 .setLoadingColor(Color.parseColor("#eeeeee"))
                 .setHintText("加载中...")

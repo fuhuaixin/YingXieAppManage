@@ -50,7 +50,7 @@ public class ApStatusBean implements Serializable {
         this.status = status;
     }
 
-    public static class DataBeanX implements Serializable{
+    public static class DataBeanX implements Serializable {
         /**
          * data : [{"id":"11257479553635516416","group_id":0,"local_id":"8086902557500768256","name":"ROOT-2-AB","group":"默认组","ip":"10.10.10.15","usercount":0,"send":0,"recv":0,"joinTime":"2020-04-16 17:35:31","status":1,"alarm_time":0,"workmodel":"normal","position":"有线","mac":"9C-3A-9A-02-64-AB","type":"","sn":"C4Y9410117","softVersion":"AP3.7.9.7 BUILD20191015-025251","hardVersion":"NAP-8100(L)","wac_name":"WAC_8D6C8025(10.10.10.1)","connection":1,"wlan_count":1,"apauth":"AP授权文件与WAC不匹配,具体请联系产品相关技术人员进行解决","wdscnt":"-","hw_ver":"ap-810-l","apvpn_status":false,"apvpn_conflict_msg":[],"wds_type":"-","branch_name":"-","gps":"-"},{"id":"11257479553644167168","group_id":0,"local_id":"8086902557500768256","name":"CLIENT-1-2F","group":"默认组","ip":"10.10.10.7","usercount":1,"send":591174.8,"recv":8202.6,"joinTime":"2020-04-25 16:11:42","status":1,"alarm_time":0,"workmodel":"normal","position":"接收C9","mac":"9C-3A-9A-02-65-2F","type":"","sn":"C4Y9410249","softVersion":"AP3.7.9.7 BUILD20191015-025251","hardVersion":"NAP-8100(L)","wac_name":"WAC_8D6C8025(10.10.10.1)","connection":1,"wlan_count":1,"apauth":"AP授权文件与WAC不匹配,具体请联系产品相关技术人员进行解决","wdscnt":"-","hw_ver":"ap-810-l","apvpn_status":false,"apvpn_conflict_msg":[],"wds_type":"-","branch_name":"-","gps":"-"},{"id":"11257479553637482496","group_id":0,"local_id":"8086902557500768256","name":"ROOT-1-C9","group":"默认组","ip":"10.10.10.8","usercount":2,"send":11.7,"recv":7.7,"joinTime":"2020-04-16 17:35:31","status":1,"alarm_time":0,"workmodel":"normal","position":"有线","mac":"9C-3A-9A-02-64-C9","type":"","sn":"C4Y9410147","softVersion":"AP3.7.9.7 BUILD20191015-025251","hardVersion":"NAP-8100(L)","wac_name":"WAC_8D6C8025(10.10.10.1)","connection":1,"wlan_count":1,"apauth":"AP授权文件与WAC不匹配,具体请联系产品相关技术人员进行解决","wdscnt":"-","hw_ver":"ap-810-l","apvpn_status":false,"apvpn_conflict_msg":[],"wds_type":"-","branch_name":"-","gps":"-"},{"id":"11257479553637548032","group_id":0,"local_id":"8086902557500768256","name":"CLIENT-2-CA","group":"默认组","ip":"-","usercount":"-","send":"-","recv":"-","joinTime":"2020-04-22 16:09:35","status":2,"alarm_time":0,"workmodel":"-","position":"接收AB","mac":"9C-3A-9A-02-64-CA","type":"","sn":"C4Y9410148","softVersion":"AP3.7.9.7 BUILD20191015-025251","hardVersion":"NAP-8100(L)","wac_name":"-","connection":1,"wlan_count":0,"apauth":"","wdscnt":"-","hw_ver":"ap-810-l","apvpn_status":false,"apvpn_conflict_msg":[],"wds_type":"-","branch_name":"-","gps":"-"},{"id":"11257479553642528768","group_id":0,"local_id":0,"name":"CLIENT-2-16","group":"默认组","ip":"-","usercount":"-","send":"-","recv":"-","joinTime":"-","status":2,"alarm_time":0,"workmodel":"-","position":"接受AB","mac":"9C-3A-9A-02-65-16","type":"","sn":"C4Y9410224","softVersion":"AP3.7.9.7 BUILD20191015-025251","hardVersion":"NAP-8100(L)","wac_name":"-","connection":0,"wlan_count":0,"apauth":"","wdscnt":"-","hw_ver":"ap-810-l","apvpn_status":false,"apvpn_conflict_msg":[],"wds_type":"-","branch_name":"-","gps":"-"},{"id":"11257479553635319808","group_id":0,"local_id":0,"name":"64_A8","group":"默认组","ip":"-","usercount":"-","send":"-","recv":"-","joinTime":"-","status":2,"alarm_time":0,"workmodel":"-","position":"上联16","mac":"9C-3A-9A-02-64-A8","type":"","sn":"C4Y9410114","softVersion":"AP3.7.9.7 BUILD20191015-025251","hardVersion":"NAP-8100(L)","wac_name":"-","connection":0,"wlan_count":0,"apauth":"","wdscnt":"-","hw_ver":"ap-810-l","apvpn_status":false,"apvpn_conflict_msg":[],"wds_type":"-","branch_name":"-","gps":"-"},{"id":"11257479553632305152","group_id":0,"local_id":0,"name":"64-7A","group":"默认组","ip":"-","usercount":"-","send":"-","recv":"-","joinTime":"-","status":2,"alarm_time":0,"workmodel":"-","position":"上联16","mac":"9C-3A-9A-02-64-7A","type":"","sn":"C4Y9410068","softVersion":"AP3.7.9.7 BUILD20191015-025251","hardVersion":"NAP-8100(L)","wac_name":"-","connection":0,"wlan_count":0,"apauth":"","wdscnt":"-","hw_ver":"ap-810-l","apvpn_status":false,"apvpn_conflict_msg":[],"wds_type":"-","branch_name":"-","gps":"-"}]
          * onlineCount : 3
@@ -125,7 +125,7 @@ public class ApStatusBean implements Serializable {
             this.data = data;
         }
 
-        public static class DataBean implements Serializable{
+        public static class DataBean implements Serializable {
             /**
              * id : 11257479553635516416
              * group_id : 0
@@ -167,7 +167,7 @@ public class ApStatusBean implements Serializable {
             private String ip;
             private String usercount;
             private String send;
-            private String  recv;
+            private String recv;
             private String joinTime;
             private int status;
             private int alarm_time;
