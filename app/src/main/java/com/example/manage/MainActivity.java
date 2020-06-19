@@ -680,8 +680,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(String s) {
                         ClientNumsBean clientNumsBean = JSON.parseObject(s, ClientNumsBean.class);
                         if (clientNumsBean.isStatus()) {
-                            tv_online.setText("在线人数:" + clientNumsBean.getData().getOnlineusernum() + "人");
-                            tv_stack.setText("累计人数:" + clientNumsBean.getData().getStackusernum() + "人");
+                            tv_online.setText("在线人数:" + clientNumsBean.getData().getOnlineusernum());
+                            tv_stack.setText("累计人数:" + clientNumsBean.getData().getStackusernum());
                         }
                     }
                 });

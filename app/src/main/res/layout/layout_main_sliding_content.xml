@@ -672,7 +672,7 @@
                         android:layout_marginLeft="7dp"
                         android:text="在线人数:0"
                         android:textColor="@color/tv21"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -693,7 +693,7 @@
                         android:layout_marginLeft="7dp"
                         android:text="累计人数:0"
                         android:textColor="@color/tv21"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </LinearLayout>

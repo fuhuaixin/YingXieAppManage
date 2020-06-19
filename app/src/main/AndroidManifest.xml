@@ -108,6 +108,7 @@
         <!--回放-->
         <activity
             android:name=".activity.ReBackVidioActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

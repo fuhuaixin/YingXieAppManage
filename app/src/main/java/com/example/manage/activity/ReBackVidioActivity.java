@@ -85,10 +85,13 @@ public class ReBackVidioActivity extends BaseActivity {
 
     }
 
-    String dtsMM, dtsSS;
+    Long dtsHH,dtsMM, dtsSS;
     String dTsStartDate, dTsStartTime, dTsEndDate, dTsEndTime;
     long sTdStart, sTdEnd;
-
+    long nd = 1000 * 24 * 60 * 60;
+    long nh = 1000 * 60 * 60;
+    long nm = 1000 * 60;
+    long ns = 1000;
     private void initData() {
         tvTitle.setText("监控回放");
 
@@ -98,10 +101,11 @@ public class ReBackVidioActivity extends BaseActivity {
                 finish();
             }
         });
-
-        sTdStart = DateUtil.getStringToDate(startTime, "yyyy-M-dd HH:mm:ss");
-        sTdEnd = DateUtil.getStringToDate(endTime, "yyyy-M-dd HH:mm:ss");
+        Log.e("fhxx 开始 --》",startTime+" - "+endTime);
+        sTdStart = DateUtil.getStringToDate(startTime, "yyyy-MM-dd HH:mm:ss");
+        sTdEnd = DateUtil.getStringToDate(endTime, "yyyy-MM-dd HH:mm:ss");
 //        Log.e("fhxx 完成 --》"," - "+stringToDate);
+        Log.e("fhxx 完成 --》",sTdStart+" - "+sTdEnd);
         dTsStartDate = DateUtil.getDateToString(sTdStart, "yyyyMMdd");
         dTsStartTime = DateUtil.getDateToString(sTdStart, "HHmmss");
         dTsEndDate = DateUtil.getDateToString(sTdEnd, "yyyyMMdd");
@@ -109,12 +113,18 @@ public class ReBackVidioActivity extends BaseActivity {
 
         setNote(dTsStartDate, dTsStartTime, dTsEndDate, dTsEndTime);
 
-        long l = Long.valueOf(sTdEnd) - Long.valueOf(sTdStart);
-        dtsMM = DateUtil.getDateToString(l, "mm");
-        dtsSS = DateUtil.getDateToString(l, "ss");
+        String datePoor = DateUtil.getDatePoor(sTdEnd, sTdStart);
 
-        tv_end_time.setText(dtsMM + ":" + dtsSS);
-        mSeekBar.setMax(Integer.valueOf(dtsMM) * 60 + Integer.valueOf(dtsSS));
+        long l = Long.valueOf(sTdEnd) - Long.valueOf(sTdStart);
+
+        Log.e("fhxx 相差 --》",l+"");
+
+        dtsSS = l % nd % nh % nm / ns;
+        dtsMM = l % nd % nh / nm;
+        dtsHH = l % nd / nh;
+        Log.e("fhxx 相差2 --》",dtsHH+"---"+dtsMM+"---"+dtsSS);
+        tv_end_time.setText(dtsHH+":"+dtsMM + ":" +dtsSS);
+        mSeekBar.setMax(Integer.valueOf(String.valueOf( l/1000)));
         image_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,7 +156,7 @@ public class ReBackVidioActivity extends BaseActivity {
         nodePlayer.setNodePlayerDelegate(new NodePlayerDelegate() {
             @Override
             public void onEventCallback(NodePlayer player, int event, String msg) {
-                Log.e("fhxx", event + " ----" + msg);
+//                Log.e("fhxx", event + " ----" + msg);
                 switch (event) {
                     case 1001:
                         zLoadingDialog.dismiss();
@@ -288,22 +298,19 @@ public class ReBackVidioActivity extends BaseActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.arg1 == 100) {
-                String strmm, strss;
+                String strhh,strmm, strss;
                 int obj = (int) msg.obj;
-                int mm = obj / 60;
+                int hh = obj/60/60;
+                int mm=0;
+                if (obj / 60>=60){
+                    mm= (obj%(60*60))/60;
+                }else {
+                    mm=obj/60;
+                }
                 int ss = obj % 60;
-                if (mm < 10) {
-                    strmm = "0" + mm;
-                } else {
-                    strmm = mm + "";
-                }
-                if (ss < 10) {
-                    strss = "0" + ss;
-                } else {
-                    strss = ss + "";
-                }
-                tv_start_time.setText(strmm + ":" + strss);
-                if (obj >= (Integer.valueOf(dtsMM) * 60 + Integer.valueOf(dtsSS))) {
+
+                tv_start_time.setText(hh+":"+mm + ":" + ss);
+                if (obj >= (Integer.valueOf(String.valueOf(dtsHH)) * 60 *60+Integer.valueOf(String.valueOf(dtsMM)) * 60 + Integer.valueOf(String.valueOf(dtsSS)))) {
                     nodePlayer.pause();
                     isStop = 0;
                     image_stop.setImageResource(R.mipmap.icon_vidio_start);

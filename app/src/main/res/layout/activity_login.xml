@@ -63,6 +63,8 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="在这里输入您的账号"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColorHint="@color/tv66"
                 android:textSize="12sp" />
 
@@ -108,6 +110,8 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="在这里输入您的密码"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColorHint="@color/tv66"
                 android:textSize="12sp" />
 
@@ -156,12 +160,12 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="忘记账号密码？"
                 android:textColor="@color/tvE6"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
