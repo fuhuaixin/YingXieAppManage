@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.manage.R;
 import com.example.manage.activity.BigScreenActivity;
+import com.example.manage.activity.EzOpenActivity;
 import com.example.manage.activity.LightingActivity;
 import com.example.manage.activity.MonitorActivity;
 import com.example.manage.activity.MonitorListActivity;
@@ -49,6 +50,7 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
 
     private String type = "";
     private String title = "";
+    private String no = "";
     private Boolean equStatus = false;
 
     public EquMesDialog(@NonNull Context context) {
@@ -56,9 +58,10 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
         this.mContext = context;
     }
 
-    public void SetMessage(String type, String title) {
+    public void SetMessage(String type, String title,String no) {
         this.type = type;
         this.title = title;
+        this.no = no;
     }
 
     @Override
@@ -93,18 +96,18 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
             tv_four_title.setText("操作:");
             tv_four.setTextColor(mContext.getResources().getColor(R.color.light_blue));
             tv_four.setOnClickListener(this);
-        } else if (type.equals("garbage")) {
+        } else if (type.equals("garbageCollector")) {
             getRubash();
         } else if (type.equals("wifi")) {
             ApStatus();
-        } else if (type.equals("fire")) {
+        } else if (type.equals("fireStation")) {
             tv_title.setText("智能消防栓");
             tv_one.setText("安装日期:2019年10月11日");
             tv_four_title.setText("设备状态:");
             tv_four.setText("正常");
             tv_two.setVisibility(View.GONE);
             tv_three.setVisibility(View.GONE);
-        } else if (type.equals("light")) {
+        } else if (type.equals("lighting")) {
             getLightStatus();
             tv_four.setOnClickListener(this);
         } else if (type.equals("screen")) {
@@ -113,10 +116,21 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
         } else if (type.equals("camera")) {
             Chanelinfo();
             tv_four.setOnClickListener(this);
-        } else if (type.equals("env")) {
+        } else if (type.equals("envMonitor")) {
             EnvStatus();
         } else if (type.equals("trash")) {
             TrushInfo(title);
+        }else if (type.equals("ezopen")){
+            tv_title.setText("智能视频摄像头");
+            tv_one.setText("安装日期：2019年10月11日");
+            tv_two.setText("摄像头名称：" + title);
+            tv_three.setText("设备状态：正常");
+            tv_four.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+            tv_four.getPaint().setAntiAlias(true);//抗锯齿
+            tv_four.setText("查看视频");
+            tv_four_title.setText("操作:");
+            tv_four.setTextColor(mContext.getResources().getColor(R.color.light_blue));
+            tv_four.setOnClickListener(this);
         }
     }
 
@@ -127,13 +141,15 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                 if (type.equals("spray")) {
                     dismiss();
                     mContext.startActivity(new Intent(mContext, SenFogActivity.class));
-                } else if (type.equals("light")) {
+                } else if (type.equals("lighting")) {
                     dismiss();
                     mContext.startActivity(new Intent(mContext, LightingActivity.class));
                 } else if (type.equals("screen")) {
                     dismiss();
                     mContext.startActivity(new Intent(mContext, BigScreenActivity.class));
                 } else if (type.equals("camera")) {
+                    getMonitorList();
+                }else if (type.equals("ezopen")){
                     getMonitorList();
                 }
                 break;
@@ -351,23 +367,35 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                     public void onSuccess(String s) {
                         MonitorListBean monitorListBean = JSON.parseObject(s, MonitorListBean.class);
                         if (monitorListBean.isStatus()) {
+                            Log.e("fhxx",monitorListBean.getData().toString());
                             List<MonitorListBean.DataBean.AllVideoUrlBean> allVideoUrl = monitorListBean.getData().getAllVideoUrl();
                             for (int i = 0; i < allVideoUrl.size(); i++) {
                                 Log.e("fhxx", title + allVideoUrl.get(i).getVideoname());
                                 Log.e("fhxx", title.equals(allVideoUrl.get(i).getVideoname()) + " ------ ");
-                                if (title.equals(allVideoUrl.get(i).getIdname())) {
-                                    if (allVideoUrl.get(i).getVideourl().equals("")) {
-                                        ToastUtils.show("设备异常");
-                                        return;
+                                if (type.equals("camera")){
+                                    if (title.equals(allVideoUrl.get(i).getIdname())) {
+                                        if (allVideoUrl.get(i).getVideourl().equals("")) {
+                                            ToastUtils.show("设备异常");
+                                            return;
+                                        }
+                                        Intent intent = new Intent(mContext, MonitorActivity.class);
+                                        intent.putExtra("videoname", allVideoUrl.get(i).getVideoname());
+                                        intent.putExtra("videourl", allVideoUrl.get(i).getVideourl());
+                                        intent.putExtra("videoid", allVideoUrl.get(i).getVideoid());
+                                        intent.putExtra("historyurl", allVideoUrl.get(i).getHistoryurl());
+                                        mContext.startActivity(intent);
+                                        dismiss();
                                     }
-                                    Intent intent = new Intent(mContext, MonitorActivity.class);
-                                    intent.putExtra("videoname", allVideoUrl.get(i).getVideoname());
-                                    intent.putExtra("videourl", allVideoUrl.get(i).getVideourl());
-                                    intent.putExtra("videoid", allVideoUrl.get(i).getVideoid());
-                                    intent.putExtra("historyurl", allVideoUrl.get(i).getHistoryurl());
-                                    mContext.startActivity(intent);
-                                    dismiss();
+                                }else if (type.equals("ezopen")){
+                                    if (no.equals(allVideoUrl.get(i).getIdname())){
+                                        Intent intent = new Intent(mContext, EzOpenActivity.class);
+                                        intent.putExtra("accesstoken", allVideoUrl.get(i).getAccesstoken());
+                                        intent.putExtra("videourl", allVideoUrl.get(i).getVideourl());
+                                        mContext.startActivity(intent);
+                                        dismiss();
+                                    }
                                 }
+
                             }
                         }
 
@@ -439,5 +467,6 @@ public class EquMesDialog extends Dialog implements View.OnClickListener {
                     }
                 });
     }
+
 
 }

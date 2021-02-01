@@ -39,6 +39,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="0℃"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textSize="14sp" />
 
                 <TextView
@@ -67,6 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="0"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textSize="14sp" />
 
                 <TextView
@@ -95,6 +99,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="0"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textSize="14sp" />
 
                 <TextView
@@ -123,6 +129,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="0"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textSize="14sp" />
 
                 <TextView
@@ -151,6 +159,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="0"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textSize="14sp" />
 
                 <TextView

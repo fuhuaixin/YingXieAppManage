@@ -65,7 +65,6 @@ public class AppUrl {
     //查询视频在线状态
     public static final String Chanelinfo = basePath + "video/chanelinfo";
 
-
     //获取视频回放列表
     public static final String HistoryDatesDetial = basePath + "video/historyDatesDetial";
     //创建监控视频回放

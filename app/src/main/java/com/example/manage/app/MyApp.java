@@ -6,12 +6,14 @@ import android.content.Context;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.manage.utils.SPUtils;
+import com.videogo.openapi.EZOpenSDK;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.GsonDiskConverter;
 import com.zhouyou.http.cache.converter.SerializableDiskConverter;
 import com.zhouyou.http.cache.model.CacheMode;
 import com.zhouyou.http.model.HttpHeaders;
 
+import io.vov.vitamio.utils.Log;
 import retrofit2.converter.gson.GsonConverterFactory;
 import update.UpdateAppUtils;
 
@@ -37,7 +39,7 @@ public class MyApp extends Application {
         String timestamp = SPUtils.getString(myApplication, "timestamp");
         String token = SPUtils.getString(myApplication, "token");
         tokens = username + "-" + timestamp + "-" + token;
-
+        Log.e("fhxx", tokens);
         HttpHeaders headers = new HttpHeaders();
         headers.put("token", tokens);
         EasyHttp.getInstance()
@@ -60,6 +62,8 @@ public class MyApp extends Application {
                 //可以全局统一设置缓存模式,默认是不使用缓存,可以不传,具体请看CacheMode
                 .addCommonHeaders(headers)
                 .setCertificates();
+
+
 
 
     }

@@ -643,6 +643,24 @@ public class MonitorListBean{
             private String img;
             private String idname;
             private String historyurl;
+            private String videotype;
+            private String accesstoken;
+
+            public String getVideotype() {
+                return videotype;
+            }
+
+            public void setVideotype(String videotype) {
+                this.videotype = videotype;
+            }
+
+            public String getAccesstoken() {
+                return accesstoken;
+            }
+
+            public void setAccesstoken(String accesstoken) {
+                this.accesstoken = accesstoken;
+            }
 
             public String getHistoryurl() {
                 return historyurl;

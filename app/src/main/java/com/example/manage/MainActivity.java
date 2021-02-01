@@ -359,8 +359,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //构建MarkerOption，用于在地图上添加Marker
         for (int i = 0; i < latLngList.size(); i++) {
             Bundle mBundle = new Bundle();
-            mBundle.putString("type", type);
+            mBundle.putString("type", latLngList.get(i).getType());
             mBundle.putString("title", latLngList.get(i).getEquName());
+            mBundle.putString("id", latLngList.get(i).getId());
 
             OverlayOptions option = new MarkerOptions()
                     .extraInfo(mBundle)
@@ -394,11 +395,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Bundle extraInfo = marker.getExtraInfo();
                 String title = extraInfo.getString("title");
                 String type = extraInfo.getString("type");
+                String no = extraInfo.getString("id");
 
-                Log.e("fhxx", title + " ----- " + type);
+                Log.e("fhxx", title + " ----- " + type + "-------" + no);
 
                 equMesDialog = new EquMesDialog(MainActivity.this);
-                equMesDialog.SetMessage(type, title);
+                equMesDialog.SetMessage(type, title, no);
                 equMesDialog.show();
                 Window window = equMesDialog.getWindow();
                 WindowManager.LayoutParams lp = window.getAttributes();
@@ -757,23 +759,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             LatLng latLng = gpsToBaidu(features.get(i).getGeometry().getCoordinates().get(1), features.get(i).getGeometry().getCoordinates().get(0));
 
                             if (devType != null && devType.equals("envMonitor")) {
-                                envList.add(new MainEquMesBean(latLng, "envMonitor", "env"));
+                                envList.add(new MainEquMesBean(latLng, "envMonitor", "env", ""));
                             } else if (devType != null && devType.equals("garbageCollector")) {
-                                garbageList.add(new MainEquMesBean(latLng, "garbageCollector", features.get(i).getProperties().getEid() + ""));
+                                garbageList.add(new MainEquMesBean(latLng, "garbageCollector", features.get(i).getProperties().getEid() + "", ""));
                             } else if (devType != null && devType.equals("wifi")) {
-                                wifiList.add(new MainEquMesBean(latLng, "wifi", features.get(i).getProperties().getName()));
+                                wifiList.add(new MainEquMesBean(latLng, "wifi", features.get(i).getProperties().getName(), ""));
                             } else if (devType != null && devType.equals("camera")) {
-                                cameraList.add(new MainEquMesBean(latLng, "camera", features.get(i).getProperties().getName()));
+                                if (features.get(i).getProperties().getVideoType() != null) {
+                                    cameraList.add(new MainEquMesBean(latLng, "ezopen", features.get(i).getProperties().getName(), features.get(i).getProperties().getChannelNo()));
+                                } else {
+                                    cameraList.add(new MainEquMesBean(latLng, "camera", features.get(i).getProperties().getName(), ""));
+                                }
                             } else if (devType != null && devType.equals("spray")) {
-                                sprayList.add(new MainEquMesBean(latLng, "spray", "spray"));
+                                sprayList.add(new MainEquMesBean(latLng, "spray", "spray", ""));
                             } else if (devType != null && devType.equals("fireStation")) {
-                                fireList.add(new MainEquMesBean(latLng, "fireStation", "fireStation"));
+                                fireList.add(new MainEquMesBean(latLng, "fireStation", "fireStation", ""));
                             } else if (devType != null && devType.equals("lighting")) {
-                                lightList.add(new MainEquMesBean(latLng, "lighting", features.get(i).getProperties().getLabel()));
+                                lightList.add(new MainEquMesBean(latLng, "lighting", features.get(i).getProperties().getLabel(), ""));
                             } else if (devType != null && devType.equals("screen")) {
-                                screenList.add(new MainEquMesBean(latLng, "screen", features.get(i).getProperties().getLabel()));
+                                screenList.add(new MainEquMesBean(latLng, "screen", features.get(i).getProperties().getLabel(), ""));
                             } else if (devType != null && devType.equals("trash")) {
-                                trashList.add(new MainEquMesBean(latLng, "trash", features.get(i).getProperties().getMsid()));
+                                trashList.add(new MainEquMesBean(latLng, "trash", features.get(i).getProperties().getMsid(), ""));
                             }
                         }
 

@@ -9,11 +9,21 @@ public class MainEquMesBean {
     private LatLng latLng;
     private String type;
     private String equName;
+    private String id; //每个设备的唯一标识
 
-    public MainEquMesBean(LatLng latLng, String type, String equName) {
+    public MainEquMesBean(LatLng latLng, String type, String equName,String id) {
         this.latLng = latLng;
         this.type = type;
         this.equName = equName;
+        this.id=id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public LatLng getLatLng() {
@@ -46,6 +56,7 @@ public class MainEquMesBean {
                 "latLng=" + latLng +
                 ", type='" + type + '\'' +
                 ", equName='" + equName + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

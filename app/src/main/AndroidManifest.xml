@@ -18,6 +18,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name=".app.MyApp"
         android:allowBackup="true"
@@ -26,7 +29,8 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -105,11 +109,20 @@
         <activity
             android:name=".activity.RebackVidioListActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--ezopen视频播放列表-->
+        <activity
+            android:name=".activity.EzOpenActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"/>
         <!--回放-->
         <activity
             android:name=".activity.ReBackVidioActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false"/>
     </application>
 
 </manifest>

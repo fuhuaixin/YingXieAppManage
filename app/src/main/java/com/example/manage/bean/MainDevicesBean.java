@@ -77,6 +77,15 @@ public class MainDevicesBean {
             private String channelNo;
             private int eid;
             private String msid;
+            private String videoType;
+
+            public String getVideoType() {
+                return videoType;
+            }
+
+            public void setVideoType(String videoType) {
+                this.videoType = videoType;
+            }
 
             public String getMsid() {
                 return msid;
